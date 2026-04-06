@@ -246,15 +246,15 @@
 
 ## Progresso geral
 
-| Fase                         | Estado          |
-| ---------------------------- | --------------- |
-| Fase 1 — Fundação            | ⬜ Não iniciada |
-| Fase 2 — Componentes         | ⬜ Não iniciada |
-| Fase 3 — Páginas             | ⬜ Não iniciada |
-| Fase 4 — Carrinho e checkout | ⬜ Não iniciada |
-| Fase 5 — API                 | ⬜ Não iniciada |
-| Fase 6 — Integração          | ⬜ Não iniciada |
-| Fase 7 — Polimento e deploy  | ⬜ Não iniciada |
+| Fase                         | Estado             |
+| ---------------------------- | ------------------ |
+| Fase 1 — Fundação            | ✅ Concluída       |
+| Fase 2 — Componentes         | ⬜ 🟡 Em progresso |
+| Fase 3 — Páginas             | ⬜ Não iniciada    |
+| Fase 4 — Carrinho e checkout | ⬜ Não iniciada    |
+| Fase 5 — API                 | ⬜ Não iniciada    |
+| Fase 6 — Integração          | ⬜ Não iniciada    |
+| Fase 7 — Polimento e deploy  | ⬜ Não iniciada    |
 
 > Atualiza esta tabela manualmente à medida que concluíres cada fase:
 > ⬜ Não iniciada → 🟡 Em progresso → ✅ Concluída
