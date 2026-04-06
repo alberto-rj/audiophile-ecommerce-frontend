@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-import { AppIcon, Button } from '@/components/ui';
+import { Button } from '@/components/ui';
 import { ArrowRight } from '@/assets/icons';
 
 type StoryProps = React.ComponentProps<typeof Button> & {
@@ -61,7 +61,7 @@ export const Ghost: Story = {
     return (
       <Button {...props}>
         {buttonText}
-        <AppIcon Icon={ArrowRight} />
+        <ArrowRight />
       </Button>
     );
   },
