@@ -8,6 +8,7 @@ const buttonVariants = cva(
     'inline-flex',
     'gap-3',
     'justify-center',
+    'items-center',
     'cursor-pointer',
     'font-display',
     'uppercase',
@@ -37,14 +38,10 @@ const buttonVariants = cva(
         ),
         ghost: cn(
           '[&_svg]:fill-primary-400',
-          'text-black',
-          'opacity-50',
+          'text-gray-900',
           'hover:text-primary-400',
-          'hover:opacity-100',
           'focus:ring-primary-400',
-          'focus:opacity-100',
           'focus-visible:ring-primary-400',
-          'focus-visible:opacity-100',
         ),
       },
 
