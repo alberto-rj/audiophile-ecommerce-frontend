@@ -65,7 +65,6 @@ type ButtonProps = ButtonVariants &
 const Button = ({
   variant,
   size,
-  disabled = false,
   className,
   children,
   ...props
@@ -75,7 +74,6 @@ const Button = ({
   return (
     <button
       {...props}
-      disabled={Boolean(disabled)}
       className={buttonClasses}
     >
       {children}
