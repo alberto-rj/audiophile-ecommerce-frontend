@@ -24,6 +24,7 @@ const buttonVariants = cva(
     'disabled:opacity-25',
     'disabled:cursor-not-allowed',
     'disabled:pointer-events-none',
+    'disabled:select-none',
   ),
   {
     variants: {
