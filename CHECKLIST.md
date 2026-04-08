@@ -4,16 +4,16 @@
 
 ---
 
-## Fase 1 — Fundação do projeto
+## Fase 1 — Fundação do projecto
 
-> Objetivo: projeto a correr no browser com as cores e fonte corretas.
+> Objectivo: projecto a correr no browser com as cores e fonte corretas.
 
 - [x] Criar repositório no GitHub
 - [x] Criar estrutura de pastas (`/frontend` e `/backend` na raiz)
 - [x] Inicializar o frontend com Vite + TypeScript
 - [x] Instalar e configurar Tailwind CSS
 - [x] Importar a fonte Manrope via Google Fonts
-- [x] Extrair tokens do Figma e definir em `index.css`
+- [x] Extrair tokens do design no Figma e definir em `src/index.css`
 - [x] Instalar e inicializar o Storybook
 - [x] Configurar ESLint + Prettier
 - [x] Primeiro commit com o projeto base a funcionar
@@ -22,20 +22,28 @@
 
 ## Fase 2 — Sistema de componentes base
 
-> Objetivo: biblioteca de componentes atómicos documentados no Storybook.
+> Objectivo: biblioteca de componentes atómicos documentados no Storybook.
 
 ### Button
 
 - [x] Componente criado com variantes `primary`, `ghost`, `outline`
 - [x] Estado `hover` implementado
-- [x] Estado `disabled` implementado
 - [x] Story no Storybook com todos os estados
 
 ### Input
 
-- [ ] Componente criado com `label` e `placeholder`
-- [ ] Estado de erro (borda vermelha + mensagem abaixo)
-- [ ] Story no Storybook com todos os estados
+- [x] Componente criado
+- [x] Estado `focus` implementado
+- [x] Estado `disabled` implementado
+- [x] Estado de erro
+- [x] Story no Storybook com todos os estados
+
+### Radio
+
+- [x] Componente criado
+- [x] Estado `checked` implementado
+- [x] Estado `disabled` implementado
+- [x] Story no Storybook com todos os estados
 
 ### QuantitySelector
 
@@ -59,7 +67,7 @@
 
 ## Fase 3 — Layout e páginas
 
-> Objetivo: site navegável completo com dados do `data.json`, responsivo nos três breakpoints.
+> Objectivo: site navegável completo com dados do `data.json`, responsivo nos três breakpoints.
 
 ### Setup
 
@@ -111,7 +119,7 @@
 
 ## Fase 4 — Carrinho e checkout com Redux
 
-> Objetivo: carrinho funcional com persistência, checkout com validação, modal de confirmação.
+> Objectivo: carrinho funcional com persistência, checkout com validação, modal de confirmação.
 
 ### Redux Store
 
@@ -159,7 +167,7 @@
 
 ## Fase 5 — API com Express, Drizzle e PostgreSQL
 
-> Objetivo: API REST funcional com dados reais na base de dados.
+> Objectivo: API REST funcional com dados reais na base de dados.
 
 ### Setup do servidor
 
@@ -188,7 +196,7 @@
 
 ## Fase 6 — Integração frontend ↔ API
 
-> Objetivo: frontend a consumir dados reais da API.
+> Objectivo: frontend a consumir dados reais da API.
 
 - [ ] Configurar proxy no Vite para `/api` apontar para `localhost:3000`
 - [ ] Substituir import do `data.json` por chamadas à API (React Query ou fetch)
@@ -204,7 +212,7 @@
 
 ## Fase 7 — Polimento e deploy
 
-> Objetivo: projeto finalizado, deployed e pronto para portfólio.
+> Objectivo: projeto finalizado, deployed e pronto para portfólio.
 
 ### Revisão visual
 
@@ -256,5 +264,5 @@
 | Fase 6 — Integração          | ⬜ Não iniciada    |
 | Fase 7 — Polimento e deploy  | ⬜ Não iniciada    |
 
-> Atualiza esta tabela manualmente à medida que concluíres cada fase:
+> Actualiza esta tabela manualmente à medida que concluíres cada fase:
 > ⬜ Não iniciada → 🟡 Em progresso → ✅ Concluída
