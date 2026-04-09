@@ -12,12 +12,13 @@ const buttonVariants = cva(
     'items-center',
     'cursor-pointer',
     'font-display',
+    'text-xs',
     'uppercase',
 
-    'focus:outline-2',
-    'focus-visible:outline-2',
-    'focus:ring-gray-900',
-    'focus-visible:ring-gray-900',
+    'focus:outline',
+    'focus:outline-gray-900',
+    'focus-visible:outline',
+    'focus-visible:outline-gray-900',
 
     'disabled:bg-black',
     'disabled:text-gray-200',
@@ -29,32 +30,42 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        primary: cn('bg-primary-400', 'text-white', 'hover:bg-primary-200'),
+        primary: cn(
+          'min-inline-40',
+          'px-8',
+          'py-4',
+
+          'bg-primary-400',
+          'text-white',
+
+          'hover:bg-primary-200',
+        ),
         outline: cn(
+          'min-inline-40',
+          'px-8',
+          'py-4',
+
           'bg-white',
           'text-black',
-          'border-2',
+          'border',
           'border-solid',
           'border-black',
+
           'hover:bg-black',
           'hover:text-white',
         ),
-        ghost: cn(
+        link: cn(
           '[&_svg]:fill-primary-400',
           'text-black-o-50',
+          'p-0',
+
           'hover:text-primary-400',
         ),
-      },
-
-      size: {
-        sm: cn('min-inline-20', 'px-4', 'py-2', 'text-xs'),
-        md: cn('min-inline-40', 'px-8', 'py-4', 'text-xs'),
       },
     },
 
     defaultVariants: {
       variant: 'primary',
-      size: 'md',
     },
   },
 );
@@ -62,22 +73,19 @@ const buttonVariants = cva(
 type ButtonVariants = VariantProps<typeof buttonVariants>;
 
 interface ButtonProps
-  extends
-    ButtonVariants,
-    Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'size'> {
+  extends ButtonVariants, ButtonHTMLAttributes<HTMLButtonElement> {
   asChild?: boolean;
 }
 
 const Button = ({
   asChild = false,
   variant,
-  size,
   className,
   children,
   ...props
 }: ButtonProps) => {
   const Comp = asChild ? Slot : 'button';
-  const buttonClasses = cn(buttonVariants({ variant, size }), className);
+  const buttonClasses = cn(buttonVariants({ variant }), className);
 
   return (
     <Comp

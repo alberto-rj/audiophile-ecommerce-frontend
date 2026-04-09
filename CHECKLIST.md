@@ -26,8 +26,8 @@
 
 ### Button
 
-- [x] com variantes `primary`, `ghost`, `outline`
-- [x] Estado `hover` implementado
+- [x] Variantes `primary`, `outline`, `link`
+- [x] Estados `hover` implementado
 - [x] Estado `focus` implementado
 - [x] Estado `disabled` implementado
 - [x] Stories no Storybook com todos os estados
