@@ -49,9 +49,13 @@
 
 ### QuantitySelector
 
-- [ ] Botões `-` e `+` funcionais
-- [ ] Não permite valores abaixo de 1
-- [ ] Story no Storybook
+- [x] Componente criado
+- [x] Botões `-` e `+` funcionais
+- [x] Estado `focus` implementado
+- [x] Estado `disabled` implementado
+- [x] Não permite valores abaixo do mínimo (1, por padrão)
+- [x] Não permite valores acima do máximo (se fornecido)
+- [x] Story no Storybook
 
 ### ProductCard
 
