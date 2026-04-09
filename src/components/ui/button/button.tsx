@@ -13,12 +13,12 @@ const buttonVariants = cva(
     'cursor-pointer',
     'font-display',
     'uppercase',
-    'outline-none',
-    'border-none',
-    'focus:ring-2',
-    'focus-visible:ring-2',
+
+    'focus:outline-2',
+    'focus-visible:outline-2',
     'focus:ring-gray-900',
     'focus-visible:ring-gray-900',
+
     'disabled:bg-black',
     'disabled:text-gray-200',
     'disabled:opacity-25',

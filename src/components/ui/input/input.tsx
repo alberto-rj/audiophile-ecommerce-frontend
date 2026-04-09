@@ -8,8 +8,7 @@ const inputVariants = cva(
     'px-6',
     'py-4.5',
     'bg-white',
-    'border-2',
-    'border-solid',
+    'border',
     'rounded-lg',
     'font-display',
     'text-form',
@@ -24,8 +23,7 @@ const inputVariants = cva(
     'disabled:pointer-events-none',
     'disabled:select-none',
 
-    'focus:outline-2',
-    'focus:outline-solid',
+    'focus:outline-1',
   ),
   {
     variants: {

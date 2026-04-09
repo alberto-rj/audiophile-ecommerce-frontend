@@ -30,7 +30,7 @@ const Radio = ({
         'gap-4',
         'px-4',
         'py-4.5',
-        'border-2',
+        'border',
         'border-gray-600',
         'rounded-lg',
         'cursor-pointer',
@@ -42,6 +42,10 @@ const Radio = ({
         'has-checked:border-primary-400',
 
         'has-focus:border-primary-400',
+        'has-focus:outline',
+        'has-focus:outline-primary-400',
+        'has-focus-visible:outline',
+        'has-focus-visible:outline-primary-400',
         'has-focus-visible:border-primary-400',
 
         'has-disabled:cursor-not-allowed',
