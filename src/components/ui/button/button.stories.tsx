@@ -17,7 +17,7 @@ const meta = {
   argTypes: {
     variant: {
       control: 'select',
-      options: ['primary', 'outline', 'ghost'],
+      options: ['primary', 'outline', 'link'],
     },
   },
   render: ({ buttonText, ...props }) => {
@@ -51,11 +51,11 @@ export const Outline: Story = {
   },
 };
 
-export const Ghost: Story = {
-  name: 'Variant / Ghost',
+export const Link: Story = {
+  name: 'Variant / Link',
   args: {
-    variant: 'ghost',
-    buttonText: 'Ghost',
+    variant: 'link',
+    buttonText: 'Link',
   },
   render: ({ buttonText, ...props }) => {
     return (
@@ -64,22 +64,6 @@ export const Ghost: Story = {
         <ArrowRight />
       </Button>
     );
-  },
-};
-
-export const Small: Story = {
-  name: 'Size / Small',
-  args: {
-    size: 'sm',
-    buttonText: 'Small',
-  },
-};
-
-export const Medium: Story = {
-  name: 'Size / Medium',
-  args: {
-    size: 'md',
-    buttonText: 'Medium',
   },
 };
 
