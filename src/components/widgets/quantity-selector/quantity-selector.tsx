@@ -50,10 +50,10 @@ const QuantitySelector = ({
     'hover:text-primary-400',
 
     'focus:text-primary-400',
-    'focus:outline-2',
+    'focus:outline',
     'focus:outline-primary-400',
     'focus-visible:text-primary-400',
-    'focus-visible:outline-2',
+    'focus-visible:outline',
     'focus-visible:outline-primary-400',
   );
 
@@ -65,7 +65,7 @@ const QuantitySelector = ({
         'text-xs',
         'text-black',
         'bg-gray-400',
-        'border-2',
+        'border',
         'border-gray-600',
 
         'has-disabled:cursor-not-allowed',
@@ -111,7 +111,7 @@ const QuantitySelector = ({
           '[&::-webkit-inner-spin-button]:appearance-none',
           '[&::-webkit-inner-spin-button]:m-0',
 
-          'focus:outline-2',
+          'focus:outline',
           'focus:outline-primary-400',
           'focus:caret-primary-400',
           'focus-visible:outline-primary-400',
