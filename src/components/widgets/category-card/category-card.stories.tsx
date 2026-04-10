@@ -3,9 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { CategoryCard } from '@/components/widgets';
 import { cn } from '@/libs/cn';
 
-import mobile from '@/assets/product-xx59-headphones/mobile/image-category-page-preview.jpg';
-import tablet from '@/assets/product-xx59-headphones/tablet/image-category-page-preview.jpg';
-import desktop from '@/assets/product-xx59-headphones/desktop/image-category-page-preview.jpg';
+import image from '@/assets/shared/desktop/image-category-thumbnail-headphones.png';
 
 type StoryProps = React.ComponentProps<typeof CategoryCard>;
 
@@ -14,11 +12,7 @@ const meta = {
   component: CategoryCard,
   args: {
     category: 'Headphones',
-    categoryImage: {
-      desktop,
-      tablet,
-      mobile,
-    },
+    image,
     slug: '#',
   },
   parameters: {
@@ -31,7 +25,6 @@ const meta = {
       </div>
     );
   },
-  tags: ['autodocs'],
 } satisfies Meta<StoryProps>;
 
 export default meta;

@@ -1,16 +1,14 @@
 import { ArrowRight } from '@/assets/icons';
 import { Button } from '@/components/ui';
-import { ResponsiveImage } from '@/components/widgets';
 import { cn } from '@/libs/cn';
-import type { ProductImage } from '@/libs/types';
 
 interface CategoryCardProps {
-  categoryImage: ProductImage;
+  image: string;
   category: string;
   slug: string;
 }
 
-const CategoryCard = ({ category, slug, categoryImage }: CategoryCardProps) => {
+const CategoryCard = ({ category, slug, image }: CategoryCardProps) => {
   return (
     <a
       href={slug}
@@ -24,24 +22,27 @@ const CategoryCard = ({ category, slug, categoryImage }: CategoryCardProps) => {
         'min-h-51',
         'px-8',
         'pt-24',
-        'pb-6',
+        'pb-7.5',
         'rounded-lg',
         'bg-gray-400',
       )}
     >
       <span className={cn('sr-only')}>Shop {category}</span>
-      <ResponsiveImage
+      <img
         alt=''
-        image={categoryImage}
+        src={image}
         className={cn(
           'absolute',
           'top-0',
           'left-1/2',
           '-translate-x-1/2',
           '-translate-y-1/2',
-          'w-30.75',
-          'min-h-36',
+          'size-50',
+          'object-cover',
         )}
+        width={200}
+        height={200}
+        loading='lazy'
       />
       <div
         aria-hidden={true}
