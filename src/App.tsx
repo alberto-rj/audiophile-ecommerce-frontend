@@ -1,4 +1,4 @@
-import { CategoryListing } from '@/components/widgets';
+import { CategoryListing, Navbar } from '@/components/widgets';
 
 import headphones from '@/assets/shared/desktop/image-category-thumbnail-headphones.png';
 import earphones from '@/assets/shared/desktop/image-category-thumbnail-earphones.png';
@@ -8,8 +8,9 @@ import { cn } from '@/libs/cn';
 function App() {
   return (
     <>
-      <div className={cn('flex items-center justify-center')}>
-        <div className={cn('max-w-[1200px] mx-auto px-1 py-4')}>
+      <Navbar />
+      <main className={cn('bg-gray-900')}>
+        <div className={cn('wrapper')}>
           <CategoryListing
             items={[
               { category: 'Headphones', image: headphones, slug: '#' },
@@ -30,7 +31,7 @@ function App() {
             ]}
           />
         </div>
-      </div>
+      </main>
     </>
   );
 }
