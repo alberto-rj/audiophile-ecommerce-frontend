@@ -3,9 +3,9 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { ResponsiveImage } from '@/components/widgets';
 import { cn } from '@/libs/cn';
 
-import mobile from '@/assets/product-xx59-headphones/mobile/image-category-page-preview.jpg';
-import tablet from '@/assets/product-xx59-headphones/tablet/image-category-page-preview.jpg';
-import desktop from '@/assets/product-xx59-headphones/desktop/image-category-page-preview.jpg';
+import mobile from '@/assets/shared/desktop/image-category-thumbnail-headphones.png';
+import tablet from '@/assets/shared/desktop/image-category-thumbnail-headphones.png';
+import desktop from '@/assets/shared/desktop/image-category-thumbnail-headphones.png';
 
 type StoryProps = React.ComponentProps<typeof ResponsiveImage>;
 
@@ -25,12 +25,11 @@ const meta = {
   },
   render: (responsiveImageProps) => {
     return (
-      <div className={cn('w-150 flex justify-center')}>
+      <div className={cn('w-200 flex justify-center')}>
         <ResponsiveImage {...responsiveImageProps} />
       </div>
     );
   },
-  tags: ['autodocs'],
 } satisfies Meta<StoryProps>;
 
 export default meta;

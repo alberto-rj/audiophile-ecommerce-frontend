@@ -20,7 +20,11 @@ const meta = {
   },
   render: (categoryCardProps) => {
     return (
-      <div className={cn('w-150 flex justify-center')}>
+      <div
+        className={cn(
+          'grid grid-cols-[repeat(auto-fill,minmax(37.5rem,1fr))] justify-items-center',
+        )}
+      >
         <CategoryCard {...categoryCardProps} />
       </div>
     );

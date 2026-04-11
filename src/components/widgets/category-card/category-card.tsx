@@ -21,7 +21,6 @@ const CategoryCard = ({ category, slug, image }: CategoryCardProps) => {
         'w-full',
         'min-h-51',
         'px-8',
-        'pt-24',
         'pb-7.5',
         'rounded-lg',
         'bg-gray-400',
