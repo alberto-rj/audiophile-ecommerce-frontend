@@ -102,3 +102,15 @@
   --tw-border-style: solid;
   /* tailwind (end) */
 }
+
+@layer base {
+  body {
+    font: var(--font-base);
+  }
+}
+
+@layer utilities {
+  .wrapper {
+    @apply w-full max-w-277.5 mx-auto px-5;
+  }
+}
