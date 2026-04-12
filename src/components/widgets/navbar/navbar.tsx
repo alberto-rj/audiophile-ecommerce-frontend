@@ -104,7 +104,13 @@ const Navbar = () => {
           {/* Logo */}
           <a
             href='#'
-            className={cn('link-focusable')}
+            className={cn(
+              'hidden',
+
+              'xs:block',
+
+              'link-focusable',
+            )}
           >
             <span className={cn('sr-only')}>Audiophile - home</span>
             <Logo
