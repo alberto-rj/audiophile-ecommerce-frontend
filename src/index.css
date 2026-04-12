@@ -74,6 +74,7 @@
   /* typography (end) */
 
   /* breakpoints (start) */
+  --breakpoint-xs: 23.4375em;
   --breakpoint-sm: 40em;
   --breakpoint-md: 48em;
   --breakpoint-lg: 64em;
