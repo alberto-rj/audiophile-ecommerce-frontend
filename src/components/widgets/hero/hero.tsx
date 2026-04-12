@@ -18,7 +18,7 @@ const Hero = ({
         'items-center',
         'relative',
 
-        'min-h-[75vh]',
+        'min-h-[calc(75vh+25%+2.5em)]',
 
         'bg-gray-900',
         'text-white',
@@ -87,6 +87,7 @@ const Hero = ({
               {isNew && (
                 <span
                   className={cn(
+                    'uppercase',
                     'text-sm',
 
                     'opacity-50',
