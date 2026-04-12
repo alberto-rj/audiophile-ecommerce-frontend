@@ -123,7 +123,15 @@ const Footer = () => {
             'sm:flex-row',
           )}
         >
-          <p className={cn('text-base', 'text-white', 'opacity-50')}>
+          <p
+            className={cn(
+              'text-base',
+              'text-center',
+              'text-white',
+              'sm:text-start',
+              'opacity-50',
+            )}
+          >
             Copyright {currentYear}. All Rights Reserved
           </p>
 
