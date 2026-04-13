@@ -9,3 +9,6 @@ export { default as BestGear } from './best-gear/best-gear';
 
 export { default as FeatureHighLighted } from './feature-product/feature-highlighted';
 export { default as FeatureLandscape } from './feature-product/feature-landscape';
+export { default as FeaturePortrait } from './feature-product/feature-portrait';
+
+export { default as ProductCard } from './product-card/product-card';

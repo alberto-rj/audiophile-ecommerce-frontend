@@ -48,3 +48,20 @@ export interface FeatureLandscapeContent {
   action: string;
   image: ResponsiveImageType;
 }
+
+export interface FeaturePortraitContent {
+  title: string;
+  slug: string;
+  action: string;
+  image: ResponsiveImageType;
+}
+
+export interface ProductCardContent {
+  title: string;
+  description: string;
+  slug: string;
+  action: string;
+  image: ResponsiveImageType;
+  isNew: boolean;
+  isReversed?: boolean;
+}

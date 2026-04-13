@@ -37,3 +37,44 @@ export const featureLandscapeContent: FeatureLandscapeContent = {
   },
 };
 /* Feature Landscape (end) */
+
+/* Feature Portrait (start) */
+import featurePortraitContentMobile from '@/assets/home/mobile/image-earphones-yx1.jpg';
+import featurePortraitContentTablet from '@/assets/home/tablet/image-earphones-yx1.jpg';
+import featurePortraitContentDesktop from '@/assets/home/desktop/image-earphones-yx1.jpg';
+
+import type { FeaturePortraitContent } from '@/libs/types';
+
+export const featurePortraitContent: FeaturePortraitContent = {
+  title: 'Yx1 Earphones',
+  slug: '#',
+  action: 'See product',
+  image: {
+    mobile: featurePortraitContentMobile,
+    tablet: featurePortraitContentTablet,
+    desktop: featurePortraitContentDesktop,
+  },
+};
+/* Feature Portrait (end) */
+
+/* Feature Portrait (start) */
+import productCardContentMobile from '@/assets/product-xx99-mark-two-headphones/mobile/image-product.jpg';
+import productCardContentTablet from '@/assets/product-xx99-mark-two-headphones/tablet/image-product.jpg';
+import productCardContentDesktop from '@/assets/product-xx99-mark-two-headphones/desktop/image-product.jpg';
+
+import type { ProductCardContent } from '@/libs/types';
+
+export const productCardContent: ProductCardContent = {
+  title: 'XX99 Mark II Headphones',
+  description:
+    'The new XX99 Mark II headphones is the pinnacle of pristine audio. It redefines your premium headphone experience by reproducing the balanced depth and precision of studio-quality sound.',
+  slug: '#',
+  action: 'See product',
+  isNew: true,
+  image: {
+    mobile: productCardContentMobile,
+    tablet: productCardContentTablet,
+    desktop: productCardContentDesktop,
+  },
+};
+/* Feature Portrait (end) */
