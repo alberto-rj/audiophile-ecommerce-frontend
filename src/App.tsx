@@ -2,6 +2,7 @@ import {
   BestGear,
   CategoryListing,
   FeatureHighLighted,
+  FeatureLandscape,
   Footer,
   Hero,
   Navbar,
@@ -12,7 +13,10 @@ import earphones from '@/assets/shared/desktop/image-category-thumbnail-earphone
 import speakers from '@/assets/shared/desktop/image-category-thumbnail-speakers.png';
 import { cn } from '@/libs/cn';
 import { newProduct } from '@/libs/mocks';
-import { featureHighLightedContent } from '@/libs/constants';
+import {
+  featureHighLightedContent,
+  featureLandscapeContent,
+} from '@/libs/constants';
 
 const items = [
   { category: 'Headphones', image: headphones, slug: '#' },
@@ -51,8 +55,20 @@ function App() {
             <CategoryListing items={items} />
           </div>
           <BestGear />
-          <div className={cn('region', 'wrapper')}>
+          <div
+            className={cn(
+              'region',
+              'wrapper',
+              'grid',
+              'gap-6',
+
+              'md:gap-8',
+
+              'md:gap-12',
+            )}
+          >
             <FeatureHighLighted content={featureHighLightedContent} />
+            <FeatureLandscape content={featureLandscapeContent} />
           </div>
         </main>
         <Footer />
