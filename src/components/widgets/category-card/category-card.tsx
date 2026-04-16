@@ -17,7 +17,6 @@ const CategoryCard = ({ category, slug, image }: CategoryCardProps) => {
         'inline-grid',
         'items-end',
         'justify-center',
-        'max-w-87.5',
         'w-full',
         'min-h-51',
         'px-8',
