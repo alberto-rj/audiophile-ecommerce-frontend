@@ -13,15 +13,16 @@ const CategoryListing = ({ items }: CategoryCardProps) => {
       className={cn(
         'w-full',
         'grid',
-        'grid-cols-[repeat(1,minmax(100%,327px))]',
-        'md:grid-cols-[repeat(3,minmax(100%,223px))]',
-        'lg:grid-cols-[repeat(3,minmax(0,350px))]',
+        'grid-cols-[repeat(1,minmax(0,20.4375em))]',
+        'grid-rows-[repeat(2,13.5625em)]',
         'gap-x-8',
         'gap-y-41',
         'pbs-25',
 
-        'md:gap-x-2.5',
+        'sm:grid-cols-[repeat(2,minmax(0,20.4375em))]',
+        'sm:gap-x-2.5',
 
+        'lg:grid-cols-[repeat(3,minmax(0,21.875em))]',
         'lg:gap-x-7.5',
       )}
     >
