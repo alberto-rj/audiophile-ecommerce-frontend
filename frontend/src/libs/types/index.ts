@@ -71,3 +71,10 @@ export interface ProductCardContent {
   isNew: boolean;
   isReversed?: boolean;
 }
+
+export interface SuggestionCardContent {
+  image: ResponsiveImageType;
+  title: string;
+  action: string;
+  slug: string;
+}

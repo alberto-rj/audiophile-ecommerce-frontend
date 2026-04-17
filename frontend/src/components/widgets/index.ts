@@ -14,3 +14,4 @@ export { default as FeaturePortrait } from './feature-products/feature-portrait'
 export { default as FeatureProducts } from './feature-products/feature-products';
 
 export { default as ProductCard } from './product-card/product-card';
+export { default as SuggestionSection } from './suggestion-section/suggestion-section';
