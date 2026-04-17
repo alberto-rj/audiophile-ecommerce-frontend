@@ -109,6 +109,11 @@
   body {
     font: var(--font-base);
   }
+
+  picture {
+    display: block;
+    width: 100%;
+  }
 }
 
 @layer utilities {
