@@ -1,14 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-import { ProductDetailedCard } from '@/components/widgets';
-
 import { cn } from '@/libs/cn';
 import { productDetailedCardContent } from '@/libs/constants';
+
+import ProductDetailedCard from './product-detailed-card';
 
 type StoryProps = React.ComponentProps<typeof ProductDetailedCard>;
 
 const meta = {
-  title: 'widgets/ProductCard/ProductDetailedCard',
+  title: 'pages/Product Detail/ProductDetailedCard',
   component: ProductDetailedCard,
   parameters: {
     layout: 'fullscreen',

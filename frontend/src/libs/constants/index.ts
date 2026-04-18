@@ -36,7 +36,9 @@ import featureHighLightedContentDesktop from '@/assets/home/desktop/image-speake
 import type {
   CategoryContent,
   FeatureHighLightedContent,
+  FeaturesSectionContent,
   GalleryContent,
+  InTheBoxSectionContent,
   ProductDetailedCardContent,
 } from '@/libs/types';
 
@@ -201,6 +203,7 @@ export const suggestionXX59: SuggestionCardContent = {
 import suggestionZX9Mobile from '@/assets/product-zx9-speaker/mobile/image-product.jpg';
 import suggestionZX9Tablet from '@/assets/product-zx9-speaker/tablet/image-product.jpg';
 import suggestionZX9Desktop from '@/assets/product-zx9-speaker/desktop/image-product.jpg';
+import { newProduct } from '../mocks';
 
 export const suggestionZX9: SuggestionCardContent = {
   title: 'ZX9 SPEAKER',
@@ -219,3 +222,17 @@ export const suggestionItems: SuggestionCardContent[] = [
   suggestionZX9,
 ];
 /* Suggestion Card (end) */
+
+/* "Features" Section (start) */
+export const featuresSectionContent: FeaturesSectionContent = {
+  title: 'Features',
+  description: newProduct.features,
+};
+/* "Features" Section (end) */
+
+/* "In The Box" Section (start) */
+export const inTheBoxSectionContent: InTheBoxSectionContent = {
+  title: 'In the box',
+  items: newProduct.includes,
+};
+/* "In The Box" Section (end) */
