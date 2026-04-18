@@ -41,7 +41,7 @@ const ProductPage = () => {
               content={productDetailedCardContent}
               className={cn(WrapperBaseStyles, 'flow-spacing')}
             />
-            <div className={cn(WrapperBaseStyles, 'flex', 'flex-col', 'gap-6')}>
+            <div className={cn(WrapperBaseStyles, 'flow')}>
               <FeaturesSection content={featuresSectionContent} />
               <InTheBoxSection content={inTheBoxSectionContent} />
             </div>
