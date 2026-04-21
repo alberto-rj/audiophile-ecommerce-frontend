@@ -154,6 +154,7 @@
 }
 
 @layer components {
+  /* form (start) */
   .form {
   }
 
@@ -197,4 +198,8 @@
   .form__subgroup-name {
     @apply text-xs;
   }
+  /* form (end) */
+
+  /* item (start) */
+  /* item (end) */
 }

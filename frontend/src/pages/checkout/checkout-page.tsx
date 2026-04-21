@@ -1,6 +1,27 @@
 import { Button, Input, Label, Radio } from '@/components/ui';
 import { cn } from '@/libs/cn';
 
+const cartItems = [
+  {
+    image: 'https://tempimg.cc/64x64',
+    name: 'xx99 Mk II',
+    price: 2999,
+    quantity: 2,
+  },
+  {
+    image: 'https://tempimg.cc/64x64',
+    name: 'xx59',
+    price: 899,
+    quantity: 3,
+  },
+  {
+    image: 'https://tempimg.cc/64x64',
+    name: 'yx1',
+    price: 599,
+    quantity: 1,
+  },
+];
+
 const CheckoutPage = () => {
   const cardBaseStyles = cn(
     'rounded-lg',
@@ -181,12 +202,70 @@ const CheckoutPage = () => {
               <h2 className={cn('uppercase', 'text-lg', 'text-black')}>
                 Summary
               </h2>
-              <Button
-                type='submit'
-                variant='primary'
+              <ul
+                role='list'
+                className={cn('py-8', 'flex', 'flex-col', 'gap-6')}
               >
-                Continue & pay
-              </Button>
+                {cartItems.map(({ image, name, price, quantity }) => (
+                  <li
+                    key={name}
+                    className={cn(
+                      'flex',
+                      'justify-between',
+                      'items-center',
+                      'gap-8',
+                    )}
+                  >
+                    <div className={cn('flex', 'items-center', 'gap-4')}>
+                      <img
+                        src={image}
+                        className={cn(
+                          'aspect-64/64',
+                          'object-cover',
+                          'rounded-lg',
+                          'overflow-hidden',
+                        )}
+                        alt=''
+                        width={64}
+                        height={64}
+                      />
+                      <div className={cn('flex', 'flex-col')}>
+                        <span
+                          className={cn(
+                            'uppercase',
+                            'text-base',
+
+                            'text-black',
+                            'font-bold',
+                          )}
+                        >
+                          {name}
+                        </span>
+                        <span
+                          className={cn(
+                            'text-xs',
+                            'font-bold',
+
+                            'text-black-o-50',
+                          )}
+                        >
+                          {price}
+                        </span>
+                      </div>
+                    </div>
+                    <span
+                      className={cn(
+                        'text-xs',
+                        'font-bold',
+
+                        'text-black-o-50',
+                      )}
+                    >
+                      {quantity}
+                    </span>
+                  </li>
+                ))}
+              </ul>
               <dl>
                 <div>
                   <dt>Total</dt>
@@ -205,6 +284,12 @@ const CheckoutPage = () => {
                   <dd>$ 5,446</dd>
                 </div>
               </dl>
+              <Button
+                type='submit'
+                variant='primary'
+              >
+                Continue & pay
+              </Button>
             </summary>
           </div>
         </div>
