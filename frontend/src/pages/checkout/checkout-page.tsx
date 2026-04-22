@@ -1,5 +1,8 @@
-import { Button, Input, Label, Radio } from '@/components/ui';
+import { useId } from 'react';
+
+import { Button, Card, Input, Label, Radio } from '@/components/ui';
 import { cn } from '@/libs/cn';
+import { toMoney } from '@/libs/helpers';
 
 const cartItems = [
   {
@@ -22,14 +25,15 @@ const cartItems = [
   },
 ];
 
-const CheckoutPage = () => {
-  const cardBaseStyles = cn(
-    'rounded-lg',
-    'p-6',
-    'overflow-hidden',
+const cartSummary = [
+  { name: 'Total', value: 5396, isHighlighted: false },
+  { name: 'Shipping', value: 50, isHighlighted: false },
+  { name: 'VAT (Included)', value: 1079, isHighlighted: false },
+  { name: 'Grand Total', value: 5446, isHighlighted: true },
+];
 
-    'bg-white',
-  );
+const CheckoutPage = () => {
+  const summaryHeadingId = useId();
 
   return (
     <div className={cn('min-h-full', 'bg-gray-300')}>
@@ -44,10 +48,19 @@ const CheckoutPage = () => {
 
             'lg:flex-row',
             'lg:justify-between',
+            'lg:items-start',
             'lg:gap-7.5',
           )}
         >
-          <div className={cn(cardBaseStyles, 'md:p-12')}>
+          <Card
+            className={cn(
+              'p-6',
+
+              'md:p-8',
+
+              'lg:p-12',
+            )}
+          >
             <h1
               className={cn(
                 'uppercase',
@@ -196,102 +209,151 @@ const CheckoutPage = () => {
                 </div>
               </fieldset>
             </form>
-          </div>
-          <div className={cn(cardBaseStyles, 'md:p-8')}>
-            <summary>
-              <h2 className={cn('uppercase', 'text-lg', 'text-black')}>
-                Summary
-              </h2>
-              <ul
-                role='list'
-                className={cn('py-8', 'flex', 'flex-col', 'gap-6')}
-              >
-                {cartItems.map(({ image, name, price, quantity }) => (
-                  <li
-                    key={name}
-                    className={cn(
-                      'flex',
-                      'justify-between',
-                      'items-center',
-                      'gap-8',
-                    )}
-                  >
-                    <div className={cn('flex', 'items-center', 'gap-4')}>
-                      <img
-                        src={image}
-                        className={cn(
-                          'aspect-64/64',
-                          'object-cover',
-                          'rounded-lg',
-                          'overflow-hidden',
-                        )}
-                        alt=''
-                        width={64}
-                        height={64}
-                      />
-                      <div className={cn('flex', 'flex-col')}>
-                        <span
+          </Card>
+          <Card
+            className={cn(
+              'p-6',
+
+              'md:p-8',
+
+              'lg:max-inline-87.5',
+            )}
+          >
+            <div
+              className={cn(
+                'size-full',
+                'flex',
+                'flex-col',
+                'justify-between',
+                'gap-8',
+              )}
+            >
+              <section aria-labelledby={summaryHeadingId}>
+                <h2
+                  id={summaryHeadingId}
+                  className={cn('uppercase', 'text-md', 'text-black')}
+                >
+                  Summary
+                </h2>
+                <ul
+                  role='list'
+                  className={cn('py-8', 'flex', 'flex-col', 'gap-6')}
+                >
+                  {cartItems.map(({ image, name, price, quantity }) => (
+                    <li
+                      key={name}
+                      className={cn(
+                        'flex',
+                        'justify-between',
+                        'items-center',
+                        'gap-8',
+                      )}
+                    >
+                      <div className={cn('flex', 'items-center', 'gap-4')}>
+                        <img
+                          src={image}
                           className={cn(
-                            'uppercase',
+                            'aspect-64/64',
+                            'object-cover',
+                            'rounded-lg',
+                            'overflow-hidden',
+                          )}
+                          alt=''
+                          width={64}
+                          height={64}
+                        />
+                        <div className={cn('flex', 'flex-col')}>
+                          <span
+                            className={cn(
+                              'uppercase',
+                              'text-base',
+
+                              'text-black',
+                              'font-bold',
+                            )}
+                          >
+                            {name}
+                          </span>
+                          <span
+                            className={cn(
+                              'uppercase',
+                              'text-xs',
+
+                              'font-bold',
+                              'text-black-o-50',
+                            )}
+                          >
+                            {price}
+                          </span>
+                        </div>
+                      </div>
+                      <div>
+                        <span className={cn('sr-only')}>times: {quantity}</span>
+                        <span
+                          aria-hidden={true}
+                          className={cn(
                             'text-base',
 
-                            'text-black',
                             'font-bold',
-                          )}
-                        >
-                          {name}
-                        </span>
-                        <span
-                          className={cn(
-                            'text-xs',
-                            'font-bold',
-
                             'text-black-o-50',
                           )}
                         >
-                          {price}
+                          x{quantity}
                         </span>
                       </div>
-                    </div>
-                    <span
+                    </li>
+                  ))}
+                </ul>
+                <dl className={cn('flex', 'flex-col', 'gap-2')}>
+                  {cartSummary.map(({ name, value, isHighlighted }) => (
+                    <div
+                      key={name}
                       className={cn(
-                        'text-xs',
-                        'font-bold',
-
-                        'text-black-o-50',
+                        'flex',
+                        'justify-between',
+                        'items-center',
+                        'gap-8',
+                        {
+                          'mbs-4': isHighlighted,
+                        },
                       )}
                     >
-                      {quantity}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-              <dl>
-                <div>
-                  <dt>Total</dt>
-                  <dd>$ 5,396</dd>
-                </div>
-                <div>
-                  <dt>Shipping</dt>
-                  <dd>$ 50</dd>
-                </div>
-                <div>
-                  <dt>VAT (included)</dt>
-                  <dd>$ 1,079</dd>
-                </div>
-                <div>
-                  <dt>Grand Total</dt>
-                  <dd>$ 5,446</dd>
-                </div>
-              </dl>
+                      <dt
+                        className={cn(
+                          'uppercase',
+                          'text-base',
+
+                          'text-black-o-50',
+                        )}
+                      >
+                        {name}
+                      </dt>
+                      <dd
+                        className={cn(
+                          'uppercase',
+                          'text-md',
+
+                          {
+                            'text-primary-400': isHighlighted,
+                            'text-black': !isHighlighted,
+                          },
+                        )}
+                      >
+                        {toMoney(value)}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              </section>
               <Button
                 type='submit'
                 variant='primary'
+                className={cn('w-full')}
               >
                 Continue & pay
               </Button>
-            </summary>
-          </div>
+            </div>
+          </Card>
         </div>
       </div>
     </div>

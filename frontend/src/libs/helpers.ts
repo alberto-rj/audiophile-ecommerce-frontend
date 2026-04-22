@@ -6,3 +6,12 @@ export function formatPrice(price: number) {
 
   return formattedPrice;
 }
+
+export function toMoney(value: number) {
+  const formattedValue = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  }).format(value);
+
+  return formattedValue;
+}
