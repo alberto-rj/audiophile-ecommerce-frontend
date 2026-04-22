@@ -1,4 +1,4 @@
-import { useId } from 'react';
+import { useEffect, useId } from 'react';
 
 import { Button, Card, Input, Label, Radio } from '@/components/ui';
 import { cn } from '@/libs/cn';
@@ -35,326 +35,326 @@ const cartSummary = [
 const CheckoutPage = () => {
   const summaryHeadingId = useId();
 
+  useEffect(() => {
+    document.documentElement.style.backgroundColor = 'var(--color-gray-300)';
+  }, []);
+
   return (
-    <div className={cn('min-h-full', 'bg-gray-300')}>
-      <div className={cn('region')}>
-        <div
+    <div className={cn('region')}>
+      <div
+        className={cn(
+          'wrapper',
+          'flex',
+          'flex-col',
+
+          'gap-8',
+
+          'lg:flex-row',
+          'lg:justify-between',
+          'lg:items-start',
+          'lg:gap-7.5',
+        )}
+      >
+        <Card
           className={cn(
-            'wrapper',
-            'flex',
-            'flex-col',
+            'p-6',
 
-            'gap-8',
+            'md:p-8',
 
-            'lg:flex-row',
-            'lg:justify-between',
-            'lg:items-start',
-            'lg:gap-7.5',
+            'lg:p-12',
           )}
         >
-          <Card
+          <h1
             className={cn(
-              'p-6',
+              'uppercase',
+              'text-xl',
 
-              'md:p-8',
-
-              'lg:p-12',
+              'lg:text-2xl',
+              'text-black',
             )}
           >
-            <h1
-              className={cn(
-                'uppercase',
-                'text-xl',
+            Checkout
+          </h1>
+          <form className={cn('form', 'form__flow')}>
+            <fieldset className={cn('form__group')}>
+              <legend className={cn('form__group-name')}>
+                Billing Details
+              </legend>
+              <div className={cn('form__grid')}>
+                <div className={cn('form__grid-item', 'form__field')}>
+                  <Label htmlFor='name'>Name</Label>
+                  <Input
+                    type='text'
+                    id='name'
+                    name='name'
+                    placeholder='John Doe'
+                  />
+                </div>
+                <div className={cn('form__grid-item', 'form__field')}>
+                  <Label htmlFor='email'>Email Address</Label>
+                  <Input
+                    type='email'
+                    inputMode='email'
+                    id='email'
+                    name='email'
+                    placeholder='johndoe@example.com'
+                  />
+                </div>
+                <div className={cn('form__grid-item', 'form__field')}>
+                  <Label htmlFor='phone'>Phone Number</Label>
+                  <Input
+                    type='text'
+                    id='phone'
+                    name='phone'
+                    placeholder='+1 202-55-0136'
+                  />
+                </div>
+              </div>
+            </fieldset>
+            <fieldset className={cn('form__group')}>
+              <legend className={cn('form__group-name')}>Shipping Info</legend>
 
-                'lg:text-2xl',
-                'text-black',
-              )}
-            >
-              Checkout
-            </h1>
-            <form className={cn('form', 'form__flow')}>
-              <fieldset className={cn('form__group')}>
-                <legend className={cn('form__group-name')}>
-                  Billing Details
-                </legend>
+              <div className={cn('form__grid')}>
+                <div
+                  className={cn(
+                    'form__grid-item',
+                    'form__grid-item--full',
+                    'form__field',
+                  )}
+                >
+                  <Label htmlFor='address'>Address</Label>
+                  <Input
+                    type='text'
+                    id='address'
+                    name='address'
+                    placeholder='1137 Williams Avenue'
+                  />
+                </div>
+                <div className={cn('form__grid-item', 'form__field')}>
+                  <Label htmlFor='zipCode'>Zip Code</Label>
+                  <Input
+                    type='text'
+                    id='zipCode'
+                    name='zipCode'
+                    placeholder='10001'
+                  />
+                </div>
+                <div className={cn('form__grid-item', 'form__field')}>
+                  <Label htmlFor='city'>City</Label>
+                  <Input
+                    type='text'
+                    id='city'
+                    name='city'
+                    placeholder='New York'
+                  />
+                </div>
+                <div className={cn('form__grid-item', 'form__field')}>
+                  <Label htmlFor='country'>Country</Label>
+                  <Input
+                    type='text'
+                    id='country'
+                    name='country'
+                    placeholder='United States'
+                  />
+                </div>
+              </div>
+            </fieldset>
+            <fieldset className={cn('form__group')}>
+              <legend className={cn('form__group-name')}>
+                Payment Details
+              </legend>
+              <div className={cn('form__flow')}>
+                <fieldset className={cn('form__subgroup')}>
+                  <legend className={cn('form__subgroup-name')}>
+                    Payment Method
+                  </legend>
+                  <div className={cn('form__grid')}>
+                    <div className={cn('form__grid-tem')}>
+                      <Radio
+                        name='paymentMethod'
+                        label='Cash on Delivery'
+                        value='cash-on-delivery'
+                        onChange={(value) => console.log(value)}
+                      />
+                    </div>
+                    <div className={cn('form__grid-tem')}>
+                      <Radio
+                        name='paymentMethod'
+                        label='e-Money'
+                        value='e-money'
+                        onChange={(value) => console.log(value)}
+                      />
+                    </div>
+                  </div>
+                </fieldset>
                 <div className={cn('form__grid')}>
                   <div className={cn('form__grid-item', 'form__field')}>
-                    <Label htmlFor='name'>Name</Label>
+                    <Label htmlFor='eMoneyNumber'>e-Money Number</Label>
                     <Input
                       type='text'
-                      id='name'
-                      name='name'
-                      placeholder='John Doe'
+                      id='eMoneyNumber'
+                      name='eMoneyNumber'
+                      placeholder='238521993'
                     />
                   </div>
                   <div className={cn('form__grid-item', 'form__field')}>
-                    <Label htmlFor='email'>Email Address</Label>
-                    <Input
-                      type='email'
-                      inputMode='email'
-                      id='email'
-                      name='email'
-                      placeholder='johndoe@example.com'
-                    />
-                  </div>
-                  <div className={cn('form__grid-item', 'form__field')}>
-                    <Label htmlFor='phone'>Phone Number</Label>
+                    <Label htmlFor='eMoneyPIN'>e-Money PIN</Label>
                     <Input
                       type='text'
-                      id='phone'
-                      name='phone'
-                      placeholder='+1 202-55-0136'
+                      id='eMoneyPIN'
+                      name='eMoneyPIN'
+                      placeholder='6891'
                     />
                   </div>
                 </div>
-              </fieldset>
-              <fieldset className={cn('form__group')}>
-                <legend className={cn('form__group-name')}>
-                  Shipping Info
-                </legend>
+              </div>
+            </fieldset>
+          </form>
+        </Card>
+        <Card
+          className={cn(
+            'p-6',
 
-                <div className={cn('form__grid')}>
-                  <div
+            'md:p-8',
+
+            'lg:max-inline-87.5',
+          )}
+        >
+          <div
+            className={cn(
+              'size-full',
+              'flex',
+              'flex-col',
+              'justify-between',
+              'gap-8',
+            )}
+          >
+            <section aria-labelledby={summaryHeadingId}>
+              <h2
+                id={summaryHeadingId}
+                className={cn('uppercase', 'text-md', 'text-black')}
+              >
+                Summary
+              </h2>
+              <ul
+                role='list'
+                className={cn('py-8', 'flex', 'flex-col', 'gap-6')}
+              >
+                {cartItems.map(({ image, name, price, quantity }) => (
+                  <li
+                    key={name}
                     className={cn(
-                      'form__grid-item',
-                      'form__grid-item--full',
-                      'form__field',
+                      'flex',
+                      'justify-between',
+                      'items-center',
+                      'gap-8',
                     )}
                   >
-                    <Label htmlFor='address'>Address</Label>
-                    <Input
-                      type='text'
-                      id='address'
-                      name='address'
-                      placeholder='1137 Williams Avenue'
-                    />
-                  </div>
-                  <div className={cn('form__grid-item', 'form__field')}>
-                    <Label htmlFor='zipCode'>Zip Code</Label>
-                    <Input
-                      type='text'
-                      id='zipCode'
-                      name='zipCode'
-                      placeholder='10001'
-                    />
-                  </div>
-                  <div className={cn('form__grid-item', 'form__field')}>
-                    <Label htmlFor='city'>City</Label>
-                    <Input
-                      type='text'
-                      id='city'
-                      name='city'
-                      placeholder='New York'
-                    />
-                  </div>
-                  <div className={cn('form__grid-item', 'form__field')}>
-                    <Label htmlFor='country'>Country</Label>
-                    <Input
-                      type='text'
-                      id='country'
-                      name='country'
-                      placeholder='United States'
-                    />
-                  </div>
-                </div>
-              </fieldset>
-              <fieldset className={cn('form__group')}>
-                <legend className={cn('form__group-name')}>
-                  Payment Details
-                </legend>
-                <div className={cn('form__flow')}>
-                  <fieldset className={cn('form__subgroup')}>
-                    <legend className={cn('form__subgroup-name')}>
-                      Payment Method
-                    </legend>
-                    <div className={cn('form__grid')}>
-                      <div className={cn('form__grid-tem')}>
-                        <Radio
-                          name='paymentMethod'
-                          label='Cash on Delivery'
-                          value='cash-on-delivery'
-                          onChange={(value) => console.log(value)}
-                        />
-                      </div>
-                      <div className={cn('form__grid-tem')}>
-                        <Radio
-                          name='paymentMethod'
-                          label='e-Money'
-                          value='e-money'
-                          onChange={(value) => console.log(value)}
-                        />
-                      </div>
-                    </div>
-                  </fieldset>
-                  <div className={cn('form__grid')}>
-                    <div className={cn('form__grid-item', 'form__field')}>
-                      <Label htmlFor='eMoneyNumber'>e-Money Number</Label>
-                      <Input
-                        type='text'
-                        id='eMoneyNumber'
-                        name='eMoneyNumber'
-                        placeholder='238521993'
+                    <div className={cn('flex', 'items-center', 'gap-4')}>
+                      <img
+                        src={image}
+                        className={cn(
+                          'aspect-64/64',
+                          'object-cover',
+                          'rounded-lg',
+                          'overflow-hidden',
+                        )}
+                        alt=''
+                        width={64}
+                        height={64}
                       />
-                    </div>
-                    <div className={cn('form__grid-item', 'form__field')}>
-                      <Label htmlFor='eMoneyPIN'>e-Money PIN</Label>
-                      <Input
-                        type='text'
-                        id='eMoneyPIN'
-                        name='eMoneyPIN'
-                        placeholder='6891'
-                      />
-                    </div>
-                  </div>
-                </div>
-              </fieldset>
-            </form>
-          </Card>
-          <Card
-            className={cn(
-              'p-6',
-
-              'md:p-8',
-
-              'lg:max-inline-87.5',
-            )}
-          >
-            <div
-              className={cn(
-                'size-full',
-                'flex',
-                'flex-col',
-                'justify-between',
-                'gap-8',
-              )}
-            >
-              <section aria-labelledby={summaryHeadingId}>
-                <h2
-                  id={summaryHeadingId}
-                  className={cn('uppercase', 'text-md', 'text-black')}
-                >
-                  Summary
-                </h2>
-                <ul
-                  role='list'
-                  className={cn('py-8', 'flex', 'flex-col', 'gap-6')}
-                >
-                  {cartItems.map(({ image, name, price, quantity }) => (
-                    <li
-                      key={name}
-                      className={cn(
-                        'flex',
-                        'justify-between',
-                        'items-center',
-                        'gap-8',
-                      )}
-                    >
-                      <div className={cn('flex', 'items-center', 'gap-4')}>
-                        <img
-                          src={image}
-                          className={cn(
-                            'aspect-64/64',
-                            'object-cover',
-                            'rounded-lg',
-                            'overflow-hidden',
-                          )}
-                          alt=''
-                          width={64}
-                          height={64}
-                        />
-                        <div className={cn('flex', 'flex-col')}>
-                          <span
-                            className={cn(
-                              'uppercase',
-                              'text-base',
-
-                              'text-black',
-                              'font-bold',
-                            )}
-                          >
-                            {name}
-                          </span>
-                          <span
-                            className={cn(
-                              'uppercase',
-                              'text-xs',
-
-                              'font-bold',
-                              'text-black-o-50',
-                            )}
-                          >
-                            {price}
-                          </span>
-                        </div>
-                      </div>
-                      <div>
-                        <span className={cn('sr-only')}>times: {quantity}</span>
+                      <div className={cn('flex', 'flex-col')}>
                         <span
-                          aria-hidden={true}
                           className={cn(
+                            'uppercase',
                             'text-base',
+
+                            'text-black',
+                            'font-bold',
+                          )}
+                        >
+                          {name}
+                        </span>
+                        <span
+                          className={cn(
+                            'uppercase',
+                            'text-xs',
 
                             'font-bold',
                             'text-black-o-50',
                           )}
                         >
-                          x{quantity}
+                          {price}
                         </span>
                       </div>
-                    </li>
-                  ))}
-                </ul>
-                <dl className={cn('flex', 'flex-col', 'gap-2')}>
-                  {cartSummary.map(({ name, value, isHighlighted }) => (
-                    <div
-                      key={name}
-                      className={cn(
-                        'flex',
-                        'justify-between',
-                        'items-center',
-                        'gap-8',
-                        {
-                          'mbs-4': isHighlighted,
-                        },
-                      )}
-                    >
-                      <dt
+                    </div>
+                    <div>
+                      <span className={cn('sr-only')}>times: {quantity}</span>
+                      <span
+                        aria-hidden={true}
                         className={cn(
-                          'uppercase',
                           'text-base',
 
+                          'font-bold',
                           'text-black-o-50',
                         )}
                       >
-                        {name}
-                      </dt>
-                      <dd
-                        className={cn(
-                          'uppercase',
-                          'text-md',
-
-                          {
-                            'text-primary-400': isHighlighted,
-                            'text-black': !isHighlighted,
-                          },
-                        )}
-                      >
-                        {toMoney(value)}
-                      </dd>
+                        x{quantity}
+                      </span>
                     </div>
-                  ))}
-                </dl>
-              </section>
-              <Button
-                type='submit'
-                variant='primary'
-                className={cn('w-full')}
-              >
-                Continue & pay
-              </Button>
-            </div>
-          </Card>
-        </div>
+                  </li>
+                ))}
+              </ul>
+              <dl className={cn('flex', 'flex-col', 'gap-2')}>
+                {cartSummary.map(({ name, value, isHighlighted }) => (
+                  <div
+                    key={name}
+                    className={cn(
+                      'flex',
+                      'justify-between',
+                      'items-center',
+                      'gap-8',
+                      {
+                        'mbs-4': isHighlighted,
+                      },
+                    )}
+                  >
+                    <dt
+                      className={cn(
+                        'uppercase',
+                        'text-base',
+
+                        'text-black-o-50',
+                      )}
+                    >
+                      {name}
+                    </dt>
+                    <dd
+                      className={cn(
+                        'uppercase',
+                        'text-md',
+
+                        {
+                          'text-primary-400': isHighlighted,
+                          'text-black': !isHighlighted,
+                        },
+                      )}
+                    >
+                      {toMoney(value)}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </section>
+            <Button
+              type='submit'
+              variant='primary'
+              className={cn('w-full')}
+            >
+              Continue & pay
+            </Button>
+          </div>
+        </Card>
       </div>
     </div>
   );
