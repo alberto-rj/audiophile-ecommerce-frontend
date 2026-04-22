@@ -13,12 +13,10 @@ const Hero = ({
   return (
     <header
       className={cn(
-        'flex',
-        'items-center',
         'relative',
+        'min-block-150',
 
-        'min-h-150',
-        'md:min-h-182',
+        'md:min-block-182',
 
         'bg-gray-900',
         'text-white',
@@ -30,8 +28,8 @@ const Hero = ({
         className={cn(
           'absolute',
           'inset-0',
-          'w-full',
-          'h-full',
+          'inline-full',
+          'block-full',
           'object-cover',
         )}
       />
