@@ -11,7 +11,7 @@ const Card = ({ className, children }: CardProps) => {
   return (
     <div
       className={cn(
-        'w-full',
+        'inline-full',
         'rounded-lg',
         'overflow-hidden',
         'p-6',
