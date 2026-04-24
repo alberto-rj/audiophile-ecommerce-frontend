@@ -29,6 +29,7 @@ const QuantityButton = ({ className, ...props }: QuantityButtonProps) => {
 };
 
 interface QuantitySelectorProps {
+  label?: string;
   value: number;
   onChange: (value: number) => void;
   disabled?: boolean;
@@ -39,6 +40,7 @@ interface QuantitySelectorProps {
 }
 
 const QuantitySelector = ({
+  label = 'Quantity',
   value,
   disabled,
   min = 1,
@@ -97,7 +99,7 @@ const QuantitySelector = ({
         type='button'
         onClick={handleDecrement}
       >
-        <span className={cn('sr-only')}>Decrease quantity</span>
+        <span className={cn('sr-only')}>{`Decrease ${label}`}</span>
         <span aria-hidden={true}>-</span>
       </QuantityButton>
 
@@ -105,11 +107,11 @@ const QuantitySelector = ({
         htmlFor={inputId}
         className={cn('sr-only')}
       >
-        Quantity
+        {label}
       </label>
       <input
-        disabled={disabled}
         id={inputId}
+        disabled={disabled}
         type='number'
         inputMode='numeric'
         min={min}
@@ -142,7 +144,7 @@ const QuantitySelector = ({
         type='button'
         onClick={handleIncrement}
       >
-        <span className={cn('sr-only')}>Increase quantity</span>
+        <span className={cn('sr-only')}>{`Increase ${label}`}</span>
         <span aria-hidden={true}>+</span>
       </QuantityButton>
     </div>
