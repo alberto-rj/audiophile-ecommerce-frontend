@@ -13,6 +13,7 @@ const meta = {
   title: 'widgets/CartModal',
   component: CartModal,
   args: {
+    open: true,
     onQuantityChange: fn(),
     onClearCart: fn(),
   },

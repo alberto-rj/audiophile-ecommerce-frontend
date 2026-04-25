@@ -1,22 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import cartReducer from './cart-slice';
-
-const rawCartState = localStorage.getItem('cart');
-
-let preloadedState = undefined;
-
-if (typeof rawCartState === 'string') {
-  preloadedState = {
-    cart: JSON.parse(rawCartState),
-  };
-}
+import { cartReducer } from '@/app/features/cart';
+import { productApi } from '@/app/services/products';
 
 export const store = configureStore({
   reducer: {
+    [productApi.reducerPath]: productApi.reducer,
     cart: cartReducer,
   },
-  preloadedState,
+  middleware: (getDefaultMiddleware) => {
+    return getDefaultMiddleware().concat(productApi.middleware);
+  },
 });
 
 store.subscribe(() => {
