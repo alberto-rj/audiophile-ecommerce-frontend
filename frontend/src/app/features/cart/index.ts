@@ -1,17 +1,30 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
+import type { RootState } from '@/app/store';
 import type { CartItem } from '@/libs/types';
 
 interface CartState {
   items: CartItem[];
 }
 
-const initialState: CartState = {
-  items: [],
-};
+function getPersistedCartState(): CartState {
+  const rawCartState = localStorage.getItem('cart');
+
+  const fallbackCartState: CartState = {
+    items: [],
+  };
+
+  if (rawCartState === null) {
+    return fallbackCartState;
+  }
+
+  return JSON.parse(rawCartState) as CartState;
+}
+
+const initialState = getPersistedCartState();
 
 const cartSlice = createSlice({
-  name: 'card',
+  name: 'cart',
   initialState,
   reducers: {
     addItem: (state, action: PayloadAction<CartItem>) => {
@@ -54,4 +67,23 @@ const cartSlice = createSlice({
 export const { addItem, removeItem, updateQuantity, clearCart } =
   cartSlice.actions;
 
-export default cartSlice.reducer;
+export const cartReducer = cartSlice.reducer;
+
+export const selectSubtotal = (state: RootState) => {
+  return state.cart.items.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0,
+  );
+};
+
+export const selectShipping = () => {
+  return 50;
+};
+
+export const selectVAT = (state: RootState) => {
+  return Math.round(selectSubtotal(state) * 0.2);
+};
+
+export const selectGrandTotal = (state: RootState) => {
+  return selectSubtotal(state) + selectShipping() + selectVAT(state);
+};
