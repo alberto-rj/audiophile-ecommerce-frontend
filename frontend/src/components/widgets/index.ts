@@ -17,3 +17,5 @@ export { default as ProductCard } from './product-card/product-card';
 export { default as SuggestionSection } from './suggestion-section/suggestion-section';
 
 export { default as CartModal } from './cart-modal/cart-modal';
+
+export { default as CheckoutModal } from './checkout-modal/checkout-modal';
