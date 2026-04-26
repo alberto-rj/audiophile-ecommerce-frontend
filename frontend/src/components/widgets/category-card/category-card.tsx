@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import { ArrowRight } from '@/assets/icons';
 import { Button } from '@/components/ui';
 import { cn } from '@/libs/cn';
@@ -11,8 +13,8 @@ const CategoryCard = ({
   category: { slug, image, name },
 }: CategoryCardProps) => {
   return (
-    <a
-      href={slug}
+    <Link
+      to={`/categories/${slug}`}
       className={cn(
         'relative',
         'inline-grid',
@@ -57,7 +59,7 @@ const CategoryCard = ({
           </span>
         </Button>
       </div>
-    </a>
+    </Link>
   );
 };
 

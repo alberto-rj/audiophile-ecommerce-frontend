@@ -1,4 +1,5 @@
 import { useId } from 'react';
+import { Link } from 'react-router-dom';
 
 import { Button } from '@/components/ui';
 import { ResponsiveImage } from '@/components/widgets';
@@ -93,10 +94,10 @@ const ProductCard = ({
           variant={'primary'}
           asChild
         >
-          <a href={slug}>
+          <Link to={`/products/${slug}`}>
             <span className={cn('sr-only')}>See product: {title}</span>
             <span aria-hidden={true}>See product</span>
-          </a>
+          </Link>
         </Button>
       </div>
     </section>
