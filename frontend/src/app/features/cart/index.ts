@@ -47,15 +47,19 @@ const cartSlice = createSlice({
       state,
       action: PayloadAction<{ id: number; quantity: number }>,
     ) => {
-      const foundItem = state.items.find(
-        (item) => item.id === action.payload.id,
-      );
+      const { id, quantity } = action.payload;
+
+      const foundItem = state.items.find((item) => item.id === id);
 
       if (!foundItem) {
         return;
       }
 
-      foundItem.quantity = action.payload.quantity;
+      if (quantity === 0) {
+        state.items = state.items.filter((item) => item.id !== id);
+      } else if (quantity > 0) {
+        foundItem.quantity = quantity;
+      }
     },
 
     clearCart(state) {
@@ -69,12 +73,20 @@ export const { addItem, removeItem, updateQuantity, clearCart } =
 
 export const cartReducer = cartSlice.reducer;
 
+export const selectItems = (state: RootState) => {
+  return state.cart.items;
+};
+
 export const selectItemsCount = (state: RootState) => {
-  return state.cart.items.length;
+  return selectItems(state).reduce((sum, item) => sum + item.quantity, 0);
+};
+
+export const selectItemById = (id: number) => (state: RootState) => {
+  return selectItems(state).find((item) => item.id === id);
 };
 
 export const selectSubtotal = (state: RootState) => {
-  return state.cart.items.reduce(
+  return selectItems(state).reduce(
     (sum, item) => sum + item.price * item.quantity,
     0,
   );

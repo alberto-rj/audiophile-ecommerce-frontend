@@ -1,6 +1,15 @@
 import { useId } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import type { AppDispatch, RootState } from '@/app/store';
+import {
+  clearCart,
+  selectGrandTotal,
+  selectItems,
+  selectItemsCount,
+  updateQuantity,
+} from '@/app/features/cart';
 import { Button, Modal } from '@/components/ui';
 import { QuantitySelector, ResponsiveImage } from '@/components/widgets';
 import { cn } from '@/libs/cn';
@@ -11,26 +20,34 @@ interface CartModalProps {
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
-  onClearCart: () => void;
-  onQuantityChange: (item: { id: number; value: number }) => void;
-  items: CartItem[];
 }
 
 const CartModal = ({
   open = false,
   defaultOpen = false,
   onOpenChange,
-  onClearCart,
-  onQuantityChange,
-  items,
 }: CartModalProps) => {
+  const items = useSelector<RootState, CartItem[]>(selectItems);
+  const itemsCount = useSelector<RootState, number>(selectItemsCount);
+  const grandTotal = useSelector<RootState, number>(selectGrandTotal);
+
+  const dispatch = useDispatch<AppDispatch>();
+
   const headingId = useId();
 
-  const totalItems = items.length;
-  const totalPrice = items.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0,
-  );
+  const handleClearCart = () => {
+    dispatch(clearCart());
+  };
+
+  const handleQuantityChange = ({
+    id,
+    quantity,
+  }: {
+    id: number;
+    quantity: number;
+  }) => {
+    dispatch(updateQuantity({ id, quantity }));
+  };
 
   return (
     <Modal
@@ -55,7 +72,7 @@ const CartModal = ({
             'xs:py-8',
           )}
         >
-          {totalItems === 0 ? (
+          {itemsCount === 0 ? (
             <>
               <Modal.Title asChild>
                 <h3
@@ -98,15 +115,19 @@ const CartModal = ({
                       'text-md',
                     )}
                   >
-                    Cart ({totalItems})
+                    <span className={cn('sr-only')}>
+                      Cart - {itemsCount} item(s)
+                    </span>
+                    <span aria-hidden={true}>Cart ({itemsCount})</span>
                   </h3>
                 </Modal.Title>
 
                 <Button
                   variant='link'
-                  onClick={() => onClearCart()}
+                  onClick={handleClearCart}
                 >
-                  Remove all
+                  <span className={cn('sr-only')}>Remove all cart items</span>
+                  <span aria-hidden={true}>Remove all</span>
                 </Button>
               </div>
               <ul
@@ -187,7 +208,9 @@ const CartModal = ({
                     <QuantitySelector
                       value={quantity}
                       label={`Quantity for ${name}`}
-                      onChange={(value) => onQuantityChange({ id, value })}
+                      onChange={(value) =>
+                        handleQuantityChange({ id, quantity: value })
+                      }
                       className={cn('max-inline-30')}
                     />
                   </li>
@@ -223,7 +246,7 @@ const CartModal = ({
                     'text-black',
                   )}
                 >
-                  {toMoney(totalPrice)}
+                  {toMoney(grandTotal)}
                 </dd>
               </dl>
 
