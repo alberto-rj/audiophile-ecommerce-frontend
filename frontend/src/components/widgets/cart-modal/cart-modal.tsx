@@ -15,18 +15,13 @@ import { QuantitySelector, ResponsiveImage } from '@/components/widgets';
 import { cn } from '@/libs/cn';
 import { toMoney } from '@/libs/helpers';
 import type { CartItem } from '@/libs/types';
+import { Cart } from '@/assets/icons';
 
 interface CartModalProps {
-  open?: boolean;
-  defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
 }
 
-const CartModal = ({
-  open = false,
-  defaultOpen = false,
-  onOpenChange,
-}: CartModalProps) => {
+const CartModal = ({ onOpenChange }: CartModalProps) => {
   const items = useSelector<RootState, CartItem[]>(selectItems);
   const itemsCount = useSelector<RootState, number>(selectItemsCount);
   const grandTotal = useSelector<RootState, number>(selectGrandTotal);
@@ -50,13 +45,49 @@ const CartModal = ({
   };
 
   return (
-    <Modal
-      open={open}
-      defaultOpen={defaultOpen}
-      onOpenChange={onOpenChange}
-    >
+    <Modal onOpenChange={onOpenChange}>
+      <Modal.Trigger asChild>
+        <button
+          type='button'
+          className={cn('relative', 'link-focusable')}
+        >
+          <span className={cn('sr-only')}>
+            View cart - {itemsCount} item(s)
+          </span>
+          {itemsCount > 0 && (
+            <span
+              aria-hidden={true}
+              className={cn(
+                'size-7',
+                'absolute',
+                '-inset-bs-5',
+                '-inset-e-5',
+                'flex',
+                'items-center',
+                'justify-center',
+                'text-xs',
+                'text-center',
+                'leading-none',
+                'truncate',
+
+                'text-white',
+                'bg-primary-400',
+                'rounded-full',
+              )}
+            >
+              {itemsCount}
+            </span>
+          )}
+          <Cart
+            aria-hidden={true}
+            focusable={false}
+          />
+        </button>
+      </Modal.Trigger>
+
       <Modal.Portal>
         <Modal.Overlay />
+
         <Modal.Content
           aria-labelledby={headingId}
           className={cn(

@@ -1,11 +1,9 @@
-import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import type { AppDispatch } from '@/app/store';
 import { addItem, clearCart } from '@/app/features/cart';
 import { CartModal } from '@/components/widgets';
-import { Button } from '@/components/ui';
 import { cn } from '@/libs/cn';
 import { cartItems } from '@/libs/mocks/cart-items';
 import type { CartItem } from '@/libs/types';
@@ -17,23 +15,16 @@ type StoryProps = React.ComponentProps<typeof CartModal> & {
 const meta = {
   title: 'widgets/CartModal',
   component: CartModal,
-  args: {
-    open: true,
-  },
+  args: {},
   parameters: {
     layout: 'fullscreen',
   },
-  render: ({ cartItems, open, ...cartModalProps }) => {
+  render: ({ cartItems }) => {
     const dispatch = useDispatch<AppDispatch>();
-    const [openModal, setOpenModal] = useState<boolean>(open === true);
 
     dispatch(clearCart());
 
     cartItems.forEach((item) => dispatch(addItem(item)));
-
-    const handleOpenChange = (open: boolean) => {
-      setOpenModal(open);
-    };
 
     return (
       <div
@@ -42,15 +33,11 @@ const meta = {
           'flex',
           'justify-center',
           'items-center',
+
+          'bg-black',
         )}
       >
-        <Button onClick={() => setOpenModal(true)}>Show cart</Button>
-
-        <CartModal
-          {...cartModalProps}
-          open={openModal}
-          onOpenChange={handleOpenChange}
-        />
+        <CartModal />
       </div>
     );
   },
