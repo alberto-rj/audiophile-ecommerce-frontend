@@ -131,7 +131,6 @@ export const productCardContent: ProductCardContent = {
   description:
     'The new XX99 Mark II headphones is the pinnacle of pristine audio. It redefines your premium headphone experience by reproducing the balanced depth and precision of studio-quality sound.',
   slug: '#',
-  action: 'See product',
   isNew: true,
   image: {
     mobile: productCardContentMobile,

@@ -11,7 +11,7 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({
-  content: { image, title, description, action, slug, isNew, isReversed },
+  content: { image, title, description, slug, isNew, isReversed },
   className,
 }: ProductCardProps) => {
   const headingId = useId();
@@ -93,7 +93,10 @@ const ProductCard = ({
           variant={'primary'}
           asChild
         >
-          <a href={slug}>{action}</a>
+          <a href={slug}>
+            <span className={cn('sr-only')}>See product: {title}</span>
+            <span aria-hidden={true}>See product</span>
+          </a>
         </Button>
       </div>
     </section>
