@@ -1,9 +1,10 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 
-import { Cart, Logo, Close, Menu } from '@/assets/icons';
+import { Logo, Close, Menu } from '@/assets/icons';
 import { cn } from '@/libs/cn';
 import { navLinks } from '@/libs/constants';
+import { CartModal } from '@/components/widgets';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -163,16 +164,7 @@ const Navbar = () => {
         </ul>
 
         {/* Cart */}
-        <a
-          href='#'
-          className={cn('link-focusable')}
-        >
-          <span className={cn('sr-only')}>Cart</span>
-          <Cart
-            aria-hidden={true}
-            focusable={false}
-          />
-        </a>
+        <CartModal />
       </div>
 
       {/* Mobile Decorator */}
