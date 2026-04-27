@@ -19,10 +19,16 @@ const Gallery = ({
   const headingId = useId();
 
   const imageBaseStyles = cn(
-    'size-full',
+    'inline-full',
+    'block-full',
     'rounded-lg',
     'overflow-hidden',
     'object-cover',
+    'aspect-327/174',
+
+    'md:aspect-277/174',
+
+    'lg:aspect-445/280',
   );
 
   return (
@@ -48,7 +54,8 @@ const Gallery = ({
       </h2>
       <div
         className={cn(
-          'size-full',
+          'inline-full',
+          'block-full',
           'flex',
           'flex-col',
           'gap-5',
@@ -75,7 +82,14 @@ const Gallery = ({
         alt={`${title} - view 3`}
         loading='lazy'
         image={third}
-        className={cn(imageBaseStyles)}
+        className={cn(
+          imageBaseStyles,
+
+          'aspect-327/368',
+          'md:aspect-395/368',
+
+          'lg:aspect-635/592',
+        )}
       />
     </section>
   );
