@@ -1,23 +1,22 @@
 import { useId, type ComponentProps } from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import { selectGrandTotal, selectItems } from '@/app/features/cart';
 import { OrderConfirmation } from '@/assets/icons';
 import { Button, Modal } from '@/components/ui';
 import { ResponsiveImage } from '@/components/widgets';
 import { cn } from '@/libs/cn';
 import { toMoney } from '@/libs/helpers';
-import type { CartItem } from '@/libs/types';
 
-interface CartItemListingProps extends ComponentProps<'ul'> {
-  items: CartItem[];
-}
+const CartItemListing = () => {
+  const items = useSelector(selectItems);
 
-const CartItemListing = ({ items, ...props }: CartItemListingProps) => {
   return (
     <ul
-      {...props}
       role='list'
       className={cn(
+        'inline-full',
         'max-block-36',
         'overflow-auto',
         'pe-4',
@@ -95,12 +94,8 @@ const CartItemListing = ({ items, ...props }: CartItemListingProps) => {
   );
 };
 
-interface CartItemCardProps {
-  items: CartItem[];
-}
-
-const CartItemCard = ({ items }: CartItemCardProps) => {
-  const grandTotal = 5446;
+const CartItemCard = () => {
+  const grandTotal = useSelector(selectGrandTotal);
 
   return (
     <div className={cn('flex', 'flex-col', 'md:flex-row')}>
@@ -117,7 +112,7 @@ const CartItemCard = ({ items }: CartItemCardProps) => {
           'bg-gray-400',
         )}
       >
-        <CartItemListing items={items} />
+        <CartItemListing />
       </div>
       <div
         className={cn(
@@ -134,7 +129,7 @@ const CartItemCard = ({ items }: CartItemCardProps) => {
           'bg-black',
         )}
       >
-        <dl className={cn('max-inline-60', 'flex', 'flex-col', 'gap-2')}>
+        <dl className={cn('flex', 'flex-col', 'gap-2')}>
           <dt className={cn('uppercase', 'text-base', 'text-white/50')}>
             Grand Total
           </dt>
@@ -142,6 +137,9 @@ const CartItemCard = ({ items }: CartItemCardProps) => {
             className={cn(
               'text-md',
               'truncate',
+              'max-inline-40',
+
+              'md:max-inline-30',
 
               'text-white',
             )}
@@ -154,27 +152,13 @@ const CartItemCard = ({ items }: CartItemCardProps) => {
   );
 };
 
-interface OrderConfirmationModalProps {
-  open?: boolean;
-  defaultOpen?: boolean;
-  onOpenChange?: (open: boolean) => void;
-  items: CartItem[];
-}
+type OrderConfirmationModalProps = ComponentProps<typeof Modal>;
 
-const OrderConfirmationModal = ({
-  open,
-  defaultOpen,
-  items,
-  onOpenChange,
-}: OrderConfirmationModalProps) => {
+const OrderConfirmationModal = ({ ...props }: OrderConfirmationModalProps) => {
   const headingId = useId();
 
   return (
-    <Modal
-      open={open}
-      defaultOpen={defaultOpen}
-      onOpenChange={onOpenChange}
-    >
+    <Modal {...props}>
       <Modal.Portal>
         <Modal.Overlay />
         <Modal.Content
@@ -235,22 +219,23 @@ const OrderConfirmationModal = ({
             </Modal.Description>
           </div>
 
-          <CartItemCard items={items} />
+          <CartItemCard />
 
-          <Button asChild>
-            <Link
-              to='/'
-              onClick={() => onOpenChange?.(false)}
-              className={cn(
-                'w-full',
-                'mbs-6',
+          <Modal.Close asChild>
+            <Button asChild>
+              <Link
+                to='/'
+                className={cn(
+                  'w-full',
+                  'mbs-6',
 
-                'md:mbs-12',
-              )}
-            >
-              Back to home
-            </Link>
-          </Button>
+                  'md:mbs-12',
+                )}
+              >
+                Back to home
+              </Link>
+            </Button>
+          </Modal.Close>
         </Modal.Content>
       </Modal.Portal>
     </Modal>
