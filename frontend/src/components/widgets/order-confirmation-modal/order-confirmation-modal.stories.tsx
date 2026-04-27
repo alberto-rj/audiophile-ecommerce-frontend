@@ -1,13 +1,19 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { fn } from 'storybook/test';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
+import { addItem } from '@/app/features/cart';
+import type { AppDispatch } from '@/app/store';
 import { OrderConfirmationModal } from '@/components/widgets';
 import { Button } from '@/components/ui';
-import { cartItems } from '@/libs/constants';
 import { cn } from '@/libs/cn';
+import { cartItems } from '@/libs/mocks/cart-items';
+import type { CartItem } from '@/libs/types';
 
-type StoryProps = React.ComponentProps<typeof OrderConfirmationModal>;
+type StoryProps = React.ComponentProps<typeof OrderConfirmationModal> & {
+  items: CartItem[];
+};
 
 const meta = {
   title: 'widgets/OrderConfirmationModal',
@@ -21,6 +27,10 @@ const meta = {
   },
   render: ({ open, ...orderConfirmationModalProps }) => {
     const [openModal, setOpenModal] = useState<boolean>(open === true);
+
+    const dispatch = useDispatch<AppDispatch>();
+
+    cartItems.forEach((item) => dispatch(addItem(item)));
 
     const handleOpenChange = (open: boolean) => {
       setOpenModal(open);
