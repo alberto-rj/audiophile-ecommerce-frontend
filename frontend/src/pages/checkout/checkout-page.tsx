@@ -52,7 +52,7 @@ const CheckoutPage = () => {
             )}
           >
             Checkout
-            <CheckoutForm formId={formId} />
+            <CheckoutForm id={formId} />
           </h1>
         </Card>
         <Card
@@ -79,7 +79,7 @@ const CheckoutPage = () => {
               form={formId}
               variant='primary'
               disabled={true}
-              className={cn('w-full')}
+              className={cn('inline-full')}
             >
               Continue & pay
             </Button>

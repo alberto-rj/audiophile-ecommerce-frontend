@@ -1,4 +1,5 @@
 import { useId } from 'react';
+import { Link } from 'react-router-dom';
 
 import type { FeaturePortraitContent } from '@/libs/types';
 import { ResponsiveImage } from '@/components/widgets';
@@ -10,7 +11,7 @@ interface FeaturePortraitProps {
 }
 
 const FeaturePortrait = ({
-  content: { title, action, slug, image },
+  content: { title, slug, image },
 }: FeaturePortraitProps) => {
   const headingId = useId();
 
@@ -36,7 +37,13 @@ const FeaturePortrait = ({
           alt=''
           loading='lazy'
           image={image}
-          className={cn('absolute', 'inset-0', 'size-full', 'object-cover')}
+          className={cn(
+            'absolute',
+            'inset-0',
+            'inline-full',
+            'block-full',
+            'object-cover',
+          )}
         />
       </div>
 
@@ -50,7 +57,8 @@ const FeaturePortrait = ({
       >
         <div
           className={cn(
-            'size-full',
+            'inline-full',
+            'block-full',
             'flex',
             'flex-col',
             'justify-center',
@@ -75,7 +83,10 @@ const FeaturePortrait = ({
             variant={'outline'}
             asChild
           >
-            <a href={slug}>{action}</a>
+            <Link to={slug}>
+              <span className={cn('sr-only')}>See product: {title}</span>
+              <span aria-hidden={true}>See product</span>
+            </Link>
           </Button>
         </div>
       </div>

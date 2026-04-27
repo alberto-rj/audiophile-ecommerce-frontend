@@ -56,21 +56,18 @@ export interface FeatureHighLightedContent {
   title: string;
   description: string;
   slug: string;
-  action: string;
   image: ResponsiveImageType;
 }
 
 export interface FeatureLandscapeContent {
   title: string;
   slug: string;
-  action: string;
   image: ResponsiveImageType;
 }
 
 export interface FeaturePortraitContent {
   title: string;
   slug: string;
-  action: string;
   image: ResponsiveImageType;
 }
 

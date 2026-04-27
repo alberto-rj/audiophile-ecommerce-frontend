@@ -2,7 +2,7 @@ import { useId } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import type { AppDispatch, RootState } from '@/app/store';
+import type { AppDispatch } from '@/app/store';
 import {
   clearCart,
   selectGrandTotal,
@@ -14,21 +14,16 @@ import { Button, Modal } from '@/components/ui';
 import { QuantitySelector, ResponsiveImage } from '@/components/widgets';
 import { cn } from '@/libs/cn';
 import { toMoney } from '@/libs/helpers';
-import type { CartItem } from '@/libs/types';
 import { Cart } from '@/assets/icons';
 
-interface CartModalProps {
-  onOpenChange?: (open: boolean) => void;
-}
+const CartModal = () => {
+  const headingId = useId();
 
-const CartModal = ({ onOpenChange }: CartModalProps) => {
-  const items = useSelector<RootState, CartItem[]>(selectItems);
-  const itemsCount = useSelector<RootState, number>(selectItemsCount);
-  const grandTotal = useSelector<RootState, number>(selectGrandTotal);
+  const items = useSelector(selectItems);
+  const itemsCount = useSelector(selectItemsCount);
+  const grandTotal = useSelector(selectGrandTotal);
 
   const dispatch = useDispatch<AppDispatch>();
-
-  const headingId = useId();
 
   const handleClearCart = () => {
     dispatch(clearCart());
@@ -45,7 +40,7 @@ const CartModal = ({ onOpenChange }: CartModalProps) => {
   };
 
   return (
-    <Modal onOpenChange={onOpenChange}>
+    <Modal>
       <Modal.Trigger asChild>
         <button
           type='button'
@@ -281,18 +276,19 @@ const CartModal = ({ onOpenChange }: CartModalProps) => {
                 </dd>
               </dl>
 
-              <Button
-                variant='primary'
-                asChild
-              >
-                <Link
-                  to='/checkout'
-                  className={cn('inline-full')}
-                  onClick={() => onOpenChange?.(false)}
+              <Modal.Close asChild>
+                <Button
+                  variant='primary'
+                  asChild
                 >
-                  Checkout
-                </Link>
-              </Button>
+                  <Link
+                    to='/checkout'
+                    className={cn('inline-full')}
+                  >
+                    Checkout
+                  </Link>
+                </Button>
+              </Modal.Close>
             </>
           )}
         </Modal.Content>

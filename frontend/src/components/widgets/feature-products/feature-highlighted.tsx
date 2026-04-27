@@ -1,4 +1,5 @@
 import { useId } from 'react';
+import { Link } from 'react-router-dom';
 
 import type { FeatureHighLightedContent } from '@/libs/types';
 import { cn } from '@/libs/cn';
@@ -10,7 +11,7 @@ interface FeatureHighLightedProps {
 }
 
 const FeatureHighLighted = ({
-  content: { title, description, image, slug, action },
+  content: { title, description, image, slug },
 }: FeatureHighLightedProps) => {
   const headingId = useId();
 
@@ -49,17 +50,20 @@ const FeatureHighLighted = ({
           loading='lazy'
           image={image}
           className={cn(
-            'w-full',
-            'h-auto',
             'object-cover',
+            'aspect-172/207',
+            'mx-auto',
 
+            'md:aspect-197/237',
+
+            'lg:aspect-410/493',
+            'lg:m-0',
             'lg:-mb-33.5',
           )}
         />
         <div
           className={cn(
-            'max-w-87.5',
-
+            'max-inline-87.5',
             'flex',
             'flex-col',
             'items-center',
@@ -93,7 +97,14 @@ const FeatureHighLighted = ({
             >
               {title}
             </h2>
-            <p className={cn('text-base', 'text-white', 'opacity-75')}>
+            <p
+              className={cn(
+                'text-base',
+
+                'text-white',
+                'opacity-75',
+              )}
+            >
               {description}
             </p>
           </div>
@@ -101,7 +112,10 @@ const FeatureHighLighted = ({
             variant={'secondary'}
             asChild
           >
-            <a href={slug}>{action}</a>
+            <Link to={slug}>
+              <span className={cn('sr-only')}>See product: {title}</span>
+              <span aria-hidden={true}>See product</span>
+            </Link>
           </Button>
         </div>
       </div>

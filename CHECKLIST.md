@@ -104,8 +104,8 @@
 
 ### Página Category
 
-- [ ] Título da categoria no topo
-- [ ] Lista de produtos filtrada por categoria
+- [x] Título da categoria no topo
+- [x] Lista de produtos filtrada por categoria
 - [x] Alternância de imagem à esquerda/direita
 - [x] Links para as outras categorias no fundo
 - [x] Responsiva (mobile / tablet / desktop)
@@ -138,17 +138,17 @@
 ### Cart
 
 - [x] Botão "Add to Cart" na página de produto liga ao Redux
-- [ ] Cart drawer/modal abre ao clicar no ícone do carrinho na Navbar
-- [ ] Lista de items no carrinho com quantidade editável
+- [x] Cart drawer/modal abre ao clicar no ícone do carrinho na Navbar
+- [x] Lista de items no carrinho com quantidade editável
 - [ ] Botão para remover item
-- [ ] Totais calculados corretamente (subtotal, envio $50, IVA 20%)
-- [ ] Botão "Remove all" limpa o carrinho
+- [x] Totais calculados corretamente (subtotal, envio $50, IVA 20%)
+- [x] Botão "Remove all" limpa o carrinho
 - [x] Ícone do carrinho mostra o número de items
 - [x] Carrinho fecha ao clicar fora
 
 ### Persistência
 
-- [ ] Estado do carrinho persiste após atualizar o browser (localStorage)
+- [x] Estado do carrinho persiste após atualizar o browser (localStorage)
 
 ### Página Checkout
 

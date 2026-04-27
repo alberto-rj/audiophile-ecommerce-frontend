@@ -1,4 +1,5 @@
 import { useId } from 'react';
+import { Link } from 'react-router-dom';
 
 import type { FeatureLandscapeContent } from '@/libs/types';
 import { cn } from '@/libs/cn';
@@ -10,7 +11,7 @@ interface FeatureLandscapeProps {
 }
 
 const FeatureLandscape = ({
-  content: { title, action, slug, image },
+  content: { title, slug, image },
 }: FeatureLandscapeProps) => {
   const headingId = useId();
 
@@ -19,7 +20,7 @@ const FeatureLandscape = ({
       aria-describedby={headingId}
       className={cn(
         'relative',
-        'w-full',
+        'inline-full',
         'px-6',
         'py-25.25',
 
@@ -44,7 +45,12 @@ const FeatureLandscape = ({
       >
         <h2
           id={headingId}
-          className={cn('text-xl', 'text-black', 'uppercase')}
+          className={cn(
+            'text-xl',
+
+            'text-black',
+            'uppercase',
+          )}
         >
           {title}
         </h2>
@@ -52,14 +58,23 @@ const FeatureLandscape = ({
           variant={'outline'}
           asChild
         >
-          <a href={slug}>{action}</a>
+          <Link to={slug}>
+            <span className={cn('sr-only')}>See product: {title}</span>
+            <span aria-hidden={true}>See product</span>
+          </Link>
         </Button>
       </div>
       <ResponsiveImage
         alt=''
         loading='lazy'
         image={image}
-        className={cn('absolute', 'inset-0', 'size-full', 'object-cover')}
+        className={cn(
+          'absolute',
+          'inset-0',
+          'inline-full',
+          'block-full',
+          'object-cover',
+        )}
       />
     </section>
   );
