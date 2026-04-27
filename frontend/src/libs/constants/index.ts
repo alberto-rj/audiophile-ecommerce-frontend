@@ -3,15 +3,15 @@ import { Facebook, Twitter, Instagram } from '@/assets/icons';
 
 export const navLinks = [
   {
-    url: '/categories/headphones',
+    url: createCategoryRoute('headphones'),
     text: 'Headphones',
   },
   {
-    url: '/categories/speakers',
+    url: createCategoryRoute('speakers'),
     text: 'Speakers',
   },
   {
-    url: '/categories/earphones',
+    url: createCategoryRoute('earphones'),
     text: 'Earphones',
   },
 ];
@@ -29,20 +29,19 @@ import featureHighLightedContentTablet from '@/assets/home/tablet/image-speaker-
 import featureHighLightedContentDesktop from '@/assets/home/desktop/image-speaker-zx9.png';
 
 import type {
-  CategoryContent,
   FeatureHighLightedContent,
   FeaturesSectionContent,
   GalleryContent,
   InTheBoxSectionContent,
   ProductDetailedCardContent,
 } from '@/libs/types';
+import { createCategoryRoute, createProductRoute } from '@/libs/app-routes';
 
 export const featureHighLightedContent: FeatureHighLightedContent = {
   title: 'Zx9 Speaker',
   description:
     'Upgrade to premium speakers that are phenomenally built to deliver truly remarkable sound.',
-  slug: '#',
-  action: 'See product',
+  slug: createProductRoute('zx9-speaker'),
   image: {
     mobile: featureHighLightedContentMobile,
     tablet: featureHighLightedContentTablet,
@@ -60,8 +59,7 @@ import type { FeatureLandscapeContent } from '@/libs/types';
 
 export const featureLandscapeContent: FeatureLandscapeContent = {
   title: 'Zx7 Speaker',
-  slug: '#',
-  action: 'See product',
+  slug: createProductRoute('zx7-speaker'),
   image: {
     mobile: featureLandscapeContentMobile,
     tablet: featureLandscapeContentTablet,
@@ -79,8 +77,7 @@ import type { FeaturePortraitContent } from '@/libs/types';
 
 export const featurePortraitContent: FeaturePortraitContent = {
   title: 'Yx1 Earphones',
-  slug: '#',
-  action: 'See product',
+  slug: createProductRoute('yx1-earphones'),
   image: {
     mobile: featurePortraitContentMobile,
     tablet: featurePortraitContentTablet,
@@ -230,82 +227,3 @@ export const inTheBoxSectionContent: InTheBoxSectionContent = {
   items: newProduct.includes,
 };
 /* "In The Box" Section (end) */
-
-/* cart items (start) */
-import type { CartItem } from '@/libs/types';
-
-export const cartItems: CartItem[] = [
-  {
-    id: 1,
-    slug: 'x99',
-    image: {
-      mobile: 'https://tempimg.cc/64x64',
-      tablet: 'https://tempimg.cc/64x64',
-      desktop: 'https://tempimg.cc/64x64',
-    },
-    name: 'An item with a very long name and price',
-    price: 299999999999999,
-    quantity: 2,
-  },
-  {
-    id: 2,
-    slug: 'x59',
-    image: {
-      mobile: 'https://tempimg.cc/64x64',
-      tablet: 'https://tempimg.cc/64x64',
-      desktop: 'https://tempimg.cc/64x64',
-    },
-    name: 'xx59',
-    price: 899,
-    quantity: 3,
-  },
-  {
-    id: 3,
-    slug: 'yx1 Mark II',
-    image: {
-      mobile: 'https://tempimg.cc/64x64',
-      tablet: 'https://tempimg.cc/64x64',
-      desktop: 'https://tempimg.cc/64x64',
-    },
-    name: 'yx1',
-    price: 599,
-    quantity: 3,
-  },
-  {
-    id: 4,
-    slug: 'zx9 Mark I',
-    image: {
-      mobile: 'https://tempimg.cc/64x64',
-      tablet: 'https://tempimg.cc/64x64',
-      desktop: 'https://tempimg.cc/64x64',
-    },
-    name: 'zx9',
-    price: 499,
-    quantity: 5,
-  },
-  {
-    id: 5,
-    slug: 'yx9 Mark I',
-    image: {
-      mobile: 'https://tempimg.cc/64x64',
-      tablet: 'https://tempimg.cc/64x64',
-      desktop: 'https://tempimg.cc/64x64',
-    },
-    name: 'yx9',
-    price: 399,
-    quantity: 4,
-  },
-  {
-    id: 6,
-    slug: 'k99 Mark II',
-    image: {
-      mobile: 'https://tempimg.cc/64x64',
-      tablet: 'https://tempimg.cc/64x64',
-      desktop: 'https://tempimg.cc/64x64',
-    },
-    name: 'k99',
-    price: 699,
-    quantity: 6,
-  },
-];
-/* cart items (end) */

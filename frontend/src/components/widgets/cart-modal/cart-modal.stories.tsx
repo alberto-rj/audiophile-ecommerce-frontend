@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import type { AppDispatch } from '@/app/store';
-import { addItem, clearCart } from '@/app/features/cart';
+import { addItem } from '@/app/features/cart';
 import { CartModal } from '@/components/widgets';
 import { cn } from '@/libs/cn';
 import { cartItems } from '@/libs/mocks/cart-items';
@@ -21,8 +21,6 @@ const meta = {
   },
   render: ({ cartItems }) => {
     const dispatch = useDispatch<AppDispatch>();
-
-    dispatch(clearCart());
 
     cartItems.forEach((item) => dispatch(addItem(item)));
 

@@ -1,14 +1,14 @@
-import { useState } from 'react';
+import { useState, type ComponentProps } from 'react';
 
 import { Input, Label, Radio } from '@/components/ui';
 import { cn } from '@/libs/cn';
 import type { PaymentMethod } from '@/libs/types';
 
-interface CheckoutFormProps {
-  formId: string;
+interface CheckoutFormProps extends ComponentProps<'form'> {
+  id: string;
 }
 
-export const CheckoutForm = ({ formId }: CheckoutFormProps) => {
+export const CheckoutForm = ({ id, ...formProps }: CheckoutFormProps) => {
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('e-money');
 
   const handlePaymentMethodChange = (value: string) => {
@@ -17,7 +17,8 @@ export const CheckoutForm = ({ formId }: CheckoutFormProps) => {
 
   return (
     <form
-      id={formId}
+      {...formProps}
+      id={id}
       className={cn('form-flow')}
     >
       <fieldset
