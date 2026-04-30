@@ -162,7 +162,7 @@ const OrderConfirmationModal = ({ ...props }: OrderConfirmationModalProps) => {
       <Modal.Portal>
         <Modal.Overlay />
         <Modal.Content
-          aria-labelledby={headingId}
+          aria-describedby={headingId}
           className={cn(
             'inline-[96vw]',
             'max-inline-145',
@@ -191,49 +191,45 @@ const OrderConfirmationModal = ({ ...props }: OrderConfirmationModalProps) => {
               'md:gap-6',
             )}
           >
-            <Modal.Title asChild>
-              <h3
-                id={headingId}
-                className={cn(
-                  'uppercase',
-                  'text-lg',
+            <Modal.Title
+              id={headingId}
+              className={cn(
+                'uppercase',
+                'text-lg',
 
-                  'md:text-2xl',
+                'md:text-2xl',
 
-                  'text-black',
-                )}
-              >
-                Thank you for your order
-              </h3>
+                'text-black',
+              )}
+              asChild
+            >
+              <h3>Thank you for your order</h3>
             </Modal.Title>
-            <Modal.Description asChild>
-              <p
-                className={cn(
-                  'text-base',
+            <Modal.Description
+              className={cn(
+                'text-base',
 
-                  'text-black/50',
-                )}
-              >
-                You will receive an email confirmation shortly.
-              </p>
+                'text-black/50',
+              )}
+              asChild
+            >
+              <p>You will receive an email confirmation shortly.</p>
             </Modal.Description>
           </div>
 
           <CartItemCard />
 
           <Modal.Close asChild>
-            <Button asChild>
-              <Link
-                to='/'
-                className={cn(
-                  'w-full',
-                  'mbs-6',
+            <Button
+              className={cn(
+                'w-full',
+                'mbs-6',
 
-                  'md:mbs-12',
-                )}
-              >
-                Back to home
-              </Link>
+                'md:mbs-12',
+              )}
+              asChild
+            >
+              <Link to='/'>Back to home</Link>
             </Button>
           </Modal.Close>
         </Modal.Content>
