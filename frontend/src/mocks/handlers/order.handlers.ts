@@ -4,6 +4,13 @@ import { orders } from '@/libs/mocks/orders';
 import type { CreateOrderPayload, Order } from '@/libs/types';
 
 import { withAuth } from '../middlewares/with-auth';
+import {
+  cart,
+  getGrandTotal,
+  getShipping,
+  getSubtotal,
+  getVAT,
+} from '@/libs/mocks/cart';
 
 export const getOrders = http.get(
   '/api/orders',
@@ -37,8 +44,12 @@ export const createOrder = http.post(
 
     const createdOrder: Order = {
       ...payload,
-      status: 'pending',
       id: orders.length + 1,
+      status: 'pending',
+      vat: getVAT(cart.items),
+      shipping: getShipping(),
+      subtotal: getSubtotal(cart.items),
+      grandTotal: getGrandTotal(cart.items),
       createdAt: new Date().toISOString(),
     };
 

@@ -12,8 +12,8 @@ import {
   setCredentials,
 } from '@/app/features/auth';
 import { env } from '@/config/env';
-import type { AuthResponse } from '@/libs/types';
 import { API_ENDPOINTS } from '@/config/api-endpoints';
+import type { AuthResponse } from '@/libs/types';
 
 const { VITE_API_BASE_URL } = env;
 
@@ -55,13 +55,13 @@ export const baseQueryWithReauth: BaseQueryFn<
   unknown,
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
-  const authResult = await baseQueryWithAuth(args, api, extraOptions);
+  let authResult = await baseQueryWithAuth(args, api, extraOptions);
 
   if (authResult.error?.status !== 401) {
     return authResult;
   }
 
-  const refreshResult = await baseQueryWithAuth(
+  const refreshResult = await baseQuery(
     {
       url: API_ENDPOINTS.refresh,
       method: 'POST',
@@ -72,9 +72,12 @@ export const baseQueryWithReauth: BaseQueryFn<
 
   if (refreshResult.error) {
     api.dispatch(clearCredentials());
-  } else {
-    api.dispatch(setCredentials(refreshResult.data as AuthResponse));
+    return authResult;
   }
+
+  api.dispatch(setCredentials(refreshResult.data as AuthResponse));
+
+  authResult = await baseQueryWithAuth(args, api, extraOptions);
 
   return authResult;
 };
