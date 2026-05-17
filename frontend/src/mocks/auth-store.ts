@@ -12,12 +12,19 @@ const defaultUser: MockUser = {
 export const mockUsers: MockUser[] = [defaultUser];
 
 export const mockSessions = new Map<string, number>();
+export const mockRefreshSessions = new Map<string, number>();
 
 export function generateMockToken(userId: number): string {
   const unique = Math.floor(Date.now() * Math.random());
   const token = `mock-token-${userId}-${unique}`;
   mockSessions.set(token, userId);
 
+  return token;
+}
+
+export function generateMockRefreshToken(userId: number): string {
+  const token = `mock-refresh-${userId}-${Date.now()}`;
+  mockRefreshSessions.set(token, userId);
   return token;
 }
 
@@ -37,6 +44,16 @@ export function generateUserFromToken(token: string): MockUser | null {
   return foundUser;
 }
 
+export function generateUserFromRefreshToken(
+  refreshToken: string,
+): MockUser | null {
+  const userId = mockRefreshSessions.get(refreshToken);
+  if (typeof userId === 'undefined') return null;
+
+  const user = mockUsers.find((u) => u.id === userId);
+  return user ?? null;
+}
+
 export function extractTokenFromHeader(
   authHeader: string | null,
 ): string | null {
@@ -47,4 +64,8 @@ export function extractTokenFromHeader(
   const [, token] = authHeader.split(' ');
 
   return token || null;
+}
+
+export function invalidateRefreshToken(refreshToken: string): void {
+  mockRefreshSessions.delete(refreshToken);
 }
