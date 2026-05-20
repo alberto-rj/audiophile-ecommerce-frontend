@@ -63,7 +63,7 @@ export function extractTokenFromHeader(
 
   const [, token] = authHeader.split(' ');
 
-  return token || null;
+  return token ?? null;
 }
 
 export function invalidateRefreshToken(refreshToken: string): void {
