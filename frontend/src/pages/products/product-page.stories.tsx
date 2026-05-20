@@ -1,7 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { ProductPage } from '@/pages';
-import { createProductRoute } from '@/libs/app-routes';
+import { APP_ROUTES } from '@/config/app-routes';
+import {
+  getCategories,
+  getProductBySlug,
+  makeInfiniteHandler,
+  makeNotFoundHandler,
+} from '@/mocks/handlers';
 
 type StoryProps = React.ComponentProps<typeof ProductPage>;
 
@@ -10,7 +16,8 @@ const meta = {
   component: ProductPage,
   parameters: {
     layout: 'fullscreen',
-    routePath: createProductRoute(':slug'),
+    routePath: `${APP_ROUTES.productDetails}`,
+    route: `${APP_ROUTES.products}/xx99-mark-two-headphones`,
   },
 } satisfies Meta<StoryProps>;
 
@@ -18,23 +25,28 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const XX59Headphones: Story = {
-  name: 'Headphones / XX99',
+const endpoint = '/api/products/:slug';
+
+export const FetchingProduct: Story = {
   parameters: {
-    route: createProductRoute('xx99-mark-two-headphones'),
+    msw: {
+      handlers: [makeInfiniteHandler(endpoint), getCategories],
+    },
   },
 };
 
-export const XX99Headphones: Story = {
-  name: 'Speakers / ZX7',
+export const ProductNotFound: Story = {
   parameters: {
-    route: createProductRoute('zx7-speaker'),
+    msw: {
+      handlers: [makeNotFoundHandler(endpoint), getCategories],
+    },
   },
 };
 
-export const YX1Earphones: Story = {
-  name: 'Earphones / YX1',
+export const ProductDetails: Story = {
   parameters: {
-    route: createProductRoute('yx1-earphones'),
+    msw: {
+      handlers: [getProductBySlug, getCategories],
+    },
   },
 };

@@ -88,14 +88,12 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
 
 const ProductDetailsQuery = () => {
   const slug = useParams()?.slug;
-  const {
-    isLoading,
-    isError,
-    refetch,
-    data: product,
-  } = useGetProductBySlugQuery(slug!, {
-    skip: !slug,
-  });
+  const { isLoading, isError, refetch, data } = useGetProductBySlugQuery(
+    slug!,
+    {
+      skip: !slug,
+    },
+  );
 
   if (isLoading) {
     return (
@@ -129,7 +127,9 @@ const ProductDetailsQuery = () => {
     );
   }
 
-  return <ProductDetails product={product!} />;
+  const { product } = data!;
+
+  return <ProductDetails product={product} />;
 };
 
 const ProductPage = () => {
