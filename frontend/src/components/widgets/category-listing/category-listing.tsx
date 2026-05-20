@@ -10,12 +10,7 @@ import { CategoryList } from './category-list';
 const CategoryListing = () => {
   const headingId = useId();
 
-  const {
-    isLoading,
-    isError,
-    refetch,
-    data: categories,
-  } = useGetCategoriesQuery();
+  const { isLoading, isError, refetch, data } = useGetCategoriesQuery();
 
   if (isLoading) {
     return (
@@ -45,7 +40,7 @@ const CategoryListing = () => {
     );
   }
 
-  const items = categories!;
+  const { categories } = data!;
 
   return (
     <section aria-labelledby={headingId}>
@@ -55,7 +50,7 @@ const CategoryListing = () => {
       >
         Our categories
       </h2>
-      <CategoryList items={items} />
+      <CategoryList items={categories} />
     </section>
   );
 };
