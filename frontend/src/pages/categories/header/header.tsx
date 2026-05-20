@@ -4,7 +4,7 @@ interface HeaderProps {
   title: string;
 }
 
-const Header = ({ title }: HeaderProps) => {
+export const Header = ({ title }: HeaderProps) => {
   return (
     <header
       className={cn(
@@ -34,5 +34,3 @@ const Header = ({ title }: HeaderProps) => {
     </header>
   );
 };
-
-export default Header;

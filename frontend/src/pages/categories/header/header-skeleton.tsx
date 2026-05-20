@@ -5,7 +5,7 @@ interface HeaderSkeletonProps {
   className?: string;
 }
 
-const HeaderSkeleton = ({ className }: HeaderSkeletonProps) => {
+export const HeaderSkeleton = ({ className }: HeaderSkeletonProps) => {
   return (
     <header
       aria-hidden={true}
@@ -35,5 +35,3 @@ const HeaderSkeleton = ({ className }: HeaderSkeletonProps) => {
     </header>
   );
 };
-
-export default HeaderSkeleton;

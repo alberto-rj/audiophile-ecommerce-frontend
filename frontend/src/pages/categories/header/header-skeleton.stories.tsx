@@ -1,18 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-import { Header } from '@/components/widgets';
+import { HeaderSkeleton } from './header-skeleton';
 
-type StoryProps = React.ComponentProps<typeof Header>;
+type StoryProps = React.ComponentProps<typeof HeaderSkeleton>;
 
 const meta = {
-  title: 'widgets/Header',
-  component: Header,
+  title: 'pages/categoryPage/HeaderSkeleton',
+  component: HeaderSkeleton,
   parameters: {
     layout: 'fullscreen',
   },
-  args: {
-    title: 'headphones',
-  },
+  args: {},
 } satisfies Meta<StoryProps>;
 
 export default meta;
