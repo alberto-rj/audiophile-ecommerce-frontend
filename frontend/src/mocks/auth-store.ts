@@ -1,8 +1,9 @@
 import { user } from '@/libs/mocks';
 
 import type { MockUser } from './types';
+import type { BaseUser } from '@/libs/types';
 
-const defaultUser: MockUser = {
+export const defaultUser: MockUser = {
   id: user.id,
   name: user.name,
   email: user.email,
@@ -13,6 +14,13 @@ export const mockUsers: MockUser[] = [defaultUser];
 
 export const mockSessions = new Map<string, number>();
 export const mockRefreshSessions = new Map<string, number>();
+
+export function getMockCredentials(): { user: BaseUser; accessToken: string } {
+  return {
+    user,
+    accessToken: generateMockToken(user.id),
+  };
+}
 
 export function generateMockToken(userId: number): string {
   const unique = Math.floor(Date.now() * Math.random());
@@ -63,7 +71,7 @@ export function extractTokenFromHeader(
 
   const [, token] = authHeader.split(' ');
 
-  return token || null;
+  return token ?? null;
 }
 
 export function invalidateRefreshToken(refreshToken: string): void {

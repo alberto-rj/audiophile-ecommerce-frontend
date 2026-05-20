@@ -38,9 +38,6 @@ export { default as GoBack } from './go-back/go-back';
 
 export { default as Hero } from './hero/hero';
 
-export { default as Header } from './header/header';
-export { default as HeaderSkeleton } from './header/header-skeleton';
-
 export { ProductList } from './product-listing/product-list';
 export { ProductListSkeleton } from './product-listing/product-list-skeleton';
 

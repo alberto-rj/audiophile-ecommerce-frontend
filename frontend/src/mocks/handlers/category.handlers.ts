@@ -1,8 +1,11 @@
-import { delay, http, HttpResponse } from 'msw';
+import { http, HttpResponse } from 'msw';
 
-import { products } from '@/libs/mocks/products';
-import { categories } from '@/libs/mocks/categories';
-import type { Category, Product } from '@/libs/types';
+import { products, categories } from '@/libs/mocks';
+import type {
+  CategoryListResponse,
+  CategoryResponse,
+  Product,
+} from '@/libs/types';
 
 function sortProductsByNewFirst(products: Product[]) {
   return [...products].sort((a, b) => {
@@ -18,51 +21,65 @@ function sortProductsByNewFirst(products: Product[]) {
   });
 }
 
-export const categoryHandlers = [
-  http.get<never, never, Category[]>('/api/categories', async () => {
-    await delay(3 * 1000);
+export const getCategoryProducts = http.get(
+  '/api/categories/:slug/products',
+  async ({ params }) => {
+    const { slug } = params as { slug?: string };
 
-    return HttpResponse.json(categories);
-  }),
+    const foundCategory = categories.find(
+      (category) => category.slug.toLowerCase() === slug?.toLowerCase(),
+    );
 
-  http.get<{ slug: string }, never, Category>(
-    '/api/categories/:slug',
-    async ({ params }) => {
-      await delay(3 * 1000);
+    if (!foundCategory) {
+      return new HttpResponse(undefined, { status: 404 });
+    }
 
-      const foundCategory = categories.find(
-        (category) => category.slug === params.slug,
-      );
+    const filteredProducts = sortProductsByNewFirst(
+      products.filter((p) => p.category.toLowerCase() === slug?.toLowerCase()),
+    );
 
-      if (!foundCategory) {
-        return new HttpResponse(null, { status: 404 });
-      }
-
-      return HttpResponse.json(foundCategory);
-    },
-  ),
-
-  http.get<{ slug: string }, Product[]>(
-    '/api/categories/:slug/products',
-    async ({ params }) => {
-      await delay(3 * 1000);
-
-      const foundCategory = categories.find(
-        (category) => category.slug === params.slug,
-      );
-
-      if (!foundCategory) {
-        return new HttpResponse(null, { status: 404 });
-      }
-
-      const filteredProducts = sortProductsByNewFirst(
-        products.filter((p) => p.category === params.slug),
-      );
-
-      return HttpResponse.json({
+    const categoryResponse: CategoryResponse = {
+      category: {
         ...foundCategory,
-        items: filteredProducts,
-      });
-    },
-  ),
+        products: filteredProducts,
+      },
+    };
+
+    return HttpResponse.json(categoryResponse);
+  },
+);
+
+export const getCategoryBySlug = http.get(
+  '/api/categories/:slug',
+  async ({ params }) => {
+    const { slug } = params as { slug?: string };
+
+    const foundCategory = categories.find(
+      (category) => category.slug.toLowerCase() === slug?.toLowerCase(),
+    );
+
+    if (!foundCategory) {
+      return new HttpResponse(undefined, { status: 404 });
+    }
+
+    const categoryResponse: CategoryResponse = {
+      category: foundCategory,
+    };
+
+    return HttpResponse.json(categoryResponse);
+  },
+);
+
+export const getCategories = http.get('/api/categories', async () => {
+  const categoryListResponse: CategoryListResponse = {
+    categories: categories,
+  };
+
+  return HttpResponse.json(categoryListResponse);
+});
+
+export const categoryHandlers = [
+  getCategories,
+  getCategoryBySlug,
+  getCategoryProducts,
 ];

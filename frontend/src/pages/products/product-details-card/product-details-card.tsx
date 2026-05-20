@@ -13,6 +13,7 @@ import { Button, Spinner } from '@/components/ui';
 import { cn } from '@/libs/cn';
 import { setPendingCartItem, toMoney } from '@/libs/helpers';
 import type { Product } from '@/libs/types';
+import { useToast } from '@/hooks';
 
 interface ProductDetailsCardProps {
   product: Product;
@@ -32,15 +33,19 @@ const ProductDetailsCard = ({
 
   const [addCartItem, { isLoading }] = useAddCartItemMutation();
 
+  const toast = useToast();
+
   const formattedPrice = toMoney(price);
 
   const handleAddCartItem = async () => {
     try {
-      const { cart } = await addCartItem({ productId: id, quantity }).unwrap();
-      console.log(cart);
-    } catch (error) {
-      alert('Failed to add item to cart.');
-      console.error(error);
+      await addCartItem({ productId: id, quantity }).unwrap();
+    } catch {
+      toast.error({
+        title: 'Add to cart failed',
+        description:
+          "We couldn't add this product to your cart. Please try again.",
+      });
     }
   };
 
@@ -188,7 +193,7 @@ const ProductDetailsCard = ({
                     variant='primary'
                     size='sm'
                   />
-                  Adding to cart...
+                  Adding...
                 </>
               ) : (
                 <>Add to cart</>

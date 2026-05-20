@@ -1,23 +1,26 @@
 import { useParams } from 'react-router-dom';
 
-import { useGetProductsByCategorySlugQuery } from '@/app/services/categories-api';
+import { useGetCategoryProductsQuery } from '@/app/services/categories-api';
 import {
   BestGear,
   CategoryListing,
   CategoryListSkeleton,
   ErrorMessage,
-  Header,
-  HeaderSkeleton,
   ProductList,
   ProductListSkeleton,
 } from '@/components/widgets';
 import { cn } from '@/libs/cn';
 
-const CategoryPage = () => {
-  const slug = useParams()?.slug;
+import { HeaderSkeleton } from './header/header-skeleton';
+import { Header } from './header/header';
 
-  const { isLoading, isError, refetch, data } =
-    useGetProductsByCategorySlugQuery(slug!, { skip: !slug });
+const CategoryPage = () => {
+  const { slug } = useParams() as { slug?: string };
+
+  const { isLoading, isError, refetch, data } = useGetCategoryProductsQuery(
+    slug!,
+    { skip: !slug },
+  );
 
   if (isLoading) {
     return (
@@ -54,7 +57,7 @@ const CategoryPage = () => {
     );
   }
 
-  const category = data!;
+  const { category } = data!;
 
   return (
     <>
@@ -62,7 +65,7 @@ const CategoryPage = () => {
       <div>
         <div className={cn('wrapper', 'flow', 'flow-spacing')}>
           <CategoryListing />
-          <ProductList products={category.items} />
+          <ProductList products={category.products!} />
           <BestGear />
         </div>
       </div>
