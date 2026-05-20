@@ -5,7 +5,7 @@ import { API_ENDPOINTS } from '@/config/api-endpoints';
 
 import { baseQuery } from './base-query';
 
-export const categoryApi = createApi({
+export const categoriesApi = createApi({
   reducerPath: 'categoriesApi',
   baseQuery: baseQuery,
   endpoints: (builder) => ({
@@ -28,4 +28,4 @@ export const {
   useGetCategoriesQuery,
   useGetCategoryBySlugQuery,
   useGetCategoryProductsQuery,
-} = categoryApi;
+} = categoriesApi;

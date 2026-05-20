@@ -8,7 +8,7 @@ import {
 import { cartReducer } from '@/app/features/cart';
 import { authApi } from '@/app/services/auth-api';
 import { cartApi } from '@/app/services/cart-api';
-import { categoryApi } from '@/app/services/categories-api';
+import { categoriesApi } from '@/app/services/categories-api';
 import { ordersApi } from '@/app/services/orders-api';
 import { productsApi } from '@/app/services/products-api';
 import { usersApi } from '@/app/services/users-api';
@@ -17,7 +17,7 @@ export const store = configureStore({
   reducer: {
     [authApi.reducerPath]: authApi.reducer,
     [usersApi.reducerPath]: usersApi.reducer,
-    [categoryApi.reducerPath]: categoryApi.reducer,
+    [categoriesApi.reducerPath]: categoriesApi.reducer,
     [productsApi.reducerPath]: productsApi.reducer,
     [cartApi.reducerPath]: cartApi.reducer,
     [ordersApi.reducerPath]: ordersApi.reducer,
@@ -28,7 +28,7 @@ export const store = configureStore({
     return getDefaultMiddleware()
       .concat(authApi.middleware)
       .concat(usersApi.middleware)
-      .concat(categoryApi.middleware)
+      .concat(categoriesApi.middleware)
       .concat(productsApi.middleware)
       .concat(cartApi.middleware)
       .concat(ordersApi.middleware);
@@ -36,10 +36,6 @@ export const store = configureStore({
 });
 
 store.subscribe(() => {
-  const cartState = store.getState().cart;
-  const rawCartState = JSON.stringify(cartState);
-  localStorage.setItem('cart', rawCartState);
-
   const token = selectAccessToken(store.getState());
 
   if (typeof token === 'string') {
