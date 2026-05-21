@@ -78,6 +78,53 @@ export const getCategories = http.get('/api/categories', async () => {
   return HttpResponse.json(categoryListResponse);
 });
 
+export const makeGetCategoriesHandler = (
+  options: { limit?: number } = { limit: undefined },
+) => {
+  const { limit = categories.length } = options;
+
+  return http.get('/api/categories', async () => {
+    const filteredCategories = categories.slice(0, limit);
+
+    const response: CategoryListResponse = {
+      categories: filteredCategories,
+    };
+
+    return HttpResponse.json(response);
+  });
+};
+
+export const makeGetCategoryProductsHandler = (
+  options: { limit?: number } = { limit: undefined },
+) => {
+  const { limit = categories.length } = options;
+
+  return http.get('/api/categories/:slug/products', async ({ params }) => {
+    const { slug } = params as { slug?: string };
+
+    const foundCategory = categories.find(
+      (category) => category.slug.toLowerCase() === slug?.toLowerCase(),
+    );
+
+    if (!foundCategory) {
+      return new HttpResponse(undefined, { status: 404 });
+    }
+
+    const filteredProducts = sortProductsByNewFirst(
+      products.filter((p) => p.category.toLowerCase() === slug?.toLowerCase()),
+    ).slice(0, limit);
+
+    const categoryResponse: CategoryResponse = {
+      category: {
+        ...foundCategory,
+        products: filteredProducts,
+      },
+    };
+
+    return HttpResponse.json(categoryResponse);
+  });
+};
+
 export const categoryHandlers = [
   getCategories,
   getCategoryBySlug,

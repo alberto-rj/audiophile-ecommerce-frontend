@@ -31,5 +31,11 @@ export const makeNotFoundHandler = (endpoint: string) => {
   });
 };
 
-export { getCategoryProducts, getCategories } from './category.handlers';
+export {
+  getCategoryProducts,
+  getCategories,
+  makeGetCategoriesHandler,
+  makeGetCategoryProductsHandler,
+} from './category.handlers';
+
 export { getProductBySlug, getProducts } from './product.handlers';
