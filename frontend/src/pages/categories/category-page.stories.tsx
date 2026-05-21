@@ -3,8 +3,8 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { APP_ROUTES } from '@/config/app-routes';
 import { API_ENDPOINTS } from '@/config/api-endpoints';
 import {
-  getCategories,
-  getCategoryProducts,
+  makeGetCategoriesHandler,
+  makeGetCategoryProductsHandler,
   makeInfiniteHandler,
   makeNotFoundHandler,
 } from '@/mocks/handlers';
@@ -47,7 +47,29 @@ export const CategoryNotFound: Story = {
 export const WithProducts: Story = {
   parameters: {
     msw: {
-      handlers: [getCategoryProducts, getCategories],
+      handlers: [makeGetCategoryProductsHandler(), makeGetCategoriesHandler()],
+    },
+  },
+};
+
+export const WithSingleProduct: Story = {
+  parameters: {
+    msw: {
+      handlers: [
+        makeGetCategoryProductsHandler({ limit: 1 }),
+        makeGetCategoriesHandler(),
+      ],
+    },
+  },
+};
+
+export const WithNoProduct: Story = {
+  parameters: {
+    msw: {
+      handlers: [
+        makeGetCategoryProductsHandler({ limit: 0 }),
+        makeGetCategoriesHandler(),
+      ],
     },
   },
 };
