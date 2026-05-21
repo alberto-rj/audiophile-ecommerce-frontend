@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { OrderConfirmation } from '@/assets/icons';
 import { Button, Modal } from '@/components/ui';
+import { APP_ROUTES } from '@/config/app-routes';
 import { cn } from '@/libs/cn';
 import { toMoney } from '@/libs/helpers';
 import type { Order, OrderItem } from '@/libs/types';
@@ -211,10 +212,10 @@ const OrderConfirmationModal = ({
               )}
               asChild
             >
-              <h3>Thank you for your order</h3>
+              <h2>Thank you for your order</h2>
             </Modal.Title>
-            <Modal.Description asChild>
-              <p>You will receive an email confirmation shortly.</p>
+            <Modal.Description>
+              You will receive an email confirmation shortly.
             </Modal.Description>
           </div>
 
@@ -230,7 +231,7 @@ const OrderConfirmationModal = ({
               )}
               asChild
             >
-              <Link to='/'>Back to home</Link>
+              <Link to={APP_ROUTES.home}>Back to home</Link>
             </Button>
           </Modal.Close>
         </Modal.Content>
