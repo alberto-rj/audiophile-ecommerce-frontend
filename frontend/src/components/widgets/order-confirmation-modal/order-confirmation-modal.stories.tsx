@@ -58,7 +58,7 @@ export const Default: Story = {
   args: {
     order: {
       ...order,
-      items: [...orderItems].slice(0, 3),
+      items: orderItems.slice(0, 3),
     },
   },
 };
@@ -76,7 +76,7 @@ export const WithSingleItem: Story = {
   args: {
     order: {
       ...order,
-      items: [...orderItems].slice(0, 1),
+      items: orderItems.slice(0, 1),
     },
   },
 };
