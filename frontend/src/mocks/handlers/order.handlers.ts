@@ -2,8 +2,6 @@ import { http, HttpResponse } from 'msw';
 
 import { orders } from '@/libs/mocks/orders';
 import type { CreateOrderPayload, Order } from '@/libs/types';
-
-import { withAuth } from '../middlewares/with-auth';
 import {
   cart,
   getGrandTotal,
@@ -11,6 +9,9 @@ import {
   getSubtotal,
   getVAT,
 } from '@/libs/mocks/cart';
+
+import { withAuth } from '../middlewares/with-auth';
+import { withDelay } from '../middlewares/with-delay';
 
 export const getOrders = http.get(
   '/api/orders',
@@ -23,40 +24,44 @@ export const getOrders = http.get(
 export const getOrderById = http.get(
   '/api/orders/:slug',
 
-  withAuth(async ({ params }) => {
-    const { slug } = params as { slug?: string };
+  withDelay(
+    withAuth(async ({ params }) => {
+      const { slug } = params as { slug?: string };
 
-    const foundOrder = orders.find((order) => order.id === Number(slug));
+      const foundOrder = orders.find((order) => order.id === Number(slug));
 
-    if (typeof foundOrder === 'undefined') {
-      HttpResponse.json(undefined, { status: 404 });
-    }
+      if (typeof foundOrder === 'undefined') {
+        return HttpResponse.json(undefined, { status: 404 });
+      }
 
-    return HttpResponse.json({ order: foundOrder });
-  }),
+      return HttpResponse.json({ order: foundOrder });
+    }),
+  ),
 );
 
 export const createOrder = http.post(
   '/api/orders',
 
-  withAuth(async ({ request }) => {
-    const payload = (await request.json()) as CreateOrderPayload;
+  withDelay(
+    withAuth(async ({ request }) => {
+      const payload = (await request.json()) as CreateOrderPayload;
 
-    const createdOrder: Order = {
-      ...payload,
-      id: orders.length + 1,
-      status: 'pending',
-      vat: getVAT(cart.items),
-      shipping: getShipping(),
-      subtotal: getSubtotal(cart.items),
-      grandTotal: getGrandTotal(cart.items),
-      createdAt: new Date().toISOString(),
-    };
+      const createdOrder: Order = {
+        ...payload,
+        id: orders.length + 1,
+        status: 'pending',
+        vat: getVAT(cart.items),
+        shipping: getShipping(),
+        subtotal: getSubtotal(cart.items),
+        grandTotal: getGrandTotal(cart.items),
+        createdAt: new Date().toISOString(),
+      };
 
-    orders.push(createdOrder);
+      orders.push(createdOrder);
 
-    return HttpResponse.json({ order: createdOrder }, { status: 201 });
-  }),
+      return HttpResponse.json({ order: createdOrder }, { status: 201 });
+    }),
+  ),
 );
 
 export const orderHandlers = [getOrders, getOrderById, createOrder];

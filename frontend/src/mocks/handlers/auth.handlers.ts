@@ -12,6 +12,7 @@ import {
   mockUsers,
 } from '../auth-store';
 import { withAuth } from '../middlewares/with-auth';
+import { withDelay } from '../middlewares/with-delay';
 
 const REFRESH_TOKEN_COOKIE = 'refreshToken';
 
@@ -40,10 +41,11 @@ function setRefreshCookie(httpResponse: Response, token: string): Response {
 }
 
 export const authHandlers = [
-  http.post<never, RegisterPayload>(
+  http.post(
     '/api/auth/register',
-    async ({ request }) => {
-      const { name, email, password } = await request.json();
+    withDelay(async ({ request }) => {
+      const { name, email, password } =
+        (await request.json()) as RegisterPayload;
 
       const foundUser = mockUsers.find((user) => user.email === email);
 
@@ -67,82 +69,90 @@ export const authHandlers = [
       const httpResponse = HttpResponse.json(response, { status: 201 });
 
       return setRefreshCookie(httpResponse, refreshToken);
-    },
+    }),
   ),
 
-  http.post<never, LoginPayload>('/api/auth/login', async ({ request }) => {
-    const { email, password } = await request.json();
+  http.post(
+    '/api/auth/login',
+    withDelay(async ({ request }) => {
+      const { email, password } = (await request.json()) as LoginPayload;
 
-    const foundUser = mockUsers.find((user) => user.email === email);
+      const foundUser = mockUsers.find((user) => user.email === email);
 
-    if (typeof foundUser === 'undefined') {
-      return HttpResponse.json(undefined, { status: 401 });
-    }
-    if (foundUser.password !== password) {
-      return HttpResponse.json(undefined, { status: 401 });
-    }
+      if (typeof foundUser === 'undefined') {
+        return HttpResponse.json(undefined, { status: 401 });
+      }
+      if (foundUser.password !== password) {
+        return HttpResponse.json(undefined, { status: 401 });
+      }
 
-    const { response, refreshToken } = buildAuthResponse(foundUser);
-    const httpResponse = HttpResponse.json(response);
+      const { response, refreshToken } = buildAuthResponse(foundUser);
+      const httpResponse = HttpResponse.json(response);
 
-    return setRefreshCookie(httpResponse, refreshToken);
-  }),
+      return setRefreshCookie(httpResponse, refreshToken);
+    }),
+  ),
 
   http.post(
     '/api/auth/logout',
-    withAuth(async ({ request }) => {
-      const authHeader = request.headers.get('Authorization');
-      const accessToken = extractTokenFromHeader(authHeader);
+    withDelay(
+      withAuth(async ({ request }) => {
+        const authHeader = request.headers.get('Authorization');
+        const accessToken = extractTokenFromHeader(authHeader);
 
-      if (typeof accessToken === 'string') {
-        mockSessions.delete(accessToken);
-      }
+        if (typeof accessToken === 'string') {
+          mockSessions.delete(accessToken);
+        }
 
+        const cookieHeader = request.headers.get('Cookie') ?? '';
+        const refreshToken = cookieHeader
+          .split(';')
+          .map((c) => c.trim())
+          .find((c) => c.startsWith(`${REFRESH_TOKEN_COOKIE}=`))
+          ?.split('=')[1];
+
+        if (typeof refreshToken === 'string') {
+          invalidateRefreshToken(refreshToken);
+        }
+
+        const httpResponse = HttpResponse.json(undefined, { status: 204 });
+        httpResponse.headers.append(
+          'Set-Cookie',
+          `${REFRESH_TOKEN_COOKIE}=; HttpOnly; Path=/; Max-Age=0`,
+        );
+
+        return httpResponse;
+      }),
+    ),
+  ),
+
+  http.post(
+    '/api/auth/refresh',
+    withDelay(async ({ request }) => {
       const cookieHeader = request.headers.get('Cookie') ?? '';
+
       const refreshToken = cookieHeader
         .split(';')
         .map((c) => c.trim())
         .find((c) => c.startsWith(`${REFRESH_TOKEN_COOKIE}=`))
         ?.split('=')[1];
 
-      if (typeof refreshToken === 'string') {
-        invalidateRefreshToken(refreshToken);
+      if (typeof refreshToken === 'undefined') {
+        return HttpResponse.json(undefined, { status: 401 });
       }
 
-      const httpResponse = HttpResponse.json(undefined, { status: 204 });
-      httpResponse.headers.append(
-        'Set-Cookie',
-        `${REFRESH_TOKEN_COOKIE}=; HttpOnly; Path=/; Max-Age=0`,
-      );
+      const foundUser = generateUserFromRefreshToken(refreshToken);
 
-      return httpResponse;
+      if (foundUser === null) {
+        return HttpResponse.json(undefined, { status: 401 });
+      }
+
+      invalidateRefreshToken(refreshToken);
+      const { response, refreshToken: newRefreshToken } =
+        buildAuthResponse(foundUser);
+
+      const httpResponse = HttpResponse.json(response);
+      return setRefreshCookie(httpResponse, newRefreshToken);
     }),
   ),
-
-  http.post('/api/auth/refresh', async ({ request }) => {
-    const cookieHeader = request.headers.get('Cookie') ?? '';
-
-    const refreshToken = cookieHeader
-      .split(';')
-      .map((c) => c.trim())
-      .find((c) => c.startsWith(`${REFRESH_TOKEN_COOKIE}=`))
-      ?.split('=')[1];
-
-    if (typeof refreshToken === 'undefined') {
-      return HttpResponse.json(undefined, { status: 401 });
-    }
-
-    const foundUser = generateUserFromRefreshToken(refreshToken);
-
-    if (foundUser === null) {
-      return HttpResponse.json(undefined, { status: 401 });
-    }
-
-    invalidateRefreshToken(refreshToken);
-    const { response, refreshToken: newRefreshToken } =
-      buildAuthResponse(foundUser);
-
-    const httpResponse = HttpResponse.json(response);
-    return setRefreshCookie(httpResponse, newRefreshToken);
-  }),
 ];
