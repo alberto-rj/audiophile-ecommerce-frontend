@@ -1,10 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { http, HttpResponse } from 'msw';
 
 import { APP_ROUTES } from '@/config/app-routes';
 import { API_ENDPOINTS } from '@/config/api-endpoints';
-import { withInfiniteDelay } from '@/mocks';
-import { getCategories, getCategoryProducts } from '@/mocks/handlers';
+import {
+  getCategories,
+  getCategoryProducts,
+  makeInfiniteHandler,
+  makeNotFoundHandler,
+} from '@/mocks/handlers';
 import { CategoryPage } from '@/pages';
 
 type StoryProps = React.ComponentProps<typeof CategoryPage>;
@@ -23,19 +26,12 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const categoryProductsEndpoint = `/api${API_ENDPOINTS.categories}/:slug/products`;
+const endpoint = `/api${API_ENDPOINTS.categories}/:slug/products`;
 
 export const FetchingProducts: Story = {
   parameters: {
     msw: {
-      handlers: [
-        http.get(
-          categoryProductsEndpoint,
-          withInfiniteDelay(async () => {
-            return HttpResponse.json(undefined);
-          }),
-        ),
-      ],
+      handlers: [makeInfiniteHandler(endpoint)],
     },
   },
 };
@@ -43,11 +39,7 @@ export const FetchingProducts: Story = {
 export const CategoryNotFound: Story = {
   parameters: {
     msw: {
-      handlers: [
-        http.get(categoryProductsEndpoint, async () => {
-          return new HttpResponse(undefined, { status: 404 });
-        }),
-      ],
+      handlers: [makeNotFoundHandler(endpoint)],
     },
   },
 };
