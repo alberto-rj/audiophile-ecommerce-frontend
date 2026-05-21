@@ -5,11 +5,11 @@ import { setIsCartModalOpen } from '@/app/features/cart';
 import { API_ENDPOINTS } from '@/config/api-endpoints';
 import type { AuthResponse, LoginPayload, RegisterPayload } from '@/libs/types';
 
-import { baseQueryWithAuth } from './base-query';
+import { baseQueryWithReauth } from './base-query';
 
 export const authApi = createApi({
   reducerPath: 'authApi',
-  baseQuery: baseQueryWithAuth,
+  baseQuery: baseQueryWithReauth,
   endpoints: (builder) => ({
     register: builder.mutation<AuthResponse, RegisterPayload>({
       query: (payload) => ({
