@@ -1,10 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { http, HttpResponse } from 'msw';
 
 import { Navbar } from '@/components/widgets';
-import { API_ENDPOINTS } from '@/config/api-endpoints';
 import { WithCredentialsDecorator } from '@/config/storybook';
-import { emptyCartResponse, filledCartResponse } from '@/libs/mocks';
+import { makeGetCartHandler } from '@/mocks/handlers';
 
 type StoryProps = React.ComponentProps<typeof Navbar>;
 
@@ -14,11 +12,7 @@ const meta = {
   parameters: {
     layout: 'fullscreen',
     msw: {
-      handlers: [
-        http.get(`/api${API_ENDPOINTS.cart}`, () =>
-          HttpResponse.json(emptyCartResponse),
-        ),
-      ],
+      handlers: [makeGetCartHandler({ limit: 0 })],
     },
   },
 } satisfies Meta<StoryProps>;
@@ -37,11 +31,7 @@ export const WithFilledCart: Story = {
   decorators: [WithCredentialsDecorator],
   parameters: {
     msw: {
-      handlers: [
-        http.get(`/api${API_ENDPOINTS.cart}`, () =>
-          HttpResponse.json(filledCartResponse),
-        ),
-      ],
+      handlers: [makeGetCartHandler()],
     },
   },
 };
