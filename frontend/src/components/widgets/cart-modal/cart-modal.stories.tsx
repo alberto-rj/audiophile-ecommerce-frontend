@@ -1,29 +1,28 @@
-import { useDispatch } from 'react-redux';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-import type { AppDispatch } from '@/app/store';
-import { addItem } from '@/app/features/cart';
-import { CartModal } from '@/components/widgets';
+import { CartModalTrigger } from '@/components/widgets';
 import { cn } from '@/libs/cn';
-import { cartItems } from '@/libs/mocks/cart-items';
-import type { CartItem } from '@/libs/types';
+import { WithCredentialsDecorator } from '@/config/storybook';
+import { API_ENDPOINTS } from '@/config/api-endpoints';
+import {
+  makeGetCartHandler,
+  makeInfiniteHandler,
+  makeNotFoundHandler,
+} from '@/mocks/handlers';
 
-type StoryProps = React.ComponentProps<typeof CartModal> & {
-  cartItems: CartItem[];
-};
+type StoryProps = React.ComponentProps<typeof CartModalTrigger>;
 
 const meta = {
-  title: 'widgets/CartModal',
-  component: CartModal,
+  title: 'widgets/CartModalTrigger',
+  component: CartModalTrigger,
   args: {},
   parameters: {
     layout: 'fullscreen',
+    msw: {
+      handlers: [makeGetCartHandler({ limit: 0 })],
+    },
   },
-  render: ({ cartItems }) => {
-    const dispatch = useDispatch<AppDispatch>();
-
-    cartItems.forEach((item) => dispatch(addItem(item)));
-
+  render: () => {
     return (
       <div
         className={cn(
@@ -35,7 +34,7 @@ const meta = {
           'bg-black',
         )}
       >
-        <CartModal />
+        <CartModalTrigger />
       </div>
     );
   },
@@ -45,26 +44,46 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
-  args: {
-    cartItems: [...cartItems].splice(0, 3),
-  },
+const endpoint = `/api${API_ENDPOINTS.cart}`;
+
+export const Default: Story = {};
+
+export const WithLoggedUser: Story = {
+  decorators: [WithCredentialsDecorator],
 };
 
-export const WithMultipleItems: Story = {
-  args: {
-    cartItems: [...cartItems],
+export const FetchingCart: Story = {
+  parameters: {
+    msw: {
+      handlers: [makeInfiniteHandler(endpoint)],
+    },
   },
+  decorators: [WithCredentialsDecorator],
+};
+
+export const CartNotFound: Story = {
+  parameters: {
+    msw: {
+      handlers: [makeNotFoundHandler(endpoint)],
+    },
+  },
+  decorators: [WithCredentialsDecorator],
+};
+
+export const WithItems: Story = {
+  parameters: {
+    msw: {
+      handlers: [makeGetCartHandler()],
+    },
+  },
+  decorators: [WithCredentialsDecorator],
 };
 
 export const WithSingleItem: Story = {
-  args: {
-    cartItems: [...cartItems].splice(0, 1),
+  parameters: {
+    msw: {
+      handlers: [makeGetCartHandler({ limit: 1 })],
+    },
   },
-};
-
-export const WithNoItem: Story = {
-  args: {
-    cartItems: [],
-  },
+  decorators: [WithCredentialsDecorator],
 };
