@@ -1,14 +1,19 @@
 import { http, HttpResponse } from 'msw';
 
 import { orders } from '@/libs/mocks/orders';
-import type { CreateOrderPayload, Order } from '@/libs/types';
+import type {
+  CreateOrderPayload,
+  Order,
+  OrderListResponse,
+  OrderResponse,
+} from '@/libs/types';
 import {
   cart,
   getGrandTotal,
   getShipping,
   getSubtotal,
   getVAT,
-} from '@/libs/mocks/cart';
+} from '@/libs/mocks';
 
 import { withAuth } from '../middlewares/with-auth';
 import { withDelay } from '../middlewares/with-delay';
@@ -16,9 +21,15 @@ import { withDelay } from '../middlewares/with-delay';
 export const getOrders = http.get(
   '/api/orders',
 
-  withAuth(async () => {
-    return HttpResponse.json({ orders });
-  }),
+  withDelay(
+    withAuth(async () => {
+      const response: OrderListResponse = {
+        orders: orders,
+      };
+
+      return HttpResponse.json(response);
+    }),
+  ),
 );
 
 export const getOrderById = http.get(
@@ -34,7 +45,11 @@ export const getOrderById = http.get(
         return HttpResponse.json(undefined, { status: 404 });
       }
 
-      return HttpResponse.json({ order: foundOrder });
+      const response: OrderResponse = {
+        order: foundOrder,
+      };
+
+      return HttpResponse.json(response);
     }),
   ),
 );
@@ -59,7 +74,11 @@ export const createOrder = http.post(
 
       orders.push(createdOrder);
 
-      return HttpResponse.json({ order: createdOrder }, { status: 201 });
+      const response: OrderResponse = {
+        order: createdOrder,
+      };
+
+      return HttpResponse.json(response, { status: 201 });
     }),
   ),
 );

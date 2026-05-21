@@ -34,7 +34,7 @@ export const CheckoutForm = ({
   onSubmittingChange,
   ...formProps
 }: CheckoutFormProps) => {
-  const user = useSelector(selectUser);
+  const user = useSelector(selectUser)!;
 
   const [createOrder, { isLoading }] = useCreateOrderMutation();
 
@@ -64,16 +64,14 @@ export const CheckoutForm = ({
 
   const onSubmit = async (data: CheckoutFormData) => {
     try {
-      const userId = user!.id;
-
-      const response = await createOrder({
+      const { order } = await createOrder({
         ...data,
-        userId,
+        userId: user.id,
       }).unwrap();
 
       reset();
 
-      setCreatedOrder(response.order);
+      setCreatedOrder(order);
       setIsModalOpen(true);
     } catch {
       toast.error({

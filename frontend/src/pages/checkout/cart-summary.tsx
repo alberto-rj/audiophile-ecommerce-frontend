@@ -158,5 +158,7 @@ export const CartSummaryQuery = () => {
     );
   }
 
-  return <CartSummary cart={data!.cart} />;
+  const { cart } = data!;
+
+  return <CartSummary cart={cart} />;
 };

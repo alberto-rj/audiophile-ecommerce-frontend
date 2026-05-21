@@ -11,4 +11,4 @@ export { categories } from './categories';
 export { orders } from './orders';
 export { products } from './products';
 export { user } from './user';
-export { cart, emptyCartResponse, filledCartResponse } from './cart';
+export { cart, getGrandTotal, getShipping, getSubtotal, getVAT } from './cart';

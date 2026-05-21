@@ -1,4 +1,4 @@
-import type { Cart, CartItem, CartResponse } from '@/libs/types';
+import type { Cart, CartItem } from '@/libs/types';
 
 import { cartItems } from './cart-items';
 import { user } from './user';
@@ -27,12 +27,4 @@ export const cart: Cart = {
   shipping: getShipping(),
   grandTotal: getGrandTotal(cartItems),
   items: cartItems,
-};
-
-export const emptyCartResponse: CartResponse = {
-  cart: { ...cart, items: [], grandTotal: 0, subtotal: 0 },
-};
-
-export const filledCartResponse: CartResponse = {
-  cart: { ...cart },
 };
