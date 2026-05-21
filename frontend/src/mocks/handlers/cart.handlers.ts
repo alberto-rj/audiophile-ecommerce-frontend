@@ -6,6 +6,7 @@ import { products } from '@/libs/mocks';
 import type {
   AddCartItemPayload,
   CartItem,
+  CartResponse,
   UpdateCartItemQuantityPayload,
 } from '@/libs/types';
 
@@ -135,6 +136,29 @@ export const clearCart = http.delete(
     }),
   ),
 );
+
+export const makeGetCartHandler = (
+  options: { limit?: number } = { limit: undefined },
+) => {
+  const { limit = cart.items.length } = options;
+
+  return http.get(
+    `/api${API_ENDPOINTS.cart}`,
+
+    withDelay(
+      withAuth(async () => {
+        cart.items.sort((a, b) => a.name.localeCompare(b.name));
+
+        const customCart = { ...cart, items: cart.items.slice(0, limit) };
+        const response: CartResponse = {
+          cart: customCart,
+        };
+
+        return HttpResponse.json(response);
+      }),
+    ),
+  );
+};
 
 export const cartHandlers = [
   getCart,

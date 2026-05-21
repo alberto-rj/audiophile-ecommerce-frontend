@@ -103,10 +103,12 @@ interface SingleCartItemProps {
 }
 
 const SingleCartItem = ({
-  item: { id, productId, image, name, price, quantity },
+  item: { productId, image, name, price, quantity },
 }: SingleCartItemProps) => {
   const [updateItemQuantity, { isLoading: isUpdatingItemQuantity }] =
     useUpdateCartItemQuantityMutation();
+
+  const toast = useToast();
 
   const handleQuantityChange = useDebouncedCallback(
     async ({
@@ -118,8 +120,11 @@ const SingleCartItem = ({
     }) => {
       try {
         await updateItemQuantity({ productId, quantity }).unwrap();
-      } catch (error) {
-        console.error(`Failed to update quantity for ${id}`, error);
+      } catch {
+        toast.error({
+          title: 'Quantity update failed',
+          description: `We couldn't update the quantity for ${name}. Please try again.`,
+        });
       }
     },
     500,
