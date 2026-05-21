@@ -75,8 +75,8 @@ export const CheckoutForm = ({
       setIsModalOpen(true);
     } catch {
       toast.error({
-        title: 'Unable to place order',
-        description: 'Something interrupted the checkout process. Try again.',
+        title: 'Checkout failed',
+        description: "We couldn't place your order. Please try again.",
       });
     }
   };
