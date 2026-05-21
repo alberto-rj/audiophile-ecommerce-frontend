@@ -84,6 +84,7 @@ export const LoginForm = () => {
               type='email'
               inputMode='email'
               id='email'
+              data-testid='email'
               autoComplete='email'
               placeholder='Your email'
               required
@@ -108,6 +109,7 @@ export const LoginForm = () => {
             <Input
               type='password'
               id='password'
+              data-testid='password'
               autoComplete='current-password'
               placeholder='Your password'
               required
@@ -123,6 +125,7 @@ export const LoginForm = () => {
             )}
           </FormField>
           <Button
+            data-testid='signIn'
             type='submit'
             variant='primary'
             disabled={isLoading}
