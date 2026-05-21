@@ -70,7 +70,7 @@ export const CartNotFound: Story = {
   decorators: [WithCredentialsDecorator],
 };
 
-export const WithItems: Story = {
+export const WithFilledCart: Story = {
   parameters: {
     msw: {
       handlers: [makeGetCartHandler()],
