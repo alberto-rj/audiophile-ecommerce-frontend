@@ -79,6 +79,7 @@ const CheckoutPage = () => {
           >
             <CartSummaryQuery />
             <Button
+              data-testid='submit'
               type='submit'
               form={formId}
               variant='primary'
