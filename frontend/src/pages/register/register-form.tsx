@@ -81,6 +81,7 @@ export const RegisterForm = () => {
             <Input
               type='text'
               id='name'
+              data-testid='name'
               autoComplete='name'
               placeholder='John Doe'
               required
@@ -106,6 +107,7 @@ export const RegisterForm = () => {
               type='email'
               inputMode='email'
               id='email'
+              data-testid='email'
               autoComplete='email'
               placeholder='johndoe@example.com'
               required
@@ -130,6 +132,7 @@ export const RegisterForm = () => {
             <Input
               type='password'
               id='password'
+              data-testid='password'
               autoComplete='new-password'
               placeholder='Min. 8 characters'
               required
@@ -154,6 +157,7 @@ export const RegisterForm = () => {
             <Input
               type='password'
               id='confirmPassword'
+              data-testid='confirmPassword'
               autoComplete='new-password'
               placeholder='Your password'
               required

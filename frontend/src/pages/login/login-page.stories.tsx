@@ -34,8 +34,8 @@ export const FilledValid: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    await userEvent.type(canvas.getByLabelText(/email/i), 'john@example.com');
-    await userEvent.type(canvas.getByLabelText(/password/i), 'password123');
+    await userEvent.type(canvas.getByTestId('email'), 'john@example.com');
+    await userEvent.type(canvas.getByTestId('password'), 'password123');
   },
 };
 
@@ -43,12 +43,14 @@ export const InvalidCredentials: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    await userEvent.type(canvas.getByLabelText(/email/i), 'wrong@example.com');
-    await userEvent.type(canvas.getByLabelText(/password/i), 'wrongpassword');
+    await userEvent.type(canvas.getByTestId('email'), 'wrong@example.com');
+    await userEvent.type(canvas.getByTestId('password'), 'wrongpassword');
 
-    await userEvent.click(canvas.getByRole('button', { name: /sign in/i }));
+    await userEvent.click(canvas.getByTestId('signIn'));
 
-    await expect(await canvas.findByRole('alert')).toBeInTheDocument();
+    const alert = await canvas.findByRole('status');
+
+    await expect(alert).toBeInTheDocument();
   },
 };
 
@@ -56,8 +58,8 @@ export const ValidationErrors: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    await userEvent.click(canvas.getByLabelText(/email/i));
-    await userEvent.click(canvas.getByLabelText(/password/i));
+    await userEvent.click(canvas.getByTestId('email'));
+    await userEvent.click(canvas.getByTestId('password'));
     await userEvent.tab();
   },
 };

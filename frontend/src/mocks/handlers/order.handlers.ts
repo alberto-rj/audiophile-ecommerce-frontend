@@ -16,7 +16,7 @@ import {
 } from '@/libs/mocks';
 
 import { withAuth } from '../middlewares/with-auth';
-import { withDelay } from '../middlewares/with-delay';
+import { withDelay, withInfiniteDelay } from '../middlewares/with-delay';
 
 export const getOrders = http.get(
   '/api/orders',
@@ -82,5 +82,66 @@ export const createOrder = http.post(
     }),
   ),
 );
+
+export const makeCreateOrderHandler = (
+  options: {
+    type?: 'error' | 'infinite' | 'default';
+  } = {},
+) => {
+  const { type = 'default' } = options;
+
+  if (type === 'error') {
+    return http.post(
+      '/api/orders',
+
+      withDelay(
+        withAuth(async () => {
+          return HttpResponse.json(undefined, { status: 500 });
+        }),
+      ),
+    );
+  }
+
+  if (type === 'infinite') {
+    return http.post(
+      '/api/orders',
+
+      withInfiniteDelay(
+        withAuth(async () => {
+          return HttpResponse.json(undefined, { status: 201 });
+        }),
+      ),
+    );
+  }
+
+  return http.post(
+    '/api/orders',
+
+    withDelay(
+      withAuth(async ({ request }) => {
+        const payload = (await request.json()) as CreateOrderPayload;
+
+        const createdOrder: Order = {
+          ...payload,
+          id: orders.length + 1,
+          status: 'pending',
+          vat: getVAT(cart.items),
+          shipping: getShipping(),
+          subtotal: getSubtotal(cart.items),
+          grandTotal: getGrandTotal(cart.items),
+          createdAt: new Date().toISOString(),
+        };
+
+        orders.push(createdOrder);
+
+        const response: OrderResponse = {
+          order: createdOrder,
+        };
+
+        return HttpResponse.json(response, { status: 201 });
+      }),
+    ),
+  );
+};
 
 export const orderHandlers = [getOrders, getOrderById, createOrder];

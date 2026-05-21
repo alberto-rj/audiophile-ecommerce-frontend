@@ -113,6 +113,7 @@ export const CheckoutForm = ({
                 </Label>
                 <Input
                   id='name'
+                  data-testid='name'
                   autoComplete='cc-name'
                   placeholder='John Doe'
                   required
@@ -138,6 +139,7 @@ export const CheckoutForm = ({
                   type='email'
                   inputMode='email'
                   id='email'
+                  data-testid='email'
                   autoComplete='email'
                   placeholder='johndoe@example.com'
                   required
@@ -161,6 +163,7 @@ export const CheckoutForm = ({
                 </Label>
                 <Input
                   id='phone'
+                  data-testid='phone'
                   autoComplete='tel'
                   placeholder='+1 202-55-0136'
                   required
@@ -189,6 +192,7 @@ export const CheckoutForm = ({
                 </Label>
                 <Input
                   id='address'
+                  data-testid='address'
                   autoCapitalize='address-line1'
                   placeholder='1137 Williams Avenue'
                   required
@@ -212,6 +216,7 @@ export const CheckoutForm = ({
                 </Label>
                 <Input
                   id='zip'
+                  data-testid='zip'
                   autoComplete='postal-code'
                   placeholder='10001'
                   required
@@ -235,6 +240,7 @@ export const CheckoutForm = ({
                 </Label>
                 <Input
                   id='city'
+                  data-testid='city'
                   placeholder='New York'
                   autoComplete='address-level2'
                   required
@@ -258,6 +264,7 @@ export const CheckoutForm = ({
                 </Label>
                 <Input
                   id='country'
+                  data-testid='country'
                   placeholder='United States'
                   autoComplete='country-name'
                   required
@@ -293,6 +300,7 @@ export const CheckoutForm = ({
                     render={({ field }) => (
                       <>
                         <Radio
+                          data-testid='e-money'
                           label='e-Money'
                           value='e-money'
                           name={field.name}
@@ -300,6 +308,7 @@ export const CheckoutForm = ({
                           onChange={field.onChange}
                         />
                         <Radio
+                          data-testid='e-cash-on-delivery'
                           label='Cash on Delivery'
                           value='cash-on-delivery'
                           ariaDescribedby='cashOnDeliveryAlert'
@@ -365,6 +374,7 @@ export const CheckoutForm = ({
                     </Label>
                     <Input
                       id='eMoneyNumber'
+                      data-testid='eMoneyNumber'
                       autoComplete='cc-number'
                       placeholder='238521993'
                       required
@@ -390,6 +400,7 @@ export const CheckoutForm = ({
                     </Label>
                     <Input
                       id='eMoneyPin'
+                      data-testid='eMoneyPin'
                       autoComplete='cc-csc'
                       placeholder='6891'
                       required
