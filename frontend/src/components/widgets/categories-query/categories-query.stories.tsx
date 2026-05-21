@@ -1,20 +1,20 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-import { CategoryListing } from '@/components/widgets';
+import { CategoriesQuery } from '@/components/widgets';
 import { cn } from '@/libs/cn';
 
-type StoryProps = React.ComponentProps<typeof CategoryListing>;
+type StoryProps = React.ComponentProps<typeof CategoriesQuery>;
 
 const meta = {
-  title: 'widgets/CategoryListing',
-  component: CategoryListing,
+  title: 'widgets/CategoriesQuery',
+  component: CategoriesQuery,
   parameters: {
     layout: 'fullscreen',
   },
   render: () => {
     return (
       <div className={cn('py-10', 'wrapper')}>
-        <CategoryListing />
+        <CategoriesQuery />
       </div>
     );
   },

@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useGetProductBySlugQuery } from '@/app/services/products-api';
 import {
   BestGear,
-  CategoryListing,
+  CategoriesQuery,
   ErrorMessage,
   GoBack,
 } from '@/components/widgets';
@@ -140,7 +140,7 @@ const ProductPage = () => {
       </GoBack>
       <div className={cn('wrapper', 'flow')}>
         <ProductDetailsQuery />
-        <CategoryListing />
+        <CategoriesQuery />
         <BestGear />
       </div>
     </div>

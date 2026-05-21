@@ -7,7 +7,7 @@ import { cn } from '@/libs/cn';
 import { CategoryListSkeleton } from './category-list-skeleton';
 import { CategoryList } from './category-list';
 
-const CategoryListing = () => {
+const CategoriesQuery = () => {
   const headingId = useId();
 
   const { isLoading, isError, refetch, data } = useGetCategoriesQuery();
@@ -55,4 +55,4 @@ const CategoryListing = () => {
   );
 };
 
-export default CategoryListing;
+export default CategoriesQuery;
