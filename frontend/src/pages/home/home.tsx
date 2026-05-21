@@ -1,6 +1,6 @@
 import {
   BestGear,
-  CategoryListing,
+  CategoriesQuery,
   FeatureProducts,
   Hero,
 } from '@/components/widgets';
@@ -18,7 +18,7 @@ function Home() {
       <Hero product={heroNewProduct} />
       <div>
         <div className={cn('wrapper', 'flow', 'flow-spacing')}>
-          <CategoryListing />
+          <CategoriesQuery />
           <FeatureProducts
             highLightedContent={featureHighLightedContent}
             portraitContent={featurePortraitContent}

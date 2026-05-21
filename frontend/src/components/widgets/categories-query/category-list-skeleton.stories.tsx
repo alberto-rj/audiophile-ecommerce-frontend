@@ -5,7 +5,7 @@ import { CategoryListSkeleton } from './category-list-skeleton';
 type StoryProps = React.ComponentProps<typeof CategoryListSkeleton>;
 
 const meta = {
-  title: 'widgets/CategoryListing/CategoryListSkeleton',
+  title: 'widgets/CategoriesQuery/CategoryListSkeleton',
   component: CategoryListSkeleton,
   parameters: {
     layout: 'centered',
