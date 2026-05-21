@@ -39,3 +39,5 @@ export {
 } from './category.handlers';
 
 export { getProductBySlug, getProducts } from './product.handlers';
+
+export { makeGetCartHandler } from './cart.handlers';
