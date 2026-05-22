@@ -17,6 +17,7 @@ import {
 
 import { withAuth } from '../middlewares/with-auth';
 import { withDelay, withInfiniteDelay } from '../middlewares/with-delay';
+import { makeInfiniteHandler, makeNotFoundHandler } from '.';
 
 export const getOrders = http.get(
   '/api/orders',
@@ -82,6 +83,38 @@ export const createOrder = http.post(
     }),
   ),
 );
+
+export const makeGetOrdersHandler = (
+  options: { type?: 'error' | 'infinite' | 'default'; limit?: number } = {
+    limit: undefined,
+  },
+) => {
+  const { type = 'default', limit = orders.length } = options;
+
+  const endpoint = '/api/orders';
+
+  if (type === 'error') {
+    return makeNotFoundHandler(endpoint);
+  }
+
+  if (type === 'infinite') {
+    return makeInfiniteHandler(endpoint);
+  }
+
+  return http.get(
+    endpoint,
+
+    withDelay(
+      withAuth(async () => {
+        const response: OrderListResponse = {
+          orders: orders.slice(limit),
+        };
+
+        return HttpResponse.json(response);
+      }),
+    ),
+  );
+};
 
 export const makeCreateOrderHandler = (
   options: {

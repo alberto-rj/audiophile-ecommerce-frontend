@@ -42,4 +42,4 @@ export { getProductBySlug, getProducts } from './product.handlers';
 
 export { makeGetCartHandler } from './cart.handlers';
 
-export { makeCreateOrderHandler } from './order.handlers';
+export { makeCreateOrderHandler, makeGetOrdersHandler } from './order.handlers';
