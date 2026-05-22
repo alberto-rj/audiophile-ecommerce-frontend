@@ -30,9 +30,9 @@ const RegisterPage = () => {
         />
       </Link>
       <FormCard.Header>
-        <FormCard.Title>Create account</FormCard.Title>
+        <FormCard.Title>Sign up</FormCard.Title>
         <FormCard.Description>
-          Please fill the fields below to create a new account.
+          Enter your details to create your account.
         </FormCard.Description>
       </FormCard.Header>
       <FormCard.Body>
