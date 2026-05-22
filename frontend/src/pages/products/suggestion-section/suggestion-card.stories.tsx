@@ -8,7 +8,7 @@ import SuggestionCard from './suggestion-card';
 type StoryProps = React.ComponentProps<typeof SuggestionCard>;
 
 const meta = {
-  title: 'pages/ProductPage/SuggestionSection/SuggestionCard',
+  title: 'pages/ProductDetailsPage/SuggestionSection/SuggestionCard',
   component: SuggestionCard,
   parameters: {
     layout: 'fullscreen',

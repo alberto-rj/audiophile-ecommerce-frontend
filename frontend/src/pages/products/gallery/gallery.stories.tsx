@@ -8,7 +8,7 @@ import Gallery from './gallery';
 type StoryProps = React.ComponentProps<typeof Gallery>;
 
 const meta = {
-  title: 'pages/ProductPage/Gallery',
+  title: 'pages/ProductDetailsPage/Gallery',
   component: Gallery,
   parameters: {
     layout: 'fullscreen',
