@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
+import { APP_ROUTES } from '@/config/app-routes';
 import { HomePage } from '@/pages';
 
 type StoryProps = React.ComponentProps<typeof HomePage>;
@@ -9,6 +10,8 @@ const meta = {
   component: HomePage,
   parameters: {
     layout: 'fullscreen',
+    route: APP_ROUTES.home,
+    routePath: APP_ROUTES.home,
   },
 } satisfies Meta<StoryProps>;
 

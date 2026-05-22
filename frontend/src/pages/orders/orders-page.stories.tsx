@@ -1,8 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
+import { APP_ROUTES } from '@/config/app-routes';
 import { WithCredentialsDecorator } from '@/config/storybook';
-import { OrdersPage } from '@/pages';
 import { makeGetOrdersHandler } from '@/mocks/handlers';
+import { OrdersPage } from '@/pages';
 
 type StoryProps = React.ComponentProps<typeof OrdersPage>;
 
@@ -11,6 +12,8 @@ const meta = {
   component: OrdersPage,
   parameters: {
     layout: 'fullscreen',
+    route: APP_ROUTES.orders,
+    routePath: APP_ROUTES.orders,
   },
   decorators: [WithCredentialsDecorator],
 } satisfies Meta<StoryProps>;
