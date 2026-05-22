@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { userEvent, within } from 'storybook/test';
 
+import { APP_ROUTES } from '@/config/app-routes';
 import { ProfilePage } from '@/pages';
 
 type StoryProps = React.ComponentProps<typeof ProfilePage>;
@@ -10,6 +11,8 @@ const meta = {
   component: ProfilePage,
   parameters: {
     layout: 'fullscreen',
+    route: APP_ROUTES.profile,
+    routePath: APP_ROUTES.profile,
   },
 } satisfies Meta<StoryProps>;
 
