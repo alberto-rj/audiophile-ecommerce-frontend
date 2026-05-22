@@ -138,14 +138,14 @@ export const CartSummaryQuery = () => {
   const { isLoading, isError, refetch, data } = useGetCartQuery();
 
   if (isLoading) {
-    return <Spinner />;
+    return <Spinner className={cn('mx-auto')} />;
   }
 
   if (isError) {
     return (
       <ErrorMessage>
         <ErrorMessage.Description>
-          We could not load your cart. Please try again.
+          We couldn't load your cart. Please try again.
         </ErrorMessage.Description>
 
         <ErrorMessage.Retry
