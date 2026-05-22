@@ -8,7 +8,7 @@ export const CategoryPage = lazy(
 );
 
 export const ProductDetailsPage = lazy(
-  () => import('@/pages/products/product-details-page'),
+  () => import('@/pages/product-details/product-details-page'),
 );
 
 export const CheckoutPage = lazy(
