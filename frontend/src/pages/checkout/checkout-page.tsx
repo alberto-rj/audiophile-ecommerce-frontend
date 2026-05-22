@@ -1,7 +1,7 @@
 import { useId, useState } from 'react';
 
 import { Button, Card, Spinner } from '@/components/ui';
-import { GoBack } from '@/components/widgets';
+import { GoBack, StatusVisuallyHidden } from '@/components/widgets';
 import { useSecondaryPage } from '@/hooks';
 import { cn } from '@/libs/cn';
 
@@ -16,6 +16,9 @@ const CheckoutPage = () => {
 
   return (
     <>
+      <StatusVisuallyHidden>
+        {isSubmitting ? 'Your order is being processed.' : ''}
+      </StatusVisuallyHidden>
       <GoBack>
         <GoBack.Control />
       </GoBack>
@@ -92,7 +95,7 @@ const CheckoutPage = () => {
                     variant='primary'
                     size='sm'
                   />
-                  Submitting...
+                  Processing order...
                 </>
               ) : (
                 <>Continue & pay</>
