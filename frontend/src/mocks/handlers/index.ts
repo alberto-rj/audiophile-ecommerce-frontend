@@ -25,6 +25,21 @@ export const makeInfiniteHandler = (endpoint: string) => {
   );
 };
 
+export const makeGetInfiniteHandler = (endpoint: string) => {
+  return http.get(
+    endpoint,
+    withInfiniteDelay(async () => {
+      return HttpResponse.json(undefined);
+    }),
+  );
+};
+
+export const makeGetStatusHandler = (endpoint: string, status: number) => {
+  return http.get(endpoint, async () => {
+    return new HttpResponse(undefined, { status });
+  });
+};
+
 export const makeNotFoundHandler = (endpoint: string) => {
   return http.get(endpoint, async () => {
     return new HttpResponse(undefined, { status: 404 });
@@ -42,4 +57,8 @@ export { getProductBySlug, getProducts } from './product.handlers';
 
 export { makeGetCartHandler } from './cart.handlers';
 
-export { makeCreateOrderHandler, makeGetOrdersHandler } from './order.handlers';
+export {
+  makeCreateOrderHandler,
+  makeGetOrdersHandler,
+  makeGetOrderHandler,
+} from './order.handlers';

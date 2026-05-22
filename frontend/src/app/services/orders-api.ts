@@ -1,12 +1,11 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 
+import { API_ENDPOINTS } from '@/config/api-endpoints';
 import type {
   CreateOrderPayload,
   OrderListResponse,
   OrderResponse,
 } from '@/libs/types';
-
-import { API_ENDPOINTS } from '@/config/api-endpoints';
 
 import { baseQueryWithReauth } from './base-query';
 

@@ -3,7 +3,11 @@ import { useParams } from 'react-router-dom';
 
 import { useGetOrderByIdQuery } from '@/app/services/orders-api';
 import { Card, Spinner } from '@/components/ui';
-import { ErrorMessage, GoBack } from '@/components/widgets';
+import {
+  ErrorMessage,
+  GoBack,
+  StatusVisuallyHidden,
+} from '@/components/widgets';
 import { useSecondaryPage } from '@/hooks';
 import { cn } from '@/libs/cn';
 import {
@@ -29,14 +33,15 @@ const OrderCard = ({ order, children }: OrderCardProps) => {
         'flex',
         'flex-col',
         'gap-8',
+        'p-6',
 
         'border-bs-4',
         {
-          'border-(--order-delivered)': orderStatus === 'delivered',
-          'border-(--order-pending)': orderStatus === 'pending',
-          'border-(--order-shipped)': orderStatus === 'shipped',
-          'border-(--order-cancelled)': orderStatus === 'cancelled',
-          'border-(--order-processing)': orderStatus === 'processing',
+          'border-success-1400': orderStatus === 'delivered',
+          'border-warning-1100': orderStatus === 'pending',
+          'border-primary-950': orderStatus === 'shipped',
+          'border-danger-950': orderStatus === 'cancelled',
+          'border-info-950': orderStatus === 'processing',
         },
       )}
     >
@@ -85,18 +90,18 @@ const BasicInfoCard = ({ order }: BaseCardProps) => {
             <dd
               className={cn(
                 'text-2xs',
+
                 {
-                  'text-(--order-delivered)':
+                  'text-success-1400':
                     isHighlighted && orderStatus === 'delivered',
-                  'text-(--order-pending)':
+                  'text-warning-1100':
                     isHighlighted && orderStatus === 'pending',
-                  'text-(--order-shipped)':
+                  'text-primary-950':
                     isHighlighted && orderStatus === 'shipped',
-                  'text-(--order-cancelled)':
+                  'text-danger-950':
                     isHighlighted && orderStatus === 'cancelled',
-                  'text-(--order-processing)':
+                  'text-info-950':
                     isHighlighted && orderStatus === 'processing',
-                  'text-black': !isHighlighted,
                 },
                 'uppercase',
               )}
@@ -209,17 +214,16 @@ const SummaryCard = ({ order }: BaseCardProps) => {
                 'lg:max-inline-35',
 
                 {
-                  'text-(--order-delivered)':
+                  'text-success-1400':
                     isHighlighted && orderStatus === 'delivered',
-                  'text-(--order-pending)':
+                  'text-warning-1100':
                     isHighlighted && orderStatus === 'pending',
-                  'text-(--order-shipped)':
+                  'text-primary-950':
                     isHighlighted && orderStatus === 'shipped',
-                  'text-(--order-cancelled)':
+                  'text-danger-950':
                     isHighlighted && orderStatus === 'cancelled',
-                  'text-(--order-processing)':
+                  'text-info-950':
                     isHighlighted && orderStatus === 'processing',
-                  'text-black': !isHighlighted,
                 },
                 'uppercase',
               )}
@@ -288,11 +292,36 @@ const ShippingAddressCard = ({ order }: BaseCardProps) => {
   );
 };
 
-const OrderDetailsPage = () => {
-  useSecondaryPage();
+interface OrderDetailsProps {
+  order: Order;
+}
 
-  const slug = useParams()?.slug;
-  const orderId = slug ? parseInt(slug, 10) : undefined;
+const OrderDetails = ({ order }: OrderDetailsProps) => {
+  return (
+    <div
+      className={cn(
+        'inline-full',
+        'grid',
+        'gap-12',
+
+        'md:grid-cols-2',
+        'md:items-start',
+        'md:justify-center',
+        'md:justify-items-center',
+      )}
+    >
+      <BasicInfoCard order={order} />
+      <ShippingAddressCard order={order} />
+      <ItemsOrderedCard order={order} />
+      <SummaryCard order={order} />
+    </div>
+  );
+};
+
+const OrderDetailsQuery = () => {
+  const { slug } = useParams() as { slug?: string };
+
+  const orderId = typeof slug === 'string' ? parseInt(slug, 10) : undefined;
 
   const { isLoading, isError, refetch, data } = useGetOrderByIdQuery(orderId!, {
     skip: typeof orderId === 'undefined',
@@ -300,10 +329,10 @@ const OrderDetailsPage = () => {
 
   if (isLoading) {
     return (
-      <Spinner
-        aria-label='Loading order...'
-        className={cn('mx-auto')}
-      />
+      <>
+        <StatusVisuallyHidden>Loading order details...</StatusVisuallyHidden>
+        <Spinner className={cn('mx-auto')} />
+      </>
     );
   }
 
@@ -311,19 +340,20 @@ const OrderDetailsPage = () => {
     return (
       <ErrorMessage>
         <ErrorMessage.Description>
-          Failed to load order.
+          We couldn't load your order details. Please try again.
         </ErrorMessage.Description>
-        <ErrorMessage.Retry
-          onClick={refetch}
-          aria-label='Try again - reload order'
-        >
-          Try again
-        </ErrorMessage.Retry>
+        <ErrorMessage.Retry onClick={refetch}>Try again</ErrorMessage.Retry>
       </ErrorMessage>
     );
   }
 
-  const order = data!.order;
+  const { order } = data!;
+
+  return <OrderDetails order={order} />;
+};
+
+const OrderDetailsPage = () => {
+  useSecondaryPage();
 
   return (
     <>
@@ -355,23 +385,7 @@ const OrderDetailsPage = () => {
         >
           Order details
         </h1>
-        <div
-          className={cn(
-            'inline-full',
-            'grid',
-            'gap-12',
-
-            'md:grid-cols-2',
-            'md:items-start',
-            'md:justify-center',
-            'md:justify-items-center',
-          )}
-        >
-          <BasicInfoCard order={order} />
-          <ShippingAddressCard order={order} />
-          <ItemsOrderedCard order={order} />
-          <SummaryCard order={order} />
-        </div>
+        <OrderDetailsQuery />
       </div>
     </>
   );

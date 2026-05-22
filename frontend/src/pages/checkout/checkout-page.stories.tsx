@@ -1,10 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { userEvent, within } from 'storybook/test';
 
-import { CheckoutPage } from '@/pages';
-import { makeCreateOrderHandler } from '@/mocks/handlers';
+import { APP_ROUTES } from '@/config/app-routes';
 import { WithCredentialsDecorator } from '@/config/storybook';
 import type { CheckoutFormData } from '@/libs/schemas';
+import { makeCreateOrderHandler } from '@/mocks/handlers';
+import { CheckoutPage } from '@/pages';
 
 const checkoutFormData: CheckoutFormData = {
   name: 'Jane Doe',
@@ -26,6 +27,8 @@ const meta = {
   component: CheckoutPage,
   parameters: {
     layout: 'fullscreen',
+    route: APP_ROUTES.checkout,
+    routePath: APP_ROUTES.checkout,
   },
   decorators: [WithCredentialsDecorator],
 } satisfies Meta<StoryProps>;

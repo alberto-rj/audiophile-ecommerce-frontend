@@ -17,7 +17,12 @@ import {
 
 import { withAuth } from '../middlewares/with-auth';
 import { withDelay, withInfiniteDelay } from '../middlewares/with-delay';
-import { makeInfiniteHandler, makeNotFoundHandler } from '.';
+import {
+  makeGetInfiniteHandler,
+  makeGetStatusHandler,
+  makeInfiniteHandler,
+  makeNotFoundHandler,
+} from '.';
 
 export const getOrders = http.get(
   '/api/orders',
@@ -84,10 +89,45 @@ export const createOrder = http.post(
   ),
 );
 
+export const makeGetOrderHandler = (
+  options: { type?: 'error' | 'infinite' | 'default' } = {},
+) => {
+  const { type = 'default' } = options;
+  const endpoint = '/api/orders/:slug';
+
+  if (type === 'infinite') {
+    return makeGetInfiniteHandler(endpoint);
+  }
+
+  if (type === 'error') {
+    return makeGetStatusHandler(endpoint, 500);
+  }
+
+  return http.get(
+    endpoint,
+
+    withDelay(
+      withAuth(async ({ params }) => {
+        const { slug } = params as { slug?: string };
+
+        const foundOrder = orders.find((order) => order.id === Number(slug));
+
+        if (typeof foundOrder === 'undefined') {
+          return HttpResponse.json(undefined, { status: 404 });
+        }
+
+        const response: OrderResponse = {
+          order: foundOrder,
+        };
+
+        return HttpResponse.json(response);
+      }),
+    ),
+  );
+};
+
 export const makeGetOrdersHandler = (
-  options: { type?: 'error' | 'infinite' | 'default'; limit?: number } = {
-    limit: undefined,
-  },
+  options: { type?: 'error' | 'infinite' | 'default'; limit?: number } = {},
 ) => {
   const { type = 'default', limit = orders.length } = options;
 
