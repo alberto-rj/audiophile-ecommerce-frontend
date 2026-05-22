@@ -64,7 +64,7 @@ export const RegisterForm = () => {
   return (
     <>
       <StatusVisuallyHidden>
-        {isLoading ? 'Creating account' : ''}
+        {isLoading ? 'Signing you up...' : ''}
       </StatusVisuallyHidden>
       <form
         noValidate
@@ -159,7 +159,7 @@ export const RegisterForm = () => {
               id='confirmPassword'
               data-testid='confirmPassword'
               autoComplete='new-password'
-              placeholder='Your password'
+              placeholder='Confirm your password'
               required
               aria-required
               aria-describedby={
@@ -178,6 +178,7 @@ export const RegisterForm = () => {
             type='submit'
             variant='primary'
             disabled={isLoading}
+            aria-busy={isLoading}
           >
             {isLoading ? (
               <>
@@ -185,10 +186,10 @@ export const RegisterForm = () => {
                   variant='primary'
                   size='sm'
                 />
-                Creating account...
+                Signing you up...
               </>
             ) : (
-              <>Create account</>
+              <>Sign up</>
             )}
           </Button>
         </FormFieldFlow>
