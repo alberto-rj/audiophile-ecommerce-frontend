@@ -3,39 +3,30 @@ import type { ComponentProps } from 'react';
 
 import { cn } from '@/libs/cn';
 
-const spinnerVariants = cva(
-  cn(
-    'mx-auto',
+const spinnerVariants = cva(cn('rounded-full', 'motion-safe:animate-spin'), {
+  variants: {
+    variant: {
+      primary: cn('border-gray-300', 'border-bs-primary-700'),
 
-    'rounded-full',
+      secondary: cn('border-gray-300', 'border-bs-gray-900'),
 
-    'motion-safe:animate-spin',
-  ),
-  {
-    variants: {
-      variant: {
-        primary: cn('border-gray-300', 'border-bs-primary-700'),
-
-        secondary: cn('border-gray-300', 'border-bs-gray-900'),
-
-        danger: cn('border-gray-300', 'border-bs-danger-950'),
-      },
-
-      size: {
-        sm: cn('inline-5', 'block-5', 'border-2'),
-
-        md: cn('inline-10', 'block-10', 'border-4'),
-
-        lg: cn('inline-20', 'block-20', 'border-8'),
-      },
+      danger: cn('border-gray-300', 'border-bs-danger-950'),
     },
 
-    defaultVariants: {
-      variant: 'primary',
-      size: 'md',
+    size: {
+      sm: cn('inline-5', 'block-5', 'border-2'),
+
+      md: cn('inline-10', 'block-10', 'border-4'),
+
+      lg: cn('inline-20', 'block-20', 'border-8'),
     },
   },
-);
+
+  defaultVariants: {
+    variant: 'primary',
+    size: 'md',
+  },
+});
 
 type SpinnerProps = ComponentProps<'div'> &
   VariantProps<typeof spinnerVariants>;
