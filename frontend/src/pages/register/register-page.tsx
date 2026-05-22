@@ -23,7 +23,7 @@ const RegisterPage = () => {
           'cursor-pointer',
         )}
       >
-        <span className={cn('sr-only')}>Audiophile - home</span>
+        <span className={cn('sr-only')}>Go to Audiophile homepage</span>
         <Logo
           aria-hidden={true}
           focusable={false}
