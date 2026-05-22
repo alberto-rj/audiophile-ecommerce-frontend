@@ -107,7 +107,7 @@ export const makeGetOrdersHandler = (
     withDelay(
       withAuth(async () => {
         const response: OrderListResponse = {
-          orders: orders.slice(limit),
+          orders: orders.slice(0, limit),
         };
 
         return HttpResponse.json(response);
