@@ -6,6 +6,19 @@ import { makeCreateOrderHandler } from '@/mocks/handlers';
 import { WithCredentialsDecorator } from '@/config/storybook';
 import type { CheckoutFormData } from '@/libs/schemas';
 
+const checkoutFormData: CheckoutFormData = {
+  name: 'Jane Doe',
+  email: 'jane@example.com',
+  phone: '+1 202-55-0136',
+  address: '1137 Williams Avenue',
+  zip: '10001',
+  city: 'New York',
+  country: 'United States',
+  eMoneyNumber: '238521993',
+  eMoneyPin: '6891',
+  paymentMethod: 'e-money',
+};
+
 type StoryProps = React.ComponentProps<typeof CheckoutPage>;
 
 const meta = {
@@ -22,19 +35,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
-
-const formData: CheckoutFormData = {
-  name: 'Jane Doe',
-  email: 'jane@example.com',
-  phone: '+1 202-55-0136',
-  address: '1137 Williams Avenue',
-  zip: '10001',
-  city: 'New York',
-  country: 'United States',
-  eMoneyNumber: '238521993',
-  eMoneyPin: '6891',
-  paymentMethod: 'e-money',
-};
 
 export const ValidationErrors: Story = {
   play: async ({ canvasElement }) => {
@@ -57,18 +57,27 @@ export const FilledValid: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    await userEvent.type(canvas.getByTestId('name'), formData.name);
-    await userEvent.type(canvas.getByTestId('email'), formData.email);
-    await userEvent.type(canvas.getByTestId('phone'), formData.phone);
-    await userEvent.type(canvas.getByTestId('address'), formData.address);
-    await userEvent.type(canvas.getByTestId('zip'), formData.zip);
-    await userEvent.type(canvas.getByTestId('city'), formData.city);
-    await userEvent.type(canvas.getByTestId('country'), formData.country);
+    await userEvent.type(canvas.getByTestId('name'), checkoutFormData.name);
+    await userEvent.type(canvas.getByTestId('email'), checkoutFormData.email);
+    await userEvent.type(canvas.getByTestId('phone'), checkoutFormData.phone);
+    await userEvent.type(
+      canvas.getByTestId('address'),
+      checkoutFormData.address,
+    );
+    await userEvent.type(canvas.getByTestId('zip'), checkoutFormData.zip);
+    await userEvent.type(canvas.getByTestId('city'), checkoutFormData.city);
+    await userEvent.type(
+      canvas.getByTestId('country'),
+      checkoutFormData.country,
+    );
     await userEvent.type(
       canvas.getByTestId('eMoneyNumber'),
-      formData.eMoneyNumber!,
+      checkoutFormData.eMoneyNumber!,
     );
-    await userEvent.type(canvas.getByTestId('eMoneyPin'), formData.eMoneyPin!);
+    await userEvent.type(
+      canvas.getByTestId('eMoneyPin'),
+      checkoutFormData.eMoneyPin!,
+    );
   },
 };
 
@@ -81,15 +90,27 @@ export const PlacingOrder: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    await userEvent.type(canvas.getByTestId('name'), 'Jane Doe');
-    await userEvent.type(canvas.getByTestId('email'), 'jane@example.com');
-    await userEvent.type(canvas.getByTestId('phone'), '+244 935 661 692');
-    await userEvent.type(canvas.getByTestId('address'), '1137 Williams Avenue');
-    await userEvent.type(canvas.getByTestId('zip'), '10001');
-    await userEvent.type(canvas.getByTestId('city'), 'New York');
-    await userEvent.type(canvas.getByTestId('country'), 'United States');
-    await userEvent.type(canvas.getByTestId('eMoneyNumber'), '238521993');
-    await userEvent.type(canvas.getByTestId('eMoneyPin'), '6891');
+    await userEvent.type(canvas.getByTestId('name'), checkoutFormData.name);
+    await userEvent.type(canvas.getByTestId('email'), checkoutFormData.email);
+    await userEvent.type(canvas.getByTestId('phone'), checkoutFormData.phone);
+    await userEvent.type(
+      canvas.getByTestId('address'),
+      checkoutFormData.address,
+    );
+    await userEvent.type(canvas.getByTestId('zip'), checkoutFormData.zip);
+    await userEvent.type(canvas.getByTestId('city'), checkoutFormData.city);
+    await userEvent.type(
+      canvas.getByTestId('country'),
+      checkoutFormData.country,
+    );
+    await userEvent.type(
+      canvas.getByTestId('eMoneyNumber'),
+      checkoutFormData.eMoneyNumber!,
+    );
+    await userEvent.type(
+      canvas.getByTestId('eMoneyPin'),
+      checkoutFormData.eMoneyPin!,
+    );
 
     await userEvent.click(canvas.getByTestId('submit'));
   },
@@ -104,15 +125,27 @@ export const WithFailed: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    await userEvent.type(canvas.getByTestId('name'), 'Jane Doe');
-    await userEvent.type(canvas.getByTestId('email'), 'jane@example.com');
-    await userEvent.type(canvas.getByTestId('phone'), '+244 935 661 692');
-    await userEvent.type(canvas.getByTestId('address'), '1137 Williams Avenue');
-    await userEvent.type(canvas.getByTestId('zip'), '10001');
-    await userEvent.type(canvas.getByTestId('city'), 'New York');
-    await userEvent.type(canvas.getByTestId('country'), 'United States');
-    await userEvent.type(canvas.getByTestId('eMoneyNumber'), '238521993');
-    await userEvent.type(canvas.getByTestId('eMoneyPin'), '6891');
+    await userEvent.type(canvas.getByTestId('name'), checkoutFormData.name);
+    await userEvent.type(canvas.getByTestId('email'), checkoutFormData.email);
+    await userEvent.type(canvas.getByTestId('phone'), checkoutFormData.phone);
+    await userEvent.type(
+      canvas.getByTestId('address'),
+      checkoutFormData.address,
+    );
+    await userEvent.type(canvas.getByTestId('zip'), checkoutFormData.zip);
+    await userEvent.type(canvas.getByTestId('city'), checkoutFormData.city);
+    await userEvent.type(
+      canvas.getByTestId('country'),
+      checkoutFormData.country,
+    );
+    await userEvent.type(
+      canvas.getByTestId('eMoneyNumber'),
+      checkoutFormData.eMoneyNumber!,
+    );
+    await userEvent.type(
+      canvas.getByTestId('eMoneyPin'),
+      checkoutFormData.eMoneyPin!,
+    );
 
     await userEvent.click(canvas.getByTestId('submit'));
   },
@@ -127,15 +160,27 @@ export const WithPlacedOrder: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    await userEvent.type(canvas.getByTestId('name'), 'Jane Doe');
-    await userEvent.type(canvas.getByTestId('email'), 'jane@example.com');
-    await userEvent.type(canvas.getByTestId('phone'), '+244 935 661 692');
-    await userEvent.type(canvas.getByTestId('address'), '1137 Williams Avenue');
-    await userEvent.type(canvas.getByTestId('zip'), '10001');
-    await userEvent.type(canvas.getByTestId('city'), 'New York');
-    await userEvent.type(canvas.getByTestId('country'), 'United States');
-    await userEvent.type(canvas.getByTestId('eMoneyNumber'), '238521993');
-    await userEvent.type(canvas.getByTestId('eMoneyPin'), '6891');
+    await userEvent.type(canvas.getByTestId('name'), checkoutFormData.name);
+    await userEvent.type(canvas.getByTestId('email'), checkoutFormData.email);
+    await userEvent.type(canvas.getByTestId('phone'), checkoutFormData.phone);
+    await userEvent.type(
+      canvas.getByTestId('address'),
+      checkoutFormData.address,
+    );
+    await userEvent.type(canvas.getByTestId('zip'), checkoutFormData.zip);
+    await userEvent.type(canvas.getByTestId('city'), checkoutFormData.city);
+    await userEvent.type(
+      canvas.getByTestId('country'),
+      checkoutFormData.country,
+    );
+    await userEvent.type(
+      canvas.getByTestId('eMoneyNumber'),
+      checkoutFormData.eMoneyNumber!,
+    );
+    await userEvent.type(
+      canvas.getByTestId('eMoneyPin'),
+      checkoutFormData.eMoneyPin!,
+    );
 
     await userEvent.click(canvas.getByTestId('submit'));
   },
