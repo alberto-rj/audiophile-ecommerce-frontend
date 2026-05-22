@@ -112,7 +112,7 @@ export const SigningYouUp: Story = {
   },
 };
 
-export const SignUpSucceed: Story = {
+export const SignUpSucceeds: Story = {
   parameters: {
     msw: {
       handlers: [makeRegisterHandler()],
