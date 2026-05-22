@@ -80,6 +80,27 @@ export const SigningYouIn: Story = {
     );
 
     await userEvent.click(canvas.getByTestId('signIn'));
+
+    await expect(canvas.getByTestId('signIn')).toBeDisabled();
+  },
+};
+
+export const SignInSucceeds: Story = {
+  parameters: {
+    msw: {
+      handlers: [makeLoginHandler()],
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await userEvent.type(canvas.getByTestId('email'), loginFormData.email);
+    await userEvent.type(
+      canvas.getByTestId('password'),
+      loginFormData.password,
+    );
+
+    await userEvent.click(canvas.getByTestId('signIn'));
   },
 };
 
@@ -121,24 +142,5 @@ export const SignInFailed: Story = {
     const alert = await canvas.findByRole('status');
 
     await expect(alert).toBeInTheDocument();
-  },
-};
-
-export const SignInSuccess: Story = {
-  parameters: {
-    msw: {
-      handlers: [makeLoginHandler()],
-    },
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-
-    await userEvent.type(canvas.getByTestId('email'), loginFormData.email);
-    await userEvent.type(
-      canvas.getByTestId('password'),
-      loginFormData.password,
-    );
-
-    await userEvent.click(canvas.getByTestId('signIn'));
   },
 };
