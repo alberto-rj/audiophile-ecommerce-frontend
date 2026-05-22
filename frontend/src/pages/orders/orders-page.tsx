@@ -1,6 +1,10 @@
 import { useGetOrdersQuery } from '@/app/services/orders-api';
 import { Spinner } from '@/components/ui';
-import { ErrorMessage, GoBack } from '@/components/widgets';
+import {
+  ErrorMessage,
+  GoBack,
+  StatusVisuallyHidden,
+} from '@/components/widgets';
 import { useSecondaryPage } from '@/hooks';
 import { cn } from '@/libs/cn';
 
@@ -10,7 +14,12 @@ const OrdersPageQuery = () => {
   const { isLoading, isError, data, refetch } = useGetOrdersQuery();
 
   if (isLoading) {
-    return <Spinner />;
+    return (
+      <>
+        <StatusVisuallyHidden>Loading your orders...</StatusVisuallyHidden>
+        <Spinner className={cn('mx-auto')} />
+      </>
+    );
   }
 
   if (isError) {
@@ -19,18 +28,14 @@ const OrdersPageQuery = () => {
         <ErrorMessage.Description>
           We couldn't load your orders. Please try again.
         </ErrorMessage.Description>
-
-        <ErrorMessage.Retry
-          onClick={refetch}
-          aria-label='Try again loading orders'
-        >
-          Try again
-        </ErrorMessage.Retry>
+        <ErrorMessage.Retry onClick={refetch}>Try again</ErrorMessage.Retry>
       </ErrorMessage>
     );
   }
 
-  return <OrderList orders={data!.orders} />;
+  const { orders } = data!;
+
+  return <OrderList orders={orders} />;
 };
 
 const OrdersPage = () => {
