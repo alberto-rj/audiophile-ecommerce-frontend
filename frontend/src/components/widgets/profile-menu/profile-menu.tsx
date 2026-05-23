@@ -37,6 +37,7 @@ const ProfileMenu = () => {
       <DropdownMenu>
         <DropdownMenu.Trigger asChild>
           <button
+            data-testid='profileMenuTrigger'
             type='button'
             aria-label={`Account menu for ${user.name}`}
             className={cn(
@@ -77,6 +78,7 @@ const ProfileMenu = () => {
         </DropdownMenu.Trigger>
         <DropdownMenu.Portal>
           <DropdownMenu.Content
+            data-testid='profileMenu'
             className={cn(
               'absolute',
               'inset-s-1/2',
@@ -127,6 +129,7 @@ const ProfileMenu = () => {
             </DropdownMenu.Item>
             <DropdownMenu.Separator />
             <DropdownMenu.Item
+              data-testid={'signOutItem'}
               disabled={isLoggingOut || undefined}
               aria-busy={isLoggingOut || undefined}
               onSelect={handleLogout}

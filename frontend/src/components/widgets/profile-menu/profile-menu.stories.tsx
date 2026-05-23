@@ -1,8 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { Canvas } from 'storybook/internal/csf';
+import { expect, userEvent, within } from 'storybook/test';
 
 import { ProfileMenu } from '@/components/widgets';
 import { WithCredentialsDecorator } from '@/config/storybook';
 import { cn } from '@/libs/cn';
+import { makeLogoutHandler } from '@/mocks/handlers';
+
+async function openMenuAndSignOut(canvas: Canvas) {
+  await userEvent.click(canvas.getByTestId('profileMenuTrigger'));
+  await userEvent.click(await canvas.findByTestId('signOutItem'));
+}
 
 type StoryProps = React.ComponentProps<typeof ProfileMenu>;
 
@@ -41,3 +49,64 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
+
+export const MenuOpen: Story = {
+  play: async () => {
+    const canvas = within(document.body);
+    await userEvent.click(canvas.getByTestId('profileMenuTrigger'));
+
+    await expect(canvas.getByTestId('profileMenuTrigger')).toHaveAttribute(
+      'data-state',
+      'open',
+    );
+    await expect(canvas.getByTestId('profileMenu')).toBeInTheDocument();
+  },
+};
+
+export const SigningOut: Story = {
+  parameters: {
+    msw: {
+      handlers: [makeLogoutHandler({ type: 'infinite' })],
+    },
+  },
+  play: async () => {
+    const canvas = within(document.body);
+
+    await openMenuAndSignOut(canvas);
+
+    await userEvent.click(await canvas.findByTestId('profileMenuTrigger'));
+
+    await expect(await canvas.findByTestId('signOutItem')).toHaveAttribute(
+      'aria-busy',
+      'true',
+    );
+  },
+};
+
+export const SignOutFailed: Story = {
+  parameters: {
+    msw: {
+      handlers: [makeLogoutHandler({ type: 'error' })],
+    },
+  },
+  play: async () => {
+    const canvas = within(document.body);
+
+    await openMenuAndSignOut(canvas);
+
+    await expect(await canvas.findByRole('status')).toBeInTheDocument();
+  },
+};
+
+export const SignOutSucceeds: Story = {
+  parameters: {
+    msw: {
+      handlers: [makeLogoutHandler()],
+    },
+  },
+  play: async () => {
+    const canvas = within(document.body);
+
+    await openMenuAndSignOut(canvas);
+  },
+};
