@@ -211,10 +211,8 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Decorator */}
-      <div
+      <Separator
         className={cn(
-          'w-full',
-          'h-px',
           'absolute',
           'bottom-0',
           'left-0',
@@ -223,9 +221,8 @@ const Navbar = () => {
 
           'lg:hidden',
         )}
-      ></div>
+      />
 
-      {/* Desktop Decorator */}
       <div
         className={cn(
           'wrapper',
@@ -235,17 +232,17 @@ const Navbar = () => {
           'lg:block',
         )}
       >
-        <div
+        {/* Desktop Decorator */}
+        <Separator
           className={cn(
-            'w-[calc(100%-5rem)]',
-            'h-px',
+            'inline-[calc(100%-5rem)]',
             'absolute',
             'left-10',
             '-bottom-8',
 
             'bg-white/20',
           )}
-        ></div>
+        />
       </div>
     </nav>
   );
