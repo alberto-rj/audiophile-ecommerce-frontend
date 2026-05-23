@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 
 import { Button } from '@/components/ui';
+import { APP_ROUTES } from '@/config/app-routes';
 import { cn } from '@/libs/cn';
 
 const NotFoundPage = () => {
@@ -50,18 +51,17 @@ const NotFoundPage = () => {
               'uppercase',
             )}
           >
-            Oops! We can’t seem to find that page
+            Page not found
           </h1>
           <p className={cn('max-inline-116')}>
-            It looks like the link you followed might be broken or the page has
-            been moved. Don't worry, it happens to the best of us!
+            The page you're looking for doesn't exist or has been moved.
           </p>
         </div>
         <Button
           variant={'primary'}
           asChild
         >
-          <Link to='/'>Back to Home</Link>
+          <Link to={APP_ROUTES.home}>Go back home</Link>
         </Button>
       </div>
     </main>
