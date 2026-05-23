@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 
 import { Button } from '@/components/ui';
+import { APP_ROUTES } from '@/config/app-routes';
 import { cn } from '@/libs/cn';
 
 const PageError = () => {
@@ -54,19 +55,17 @@ const PageError = () => {
               'uppercase',
             )}
           >
-            Oops! Something went wrong
+            Something went wrong
           </h1>
           <p className={cn('max-inline-116')}>
-            It looks like there was a small hiccup on our end. Don't worry, our
-            team is already looking into it. In the meantime, try refreshing the
-            page or back to homepage.
+            Something went wrong on our end. Please try again or go back to the
+            homepage.
           </p>
         </div>
         <div className={cn('flex', 'flex-wrap', 'justify-center', 'gap-4')}>
           <Button
-            variant='secondary'
+            variant='outline'
             onClick={handleRetry}
-            aria-label='Try again - reload this page'
           >
             Try again
           </Button>
@@ -74,7 +73,7 @@ const PageError = () => {
             variant='primary'
             asChild
           >
-            <Link to='/'>Back to home</Link>
+            <Link to={APP_ROUTES.home}>Go back home</Link>
           </Button>
         </div>
       </div>
