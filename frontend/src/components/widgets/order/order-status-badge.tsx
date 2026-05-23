@@ -1,5 +1,5 @@
 import { cn } from '@/libs/cn';
-import { toStatusText } from '@/libs/helpers';
+import { toOrderStatusText } from '@/libs/helpers';
 import type { OrderStatus } from '@/libs/types';
 
 interface OrderStatusBadgeProps {
@@ -32,7 +32,7 @@ const OrderStatusBadge = ({ status }: OrderStatusBadgeProps) => {
           },
         )}
       >
-        {toStatusText(status)}
+        {toOrderStatusText(status)}
       </dd>
     </dl>
   );

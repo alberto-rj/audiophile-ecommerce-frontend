@@ -27,7 +27,7 @@ export function getNameInitials(name: string) {
     .join('');
 }
 
-export function toStatusText(status: OrderStatus) {
+export function toOrderStatusText(status: OrderStatus) {
   const statusTextMap: Record<OrderStatus, string> = {
     cancelled: 'Cancelled',
     delivered: 'Delivered',
