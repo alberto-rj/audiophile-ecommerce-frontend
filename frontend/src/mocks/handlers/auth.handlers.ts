@@ -77,10 +77,7 @@ export function makeRegisterHandler(
       const foundUser = mockUsers.find((user) => user.email === email);
 
       if (typeof foundUser === 'object') {
-        return HttpResponse.json(
-          { error: 'Email already in use.' },
-          { status: 409 },
-        );
+        return HttpResponse.json(undefined, { status: 409 });
       }
 
       const newUser = {
