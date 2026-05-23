@@ -21,7 +21,14 @@ const checkoutFormData: CheckoutFormData = {
   paymentMethod: 'e-money',
 };
 
+async function clearCheckoutForm(canvas: Canvas) {
+  await userEvent.clear(canvas.getByTestId('name'));
+  await userEvent.clear(canvas.getByTestId('email'));
+}
+
 async function fillCheckoutForm(canvas: Canvas) {
+  await clearCheckoutForm(canvas);
+
   await userEvent.type(canvas.getByTestId('name'), checkoutFormData.name);
   await userEvent.type(canvas.getByTestId('email'), checkoutFormData.email);
   await userEvent.type(canvas.getByTestId('phone'), checkoutFormData.phone);
@@ -56,11 +63,30 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const EmptyForm: Story = {};
+export const EmptyForm: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await clearCheckoutForm(canvas);
+
+    await userEvent.click(canvas.getByTestId('name'));
+    await userEvent.click(canvas.getByTestId('email'));
+    await userEvent.click(canvas.getByTestId('phone'));
+    await userEvent.click(canvas.getByTestId('address'));
+    await userEvent.click(canvas.getByTestId('zip'));
+    await userEvent.click(canvas.getByTestId('city'));
+    await userEvent.click(canvas.getByTestId('country'));
+    await userEvent.click(canvas.getByTestId('eMoneyNumber'));
+    await userEvent.click(canvas.getByTestId('eMoneyPin'));
+    await userEvent.tab();
+  },
+};
 
 export const ValidationErrors: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+
+    await clearCheckoutForm(canvas);
 
     await userEvent.click(canvas.getByTestId('name'));
     await userEvent.click(canvas.getByTestId('email'));
