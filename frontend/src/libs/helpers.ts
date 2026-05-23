@@ -1,4 +1,4 @@
-import type { OrderStatus } from './types';
+import type { OrderStatus, PaymentMethod } from '@/libs/types';
 
 export function formatPrice(price: number) {
   const formattedPrice = new Intl.NumberFormat('en-US', {
@@ -27,13 +27,22 @@ export function getNameInitials(name: string) {
     .join('');
 }
 
-export function toStatusText(status: OrderStatus) {
+export function toOrderStatusText(status: OrderStatus) {
   const statusTextMap: Record<OrderStatus, string> = {
     cancelled: 'Cancelled',
     delivered: 'Delivered',
     pending: 'Pending',
     processing: 'processing',
     shipped: 'Shipped',
+  };
+
+  return statusTextMap[status];
+}
+
+export function toPaymentMethodText(status: PaymentMethod) {
+  const statusTextMap: Record<PaymentMethod, string> = {
+    'cash-on-delivery': 'COD',
+    'e-money': 'e-Money',
   };
 
   return statusTextMap[status];

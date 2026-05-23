@@ -45,6 +45,8 @@ export { default as OrderConfirmationModal } from './order-confirmation-modal/or
 
 export { default as Navbar } from './navbar/navbar';
 
+export { default as OrderStatusBadge } from './order/order-status-badge';
+
 export { default as PageError } from './page-error/page-error';
 
 export { default as PageLoader } from './page-loader/page-loader';
