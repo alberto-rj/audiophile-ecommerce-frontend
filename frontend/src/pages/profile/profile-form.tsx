@@ -1,14 +1,17 @@
 import { useUpdateProfileMutation } from '@/app/services/users-api';
 import { Button, Input, Label, Spinner } from '@/components/ui';
-import { FormField, FormFieldAlert, FormFieldFlow } from '@/components/widgets';
-import { useProfileForm, useSecondaryPage, useToast } from '@/hooks';
+import {
+  FormField,
+  FormFieldAlert,
+  FormFieldFlow,
+  StatusVisuallyHidden,
+} from '@/components/widgets';
+import { useProfileForm, useToast } from '@/hooks';
 import type { ProfileFormData } from '@/libs/schemas';
 import { cn } from '@/libs/cn';
 import type { ApiError } from '@/libs/types';
 
 const ProfileForm = () => {
-  useSecondaryPage();
-
   const [updateProfile, { isLoading }] = useUpdateProfileMutation();
 
   const {
@@ -28,6 +31,11 @@ const ProfileForm = () => {
       } = await updateProfile(data).unwrap();
 
       reset({ name, email });
+
+      toast.success({
+        title: 'Profile updated',
+        description: 'Your changes have been saved.',
+      });
     } catch (error) {
       const apiError = error as ApiError;
 
@@ -46,81 +54,94 @@ const ProfileForm = () => {
   };
 
   return (
-    <form
-      noValidate
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <FormFieldFlow>
-        <FormField>
-          <Label
-            htmlFor='name'
-            isInvalid={!!errors.name}
+    <>
+      <StatusVisuallyHidden>
+        {isLoading ? 'Saving changes...' : ''}
+      </StatusVisuallyHidden>
+      <form
+        noValidate
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <FormFieldFlow>
+          <FormField>
+            <Label
+              htmlFor='name'
+              isInvalid={!!errors.name}
+            >
+              Name
+            </Label>
+            <Input
+              type='text'
+              id='name'
+              data-testid='name'
+              autoComplete='name'
+              placeholder='John Doe'
+              required
+              aria-required
+              aria-describedby={errors.name ? 'nameAlert' : undefined}
+              isInvalid={!!errors.name}
+              {...register('name')}
+            />
+            {errors.name && (
+              <FormFieldAlert
+                id='nameAlert'
+                data-testid='nameAlert'
+              >
+                {errors.name.message}
+              </FormFieldAlert>
+            )}
+          </FormField>
+          <FormField>
+            <Label
+              htmlFor='email'
+              isInvalid={!!errors.email}
+            >
+              Email
+            </Label>
+            <Input
+              type='email'
+              inputMode='email'
+              id='email'
+              data-testid='email'
+              autoComplete='email'
+              placeholder='johndoe@example.com'
+              required
+              aria-required
+              aria-describedby={errors.email ? 'emailAlert' : undefined}
+              isInvalid={!!errors.email}
+              {...register('email')}
+            />
+            {errors.email && (
+              <FormFieldAlert
+                id='emailAlert'
+                data-testid='emailAlert'
+              >
+                {errors.email.message}
+              </FormFieldAlert>
+            )}
+          </FormField>
+          <Button
+            type='submit'
+            data-testid='saveProfile'
+            variant='primary'
+            disabled={isLoading || undefined}
+            className={cn('self-end')}
           >
-            Name
-          </Label>
-          <Input
-            type='text'
-            id='name'
-            autoComplete='name'
-            placeholder='John Doe'
-            required
-            aria-required
-            aria-describedby={errors.name ? 'nameAlert' : undefined}
-            isInvalid={!!errors.name}
-            {...register('name')}
-          />
-          {errors.name && (
-            <FormFieldAlert id='nameAlert'>
-              {errors.name.message}
-            </FormFieldAlert>
-          )}
-        </FormField>
-        <FormField>
-          <Label
-            htmlFor='email'
-            isInvalid={!!errors.email}
-          >
-            Email
-          </Label>
-          <Input
-            type='email'
-            inputMode='email'
-            id='email'
-            autoComplete='email'
-            placeholder='johndoe@example.com'
-            required
-            aria-required
-            aria-describedby={errors.email ? 'emailAlert' : undefined}
-            isInvalid={!!errors.email}
-            {...register('email')}
-          />
-          {errors.email && (
-            <FormFieldAlert id='emailAlert'>
-              {errors.email.message}
-            </FormFieldAlert>
-          )}
-        </FormField>
-        <Button
-          type='submit'
-          variant='primary'
-          disabled={isLoading}
-          className={cn('self-end')}
-        >
-          {isLoading ? (
-            <>
-              <Spinner
-                variant='primary'
-                size='sm'
-                aria-labelledby='actionAlert'
-              />{' '}
-              <span id='actionAlert'>Saving changes...</span>
-            </>
-          ) : (
-            <>Save changes</>
-          )}
-        </Button>
-      </FormFieldFlow>
-    </form>
+            {isLoading ? (
+              <>
+                <Spinner
+                  variant='primary'
+                  size='sm'
+                />
+                Saving changes...
+              </>
+            ) : (
+              <>Save changes</>
+            )}
+          </Button>
+        </FormFieldFlow>
+      </form>
+    </>
   );
 };
 

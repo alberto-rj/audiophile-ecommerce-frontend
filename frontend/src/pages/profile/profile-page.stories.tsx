@@ -1,8 +1,28 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { userEvent, within } from 'storybook/test';
+import type { Canvas } from 'storybook/internal/types';
+import { expect, userEvent, within } from 'storybook/test';
 
 import { APP_ROUTES } from '@/config/app-routes';
+import { WithCredentialsDecorator } from '@/config/storybook';
 import { ProfilePage } from '@/pages';
+import type { ProfileFormData } from '@/libs/schemas';
+import { makeUpdateMeHandler } from '@/mocks/handlers';
+import { demo } from '@/libs/mocks';
+
+async function fillProfileForm(canvas: Canvas, data: ProfileFormData) {
+  await userEvent.type(canvas.getByTestId('name'), data.name);
+  await userEvent.type(canvas.getByTestId('email'), data.email);
+}
+
+async function clearProfileForm(canvas: Canvas) {
+  await userEvent.clear(canvas.getByTestId('name'));
+  await userEvent.clear(canvas.getByTestId('email'));
+}
+
+const profileFormData: ProfileFormData = {
+  name: 'Jane Doe',
+  email: 'jane@example.com',
+};
 
 type StoryProps = React.ComponentProps<typeof ProfilePage>;
 
@@ -13,21 +33,28 @@ const meta = {
     layout: 'fullscreen',
     route: APP_ROUTES.profile,
     routePath: APP_ROUTES.profile,
+    test: {
+      dangerouslyIgnoreUnhandledErrors: true,
+    },
   },
+  decorators: [WithCredentialsDecorator],
 } satisfies Meta<StoryProps>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const FormFilled: Story = {};
 
 export const FilledValid: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    await userEvent.type(canvas.getByLabelText(/^name/i), 'Jane Doe');
-    await userEvent.type(canvas.getByLabelText(/email/i), 'jane@example.com');
+    await clearProfileForm(canvas);
+
+    await fillProfileForm(canvas, profileFormData);
+
+    userEvent.tab();
   },
 };
 
@@ -35,8 +62,85 @@ export const ValidationErrors: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    await userEvent.click(canvas.getByLabelText(/^name/i));
-    await userEvent.click(canvas.getByLabelText(/email/i));
+    await clearProfileForm(canvas);
+
+    await userEvent.click(canvas.getByTestId('name'));
+    await userEvent.click(canvas.getByTestId('email'));
     await userEvent.tab();
+  },
+};
+
+export const SavingChanges: Story = {
+  parameters: {
+    msw: {
+      handlers: [makeUpdateMeHandler({ type: 'infinite' })],
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await clearProfileForm(canvas);
+
+    await fillProfileForm(canvas, profileFormData);
+
+    await userEvent.click(canvas.getByTestId('saveProfile'));
+
+    await expect(canvas.getByTestId('saveProfile')).toBeDisabled();
+  },
+};
+
+export const EmailAlreadyInUse: Story = {
+  parameters: {
+    msw: {
+      handlers: [makeUpdateMeHandler()],
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await clearProfileForm(canvas);
+
+    await fillProfileForm(canvas, { ...profileFormData, email: demo.email });
+
+    await userEvent.click(canvas.getByTestId('saveProfile'));
+
+    await expect(await canvas.findByTestId('emailAlert')).toBeInTheDocument();
+  },
+};
+
+export const SavingFailed: Story = {
+  parameters: {
+    msw: {
+      handlers: [makeUpdateMeHandler({ type: 'error' })],
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await clearProfileForm(canvas);
+
+    await fillProfileForm(canvas, profileFormData);
+
+    await userEvent.click(canvas.getByTestId('saveProfile'));
+  },
+};
+
+export const SavingSucceeds: Story = {
+  parameters: {
+    msw: {
+      handlers: [makeUpdateMeHandler()],
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await clearProfileForm(canvas);
+
+    await fillProfileForm(canvas, {
+      ...profileFormData,
+      email: 'updated@example.com',
+    });
+
+    await userEvent.click(canvas.getByTestId('saveProfile'));
   },
 };
