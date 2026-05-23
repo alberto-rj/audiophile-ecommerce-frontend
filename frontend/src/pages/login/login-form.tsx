@@ -1,9 +1,6 @@
-import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { setCredentials } from '@/app/features/auth';
 import { useLoginMutation } from '@/app/services/auth-api';
-import type { AppDispatch } from '@/app/store';
 import { Button, Input, Label, Spinner } from '@/components/ui';
 import {
   FormField,
@@ -19,8 +16,6 @@ import type { ApiError } from '@/libs/types';
 export const LoginForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
-  const dispatch = useDispatch<AppDispatch>();
 
   const [login, { isLoading }] = useLoginMutation();
 
@@ -39,11 +34,10 @@ export const LoginForm = () => {
 
   const onSubmit = async (data: LoginFormData) => {
     try {
-      const { user, accessToken } = await login(data).unwrap();
+      await login(data).unwrap();
 
       reset();
 
-      dispatch(setCredentials({ user, accessToken }));
       navigate(from, { replace: true });
     } catch (error) {
       const apiError = error as ApiError;
