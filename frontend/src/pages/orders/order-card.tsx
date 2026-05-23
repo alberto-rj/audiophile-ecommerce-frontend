@@ -3,14 +3,15 @@ import { Link } from 'react-router-dom';
 
 import { ChevronDown } from '@/assets/icons';
 import { Card, DropdownMenu } from '@/components/ui';
+import { OrderStatusBadge } from '@/components/widgets';
 import { APP_ROUTES } from '@/config/app-routes';
 import { cn } from '@/libs/cn';
 import {
-  toStatusText,
   toMoney,
   toTimeAgo,
   getItemsCount,
   toOrderNumber,
+  toPaymentMethodText,
 } from '@/libs/helpers';
 import type { Order } from '@/libs/types';
 
@@ -71,17 +72,31 @@ interface OrderCardProps {
 const OrderCard = ({ order }: OrderCardProps) => {
   const headingId = useId();
 
-  const { createdAt, id, items, subtotal, status } = order;
+  const { createdAt, id, items, subtotal, paymentMethod, status } = order;
+
+  const details = [
+    {
+      name: 'Created at',
+      value: toTimeAgo(createdAt),
+    },
+    {
+      name: 'Number of items',
+      value: getItemsCount(items ?? []),
+    },
+    {
+      name: 'Payment method',
+      value: toPaymentMethodText(paymentMethod),
+    },
+  ];
 
   return (
-    <Card
-      className={cn('inline-full', 'max-inline-96')}
-      asChild
-    >
-      <article aria-labelledby={headingId}>
+    <Card asChild>
+      <article
+        aria-labelledby={headingId}
+        className={cn('inline-full', 'max-inline-96')}
+      >
         <div
           className={cn(
-            'inline-full',
             'flex',
             'justify-between',
             'items-center',
@@ -100,68 +115,43 @@ const OrderCard = ({ order }: OrderCardProps) => {
           </h2>
           <OrderCardMenu order={order} />
         </div>
-        <div className={cn('inline-full', 'p-6')}>
+        <div className={cn('p-6')}>
           <dl className={cn('flex', 'flex-col', 'gap-2')}>
-            <div
-              className={cn('flex', 'justify-between', 'items-center', 'gap-6')}
-            >
-              <dt>Created on:</dt>
-              <dd>{toTimeAgo(createdAt)}</dd>
-            </div>
-            <div
-              className={cn('flex', 'justify-between', 'items-center', 'gap-6')}
-            >
-              <dt>Number of items:</dt>
-              <dd>{getItemsCount(items ?? [])}</dd>
-            </div>
+            {details.map(({ name, value }) => (
+              <div
+                key={name}
+                className={cn(
+                  'flex',
+                  'justify-between',
+                  'items-center',
+                  'gap-6',
+
+                  'uppercase',
+                )}
+              >
+                <dt>{name}</dt>
+                <dd className={cn('h8')}>{value}</dd>
+              </div>
+            ))}
           </dl>
         </div>
-
         <div
           className={cn(
-            'inline-full',
             'p-6',
 
             'border-bs',
             'border-gray-300',
           )}
         >
-          <dl
+          <div
             className={cn('flex', 'justify-between', 'items-center', 'gap-6')}
           >
-            <div>
-              <dt className={cn('sr-only')}>Status</dt>
-              <dd
-                className={cn(
-                  'inline-fit',
-                  'py-1',
-                  'px-3',
-
-                  'h8',
-                  'rounded-lg',
-
-                  {
-                    'bg-success-50': status === 'delivered',
-                    'text-success-1400': status === 'delivered',
-                    'bg-info-50': status === 'processing',
-                    'text-info-950': status === 'processing',
-                    'bg-warning-100': status === 'pending',
-                    'text-warning-1100': status === 'pending',
-                    'bg-danger-300': status === 'cancelled',
-                    'text-danger-950': status === 'cancelled',
-                    'bg-primary-50': status === 'shipped',
-                    'text-primary-950': status === 'shipped',
-                  },
-                )}
-              >
-                {toStatusText(status)}
-              </dd>
-            </div>
-            <div>
+            <OrderStatusBadge status={status} />
+            <dl>
               <dt className={cn('sr-only')}>Subtotal</dt>
               <dd className={cn('h6')}>{toMoney(subtotal)}</dd>
-            </div>
-          </dl>
+            </dl>
+          </div>
         </div>
       </article>
     </Card>
