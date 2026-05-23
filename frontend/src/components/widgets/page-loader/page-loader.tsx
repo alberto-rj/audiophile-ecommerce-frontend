@@ -1,11 +1,8 @@
-import { useId } from 'react';
-
 import { Spinner } from '@/components/ui';
+import { StatusVisuallyHidden } from '@/components/widgets';
 import { cn } from '@/libs/cn';
 
 const PageLoader = () => {
-  const descriptionId = useId();
-
   return (
     <main
       className={cn(
@@ -17,6 +14,7 @@ const PageLoader = () => {
         'items-center',
       )}
     >
+      <StatusVisuallyHidden>Loading your experience...</StatusVisuallyHidden>
       <div
         className={cn(
           'flex',
@@ -29,15 +27,15 @@ const PageLoader = () => {
         )}
       >
         <Spinner
-          variant='primary'
           size='lg'
-          aria-labelledby={descriptionId}
           className={cn('mx-auto')}
         />
-
         <p
-          id={descriptionId}
-          className={cn('text-md')}
+          className={cn(
+            'text-md',
+
+            'text-black',
+          )}
         >
           Preparing everything for you...
         </p>
