@@ -178,8 +178,8 @@ export const RegisterForm = () => {
             data-testid='signUp'
             type='submit'
             variant='primary'
-            disabled={isLoading ?? undefined}
-            aria-busy={isLoading ?? undefined}
+            disabled={isLoading || undefined}
+            aria-busy={isLoading || undefined}
           >
             {isLoading ? (
               <>
