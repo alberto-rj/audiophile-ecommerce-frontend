@@ -1,4 +1,4 @@
-import { user } from '@/libs/mocks';
+import { user, users } from '@/libs/mocks';
 
 import type { MockUser } from './types';
 import type { BaseUser } from '@/libs/types';
@@ -10,7 +10,10 @@ export const defaultUser: MockUser = {
   password: 'password123',
 };
 
-export const mockUsers: MockUser[] = [defaultUser];
+export const mockUsers: MockUser[] = users.map((user) => ({
+  ...user,
+  password: 'password123',
+}));
 
 export const mockSessions = new Map<string, number>();
 export const mockRefreshSessions = new Map<string, number>();

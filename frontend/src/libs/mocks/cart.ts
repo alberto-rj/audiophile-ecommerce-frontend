@@ -1,7 +1,7 @@
 import type { Cart, CartItem } from '@/libs/types';
 
 import { cartItems } from './cart-items';
-import { user } from './user';
+import { user } from './users';
 
 export const getSubtotal = (items: CartItem[]) => {
   return items.reduce((sum, item) => sum + item.price * item.quantity, 0);
