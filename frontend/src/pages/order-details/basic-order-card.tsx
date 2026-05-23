@@ -22,12 +22,12 @@ const BasicOrderDetails = ({ order }: BaseOrderDetailsProps) => {
       value: toTimeAgo(createdAt),
     },
     {
-      name: 'Payment method',
-      value: toPaymentMethodText(paymentMethod),
-    },
-    {
       name: 'Number of items',
       value: getItemsCount(items ?? []),
+    },
+    {
+      name: 'Payment method',
+      value: toPaymentMethodText(paymentMethod),
     },
   ];
 
