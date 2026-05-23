@@ -2,8 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { Navbar } from '@/components/widgets';
 import { WithCredentialsDecorator } from '@/config/storybook';
-import { makeGetCartHandler } from '@/mocks/handlers';
 import { cn } from '@/libs/cn';
+import { makeGetCartHandler } from '@/mocks/handlers';
 
 type StoryProps = React.ComponentProps<typeof Navbar>;
 
