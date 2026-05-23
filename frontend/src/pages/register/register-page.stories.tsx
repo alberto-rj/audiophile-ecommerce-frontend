@@ -38,7 +38,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const EmptyForm: Story = {};
 
 export const FilledValid: Story = {
   play: async ({ canvasElement }) => {
@@ -86,7 +86,7 @@ export const ValidationErrors: Story = {
   },
 };
 
-export const SigningYouUp: Story = {
+export const SigningUp: Story = {
   parameters: {
     msw: {
       handlers: [makeRegisterHandler({ type: 'infinite' })],
