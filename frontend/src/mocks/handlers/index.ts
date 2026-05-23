@@ -62,6 +62,8 @@ export {
 
 export { getProductBySlug, getProducts } from './product.handlers';
 
+export { makeGetMeHandler, makeUpdateMeHandler } from './user.handlers';
+
 export const handlers = [
   ...authHandlers,
   ...cartHandlers,
