@@ -1,4 +1,4 @@
-import type { OrderStatus } from './types';
+import type { OrderStatus, PaymentMethod } from '@/libs/types';
 
 export function formatPrice(price: number) {
   const formattedPrice = new Intl.NumberFormat('en-US', {
@@ -34,6 +34,15 @@ export function toStatusText(status: OrderStatus) {
     pending: 'Pending',
     processing: 'processing',
     shipped: 'Shipped',
+  };
+
+  return statusTextMap[status];
+}
+
+export function toPaymentMethodText(status: PaymentMethod) {
+  const statusTextMap: Record<PaymentMethod, string> = {
+    'cash-on-delivery': 'Cash on delivery',
+    'e-money': 'e-Money',
   };
 
   return statusTextMap[status];
