@@ -1,9 +1,6 @@
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { setCredentials } from '@/app/features/auth';
 import { useRegisterMutation } from '@/app/services/auth-api';
-import type { AppDispatch } from '@/app/store';
 import { Button, Input, Label, Spinner } from '@/components/ui';
 import {
   FormField,
@@ -17,7 +14,6 @@ import type { RegisterFormData } from '@/libs/schemas';
 import type { ApiError } from '@/libs/types';
 
 export const RegisterForm = () => {
-  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
   const [registerUser, { isLoading }] = useRegisterMutation();
@@ -35,15 +31,13 @@ export const RegisterForm = () => {
   const onSubmit = async (data: RegisterFormData) => {
     try {
       const { name, email, password } = data;
-      const { user, accessToken } = await registerUser({
+      await registerUser({
         name,
         email,
         password,
       }).unwrap();
 
       reset();
-
-      dispatch(setCredentials({ user, accessToken }));
 
       navigate(APP_ROUTES.home, { replace: true });
     } catch (error) {
