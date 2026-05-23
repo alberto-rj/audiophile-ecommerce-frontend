@@ -41,7 +41,7 @@ export function toOrderStatusText(status: OrderStatus) {
 
 export function toPaymentMethodText(status: PaymentMethod) {
   const statusTextMap: Record<PaymentMethod, string> = {
-    'cash-on-delivery': 'Cash on delivery',
+    'cash-on-delivery': 'COD',
     'e-money': 'e-Money',
   };
 
