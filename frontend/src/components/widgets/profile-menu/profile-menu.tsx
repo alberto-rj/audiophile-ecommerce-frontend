@@ -11,7 +11,11 @@ import { cn } from '@/libs/cn';
 import { getNameInitials } from '@/libs/helpers';
 import { useToast } from '@/hooks';
 
-const ProfileMenu = () => {
+interface ProfileMenuProps {
+  isOnMobile?: boolean;
+}
+
+const ProfileMenu = ({ isOnMobile = true }: ProfileMenuProps) => {
   const user = useSelector(selectUser)!;
 
   const [logoutUser, { isLoading: isLoggingOut }] = useLogoutMutation();
@@ -78,6 +82,7 @@ const ProfileMenu = () => {
         </DropdownMenu.Trigger>
         <DropdownMenu.Portal>
           <DropdownMenu.Content
+            side={isOnMobile ? 'top' : undefined}
             data-testid='profileMenu'
             className={cn(
               'absolute',
