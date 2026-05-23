@@ -200,7 +200,7 @@ const Navbar = () => {
           </ul>
 
           {isAuthenticated ? (
-            <ProfileMenu />
+            <ProfileMenu isOnMobile={false} />
           ) : (
             <AuthCTA className={cn('flex', 'items-center', 'gap-8')} />
           )}
