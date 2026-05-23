@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { userEvent, within } from 'storybook/test';
+import type { Canvas } from 'storybook/internal/types';
+import { expect, userEvent, within } from 'storybook/test';
 
 import { APP_ROUTES } from '@/config/app-routes';
 import { WithCredentialsDecorator } from '@/config/storybook';
@@ -20,6 +21,24 @@ const checkoutFormData: CheckoutFormData = {
   paymentMethod: 'e-money',
 };
 
+async function fillCheckoutForm(canvas: Canvas) {
+  await userEvent.type(canvas.getByTestId('name'), checkoutFormData.name);
+  await userEvent.type(canvas.getByTestId('email'), checkoutFormData.email);
+  await userEvent.type(canvas.getByTestId('phone'), checkoutFormData.phone);
+  await userEvent.type(canvas.getByTestId('address'), checkoutFormData.address);
+  await userEvent.type(canvas.getByTestId('zip'), checkoutFormData.zip);
+  await userEvent.type(canvas.getByTestId('city'), checkoutFormData.city);
+  await userEvent.type(canvas.getByTestId('country'), checkoutFormData.country);
+  await userEvent.type(
+    canvas.getByTestId('eMoneyNumber'),
+    checkoutFormData.eMoneyNumber!,
+  );
+  await userEvent.type(
+    canvas.getByTestId('eMoneyPin'),
+    checkoutFormData.eMoneyPin!,
+  );
+}
+
 type StoryProps = React.ComponentProps<typeof CheckoutPage>;
 
 const meta = {
@@ -37,7 +56,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const EmptyForm: Story = {};
 
 export const ValidationErrors: Story = {
   play: async ({ canvasElement }) => {
@@ -60,31 +79,11 @@ export const FilledValid: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    await userEvent.type(canvas.getByTestId('name'), checkoutFormData.name);
-    await userEvent.type(canvas.getByTestId('email'), checkoutFormData.email);
-    await userEvent.type(canvas.getByTestId('phone'), checkoutFormData.phone);
-    await userEvent.type(
-      canvas.getByTestId('address'),
-      checkoutFormData.address,
-    );
-    await userEvent.type(canvas.getByTestId('zip'), checkoutFormData.zip);
-    await userEvent.type(canvas.getByTestId('city'), checkoutFormData.city);
-    await userEvent.type(
-      canvas.getByTestId('country'),
-      checkoutFormData.country,
-    );
-    await userEvent.type(
-      canvas.getByTestId('eMoneyNumber'),
-      checkoutFormData.eMoneyNumber!,
-    );
-    await userEvent.type(
-      canvas.getByTestId('eMoneyPin'),
-      checkoutFormData.eMoneyPin!,
-    );
+    await fillCheckoutForm(canvas);
   },
 };
 
-export const PlacingOrder: Story = {
+export const ProcessingOrder: Story = {
   parameters: {
     msw: {
       handlers: [makeCreateOrderHandler({ type: 'infinite' })],
@@ -93,33 +92,15 @@ export const PlacingOrder: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    await userEvent.type(canvas.getByTestId('name'), checkoutFormData.name);
-    await userEvent.type(canvas.getByTestId('email'), checkoutFormData.email);
-    await userEvent.type(canvas.getByTestId('phone'), checkoutFormData.phone);
-    await userEvent.type(
-      canvas.getByTestId('address'),
-      checkoutFormData.address,
-    );
-    await userEvent.type(canvas.getByTestId('zip'), checkoutFormData.zip);
-    await userEvent.type(canvas.getByTestId('city'), checkoutFormData.city);
-    await userEvent.type(
-      canvas.getByTestId('country'),
-      checkoutFormData.country,
-    );
-    await userEvent.type(
-      canvas.getByTestId('eMoneyNumber'),
-      checkoutFormData.eMoneyNumber!,
-    );
-    await userEvent.type(
-      canvas.getByTestId('eMoneyPin'),
-      checkoutFormData.eMoneyPin!,
-    );
+    await fillCheckoutForm(canvas);
 
-    await userEvent.click(canvas.getByTestId('submit'));
+    await userEvent.click(canvas.getByTestId('checkout'));
+
+    await expect(canvas.getByTestId('checkout')).toBeDisabled();
   },
 };
 
-export const WithFailed: Story = {
+export const CheckoutFailed: Story = {
   parameters: {
     msw: {
       handlers: [makeCreateOrderHandler({ type: 'error' })],
@@ -128,33 +109,15 @@ export const WithFailed: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    await userEvent.type(canvas.getByTestId('name'), checkoutFormData.name);
-    await userEvent.type(canvas.getByTestId('email'), checkoutFormData.email);
-    await userEvent.type(canvas.getByTestId('phone'), checkoutFormData.phone);
-    await userEvent.type(
-      canvas.getByTestId('address'),
-      checkoutFormData.address,
-    );
-    await userEvent.type(canvas.getByTestId('zip'), checkoutFormData.zip);
-    await userEvent.type(canvas.getByTestId('city'), checkoutFormData.city);
-    await userEvent.type(
-      canvas.getByTestId('country'),
-      checkoutFormData.country,
-    );
-    await userEvent.type(
-      canvas.getByTestId('eMoneyNumber'),
-      checkoutFormData.eMoneyNumber!,
-    );
-    await userEvent.type(
-      canvas.getByTestId('eMoneyPin'),
-      checkoutFormData.eMoneyPin!,
-    );
+    await fillCheckoutForm(canvas);
 
-    await userEvent.click(canvas.getByTestId('submit'));
+    await userEvent.click(canvas.getByTestId('checkout'));
+
+    await expect(await canvas.findByRole('status')).toBeInTheDocument();
   },
 };
 
-export const WithPlacedOrder: Story = {
+export const CheckoutSucceeds: Story = {
   parameters: {
     msw: {
       handlers: [makeCreateOrderHandler()],
@@ -163,28 +126,8 @@ export const WithPlacedOrder: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    await userEvent.type(canvas.getByTestId('name'), checkoutFormData.name);
-    await userEvent.type(canvas.getByTestId('email'), checkoutFormData.email);
-    await userEvent.type(canvas.getByTestId('phone'), checkoutFormData.phone);
-    await userEvent.type(
-      canvas.getByTestId('address'),
-      checkoutFormData.address,
-    );
-    await userEvent.type(canvas.getByTestId('zip'), checkoutFormData.zip);
-    await userEvent.type(canvas.getByTestId('city'), checkoutFormData.city);
-    await userEvent.type(
-      canvas.getByTestId('country'),
-      checkoutFormData.country,
-    );
-    await userEvent.type(
-      canvas.getByTestId('eMoneyNumber'),
-      checkoutFormData.eMoneyNumber!,
-    );
-    await userEvent.type(
-      canvas.getByTestId('eMoneyPin'),
-      checkoutFormData.eMoneyPin!,
-    );
+    await fillCheckoutForm(canvas);
 
-    await userEvent.click(canvas.getByTestId('submit'));
+    await userEvent.click(canvas.getByTestId('checkout'));
   },
 };
