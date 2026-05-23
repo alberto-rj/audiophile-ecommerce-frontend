@@ -185,7 +185,8 @@ const ProductDetailsCard = ({
               aria-label={
                 isLoading ? `Adding to cart - ${name}` : `Add to cart - ${name}`
               }
-              disabled={isLoading}
+              disabled={isLoading || undefined}
+              aria-busy={isLoading || undefined}
             >
               {isLoading ? (
                 <>
