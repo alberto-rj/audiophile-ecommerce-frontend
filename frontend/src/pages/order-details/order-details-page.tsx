@@ -5,6 +5,7 @@ import { Spinner } from '@/components/ui';
 import {
   ErrorMessage,
   GoBack,
+  SEO,
   StatusVisuallyHidden,
 } from '@/components/widgets';
 import { useSecondaryPage } from '@/hooks';
@@ -24,7 +25,9 @@ const OrderDetailsPageQuery = () => {
   if (isLoading) {
     return (
       <>
-        <StatusVisuallyHidden>Loading order details...</StatusVisuallyHidden>
+        <StatusVisuallyHidden>
+          Loading your order details...
+        </StatusVisuallyHidden>
         <Spinner className={cn('mx-auto')} />
       </>
     );
@@ -51,6 +54,13 @@ const OrderDetailsPage = () => {
 
   return (
     <>
+      <SEO
+        metadata={{
+          title: 'Order Details | Audiophile',
+          description:
+            'View full details of your order, including items purchased, shipping information and order status.',
+        }}
+      />
       <GoBack>
         <GoBack.Control />
       </GoBack>
