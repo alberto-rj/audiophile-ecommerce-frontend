@@ -41,6 +41,7 @@ const CartModalTrigger = () => {
       {isAuthenticated && <CartModal />}
       <button
         type='button'
+        data-testid='cartModalTrigger'
         onClick={handleViewCart}
         className={cn('relative')}
       >

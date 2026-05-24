@@ -1,14 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { Canvas } from 'storybook/internal/types';
 
 import { CartModalTrigger } from '@/components/widgets';
 import { cn } from '@/libs/cn';
 import { WithCredentialsDecorator } from '@/config/storybook';
-import { API_ENDPOINTS } from '@/config/api-endpoints';
-import {
-  makeGetCartHandler,
-  makeInfiniteHandler,
-  makeNotFoundHandler,
-} from '@/mocks/handlers';
+import { makeClearCartHandler, makeGetCartHandler } from '@/mocks/handlers';
+import { userEvent, within } from 'storybook/test';
 
 type StoryProps = React.ComponentProps<typeof CartModalTrigger>;
 
@@ -18,9 +15,6 @@ const meta = {
   args: {},
   parameters: {
     layout: 'fullscreen',
-    msw: {
-      handlers: [makeGetCartHandler({ limit: 0 })],
-    },
   },
   render: () => {
     return (
@@ -44,33 +38,31 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const endpoint = `/api${API_ENDPOINTS.cart}`;
-
 export const Default: Story = {};
 
 export const WithLoggedUser: Story = {
   decorators: [WithCredentialsDecorator],
 };
 
-export const FetchingCart: Story = {
+export const LoadingCart: Story = {
   parameters: {
     msw: {
-      handlers: [makeInfiniteHandler(endpoint)],
+      handlers: [makeGetCartHandler({ type: 'infinite' })],
     },
   },
   decorators: [WithCredentialsDecorator],
 };
 
-export const CartNotFound: Story = {
+export const FailedToLoadCart: Story = {
   parameters: {
     msw: {
-      handlers: [makeNotFoundHandler(endpoint)],
+      handlers: [makeGetCartHandler({ type: 'error' })],
     },
   },
   decorators: [WithCredentialsDecorator],
 };
 
-export const WithFilledCart: Story = {
+export const WithCart: Story = {
   parameters: {
     msw: {
       handlers: [makeGetCartHandler()],
@@ -86,4 +78,64 @@ export const WithSingleItem: Story = {
     },
   },
   decorators: [WithCredentialsDecorator],
+};
+
+export const WithEmptyCart: Story = {
+  parameters: {
+    msw: {
+      handlers: [makeGetCartHandler({ limit: 0 })],
+    },
+  },
+  decorators: [WithCredentialsDecorator],
+};
+
+async function openCartModalAndClear(canvas: Canvas) {
+  await userEvent.click(canvas.getByTestId('cartModalTrigger'));
+
+  await userEvent.click(await canvas.findByTestId('cartModalClear'));
+}
+
+export const ClearingCart: Story = {
+  parameters: {
+    msw: {
+      handlers: [
+        makeGetCartHandler(),
+        makeClearCartHandler({ type: 'infinite' }),
+      ],
+    },
+  },
+  decorators: [WithCredentialsDecorator],
+  play: async () => {
+    const canvas = within(document.body);
+
+    await openCartModalAndClear(canvas);
+  },
+};
+
+export const ClearCartFailed: Story = {
+  parameters: {
+    msw: {
+      handlers: [makeGetCartHandler(), makeClearCartHandler({ type: 'error' })],
+    },
+  },
+  decorators: [WithCredentialsDecorator],
+  play: async () => {
+    const canvas = within(document.body);
+
+    await openCartModalAndClear(canvas);
+  },
+};
+
+export const ClearCartSucceeds: Story = {
+  parameters: {
+    msw: {
+      handlers: [makeGetCartHandler(), makeClearCartHandler()],
+    },
+  },
+  decorators: [WithCredentialsDecorator],
+  play: async () => {
+    const canvas = within(document.body);
+
+    await openCartModalAndClear(canvas);
+  },
 };
