@@ -204,7 +204,7 @@ export const UpdateItemQuantityFailed: Story = {
   },
 };
 
-export const UpdatedItemQuantitySucceeds: Story = {
+export const UpdateItemQuantitySucceeds: Story = {
   parameters: {
     msw: {
       handlers: [makeGetCartHandler(), makeUpdateCartItemQuantityHandler()],
