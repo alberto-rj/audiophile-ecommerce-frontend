@@ -3,6 +3,7 @@ import { Spinner } from '@/components/ui';
 import {
   ErrorMessage,
   GoBack,
+  SEO,
   StatusVisuallyHidden,
 } from '@/components/widgets';
 import { useSecondaryPage } from '@/hooks';
@@ -16,7 +17,9 @@ const OrdersPageQuery = () => {
   if (isLoading) {
     return (
       <>
-        <StatusVisuallyHidden>Loading your orders...</StatusVisuallyHidden>
+        <StatusVisuallyHidden>
+          Loading your order history...
+        </StatusVisuallyHidden>
         <Spinner className={cn('mx-auto')} />
       </>
     );
@@ -26,7 +29,7 @@ const OrdersPageQuery = () => {
     return (
       <ErrorMessage>
         <ErrorMessage.Description>
-          We couldn't load your orders. Please try again.
+          We couldn't load your order history. Please try again.
         </ErrorMessage.Description>
         <ErrorMessage.Retry onClick={refetch}>Try again</ErrorMessage.Retry>
       </ErrorMessage>
@@ -43,6 +46,13 @@ const OrdersPage = () => {
 
   return (
     <>
+      <SEO
+        metadata={{
+          title: 'My Orders | Audiophile',
+          description:
+            'View and track your order history at Audiophile. Check order status, details, and past purchases in one place.',
+        }}
+      />
       <GoBack>
         <GoBack.Control />
       </GoBack>
