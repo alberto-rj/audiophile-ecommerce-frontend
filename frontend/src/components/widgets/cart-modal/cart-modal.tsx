@@ -281,6 +281,7 @@ const CartModalFilled = ({ cart }: CartModalFilledProps) => {
 
         <Button
           type='button'
+          data-testid='cartModalClear'
           variant='link'
           onClick={handleClearCart}
           disabled={isClearingCart}
