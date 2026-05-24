@@ -8,6 +8,7 @@ import {
   ErrorMessage,
   ProductList,
   ProductListSkeleton,
+  SEO,
 } from '@/components/widgets';
 import { cn } from '@/libs/cn';
 
@@ -61,6 +62,12 @@ const CategoryPage = () => {
 
   return (
     <>
+      <SEO
+        metadata={{
+          title: `Shop ${category.name} | Audiophile`,
+          description: `Explore premium ${category.name} at Audiophile. Find high-quality audio equipment designed for immersive sound experiences.`,
+        }}
+      />
       <Header title={category.name} />
       <div>
         <div className={cn('wrapper', 'flow', 'flow-spacing')}>
