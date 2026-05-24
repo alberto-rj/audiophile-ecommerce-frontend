@@ -6,6 +6,8 @@ import {
   CategoriesQuery,
   ErrorMessage,
   GoBack,
+  SEO,
+  StatusVisuallyHidden,
 } from '@/components/widgets';
 import { cn } from '@/libs/cn';
 import type { Product } from '@/libs/types';
@@ -56,6 +58,12 @@ interface ProductDetailsProps {
 const ProductDetails = ({ product }: ProductDetailsProps) => {
   return (
     <>
+      <SEO
+        metadata={{
+          title: `${product.name} | Audiophile`,
+          description: `Discover ${product.name} at Audiophile. Explore features, what's included in the box, and related premium audio products.`,
+        }}
+      />
       <ProductDetailsCard product={product} />
       <div
         className={cn(
@@ -98,13 +106,7 @@ const ProductDetailsQuery = () => {
   if (isLoading) {
     return (
       <>
-        <p
-          role='status'
-          aria-live='polite'
-          className={cn('sr-only')}
-        >
-          Loading product details...
-        </p>
+        <StatusVisuallyHidden>Loading product details...</StatusVisuallyHidden>
         <ProductDetailsSkeleton />
       </>
     );
@@ -114,15 +116,9 @@ const ProductDetailsQuery = () => {
     return (
       <ErrorMessage>
         <ErrorMessage.Description>
-          We couldn't load product details for "{slug}". Please try again.
+          We couldn't load the product details. Please try again.
         </ErrorMessage.Description>
-
-        <ErrorMessage.Retry
-          onClick={refetch}
-          aria-label='Try again loading product details'
-        >
-          Try again
-        </ErrorMessage.Retry>
+        <ErrorMessage.Retry onClick={refetch}>Try again</ErrorMessage.Retry>
       </ErrorMessage>
     );
   }
