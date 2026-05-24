@@ -94,7 +94,6 @@ const CheckoutPage = () => {
               form={formId}
               variant='primary'
               disabled={isSubmitting || undefined}
-              aria-busy={isSubmitting || undefined}
               className={cn('inline-full')}
             >
               {isSubmitting ? (
