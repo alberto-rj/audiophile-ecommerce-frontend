@@ -44,7 +44,7 @@ const ProductDetailsCard = ({
       toast.error({
         title: 'Add to cart failed',
         description:
-          "We couldn't add this product to your cart. Please try again.",
+          "We couldn't add this item to your cart. Please try again.",
       });
     }
   };
@@ -72,7 +72,7 @@ const ProductDetailsCard = ({
         onSignIn={handleSignIn}
       />
       <StatusVisuallyHidden>
-        {isLoading ? `Adding ${name} to cart` : ''}
+        {isLoading ? `Adding ${name} to your cart...` : ''}
       </StatusVisuallyHidden>
       <section
         aria-labelledby={headingId}
@@ -182,11 +182,7 @@ const ProductDetailsCard = ({
             <Button
               variant='primary'
               onClick={handleAddToCart}
-              aria-label={
-                isLoading ? `Adding to cart - ${name}` : `Add to cart - ${name}`
-              }
               disabled={isLoading || undefined}
-              aria-busy={isLoading || undefined}
             >
               {isLoading ? (
                 <>
@@ -194,7 +190,7 @@ const ProductDetailsCard = ({
                     variant='primary'
                     size='sm'
                   />
-                  Adding...
+                  Adding to cart...
                 </>
               ) : (
                 <>Add to cart</>
