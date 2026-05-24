@@ -45,7 +45,13 @@ export {
   makeRegisterHandler,
 } from './auth.handlers';
 
-export { makeGetCartHandler } from './cart.handlers';
+export {
+  makeAddCartItemHandler,
+  makeClearCartHandler,
+  makeDeleteCartItemHandler,
+  makeGetCartHandler,
+  makeUpdateCartItemQuantityHandler,
+} from './cart.handlers';
 
 export {
   getCategoryProducts,
