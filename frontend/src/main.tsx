@@ -2,6 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 
 import AppErrorBoundary from '@/app-error-boundary';
 import { store } from '@/app/store';
@@ -30,7 +31,9 @@ enableMocking().then(() => {
     <StrictMode>
       <BrowserRouter>
         <Provider store={store}>
-          <AppErrorBoundary />
+          <HelmetProvider>
+            <AppErrorBoundary />
+          </HelmetProvider>
         </Provider>
       </BrowserRouter>
     </StrictMode>,

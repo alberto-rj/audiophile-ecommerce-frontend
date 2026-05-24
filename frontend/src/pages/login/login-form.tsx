@@ -123,7 +123,6 @@ export const LoginForm = () => {
             type='submit'
             variant='primary'
             disabled={isLoading || undefined}
-            aria-busy={isLoading || undefined}
           >
             {isLoading ? (
               <>

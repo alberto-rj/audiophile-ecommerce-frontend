@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 import { Logo } from '@/assets/icons';
 import { Button } from '@/components/ui';
-import { FormCard } from '@/components/widgets';
+import { FormCard, SEO } from '@/components/widgets';
 import { APP_ROUTES } from '@/config/app-routes';
 import { useSecondaryPage } from '@/hooks';
 import { cn } from '@/libs/cn';
@@ -13,50 +13,59 @@ const RegisterPage = () => {
   useSecondaryPage();
 
   return (
-    <FormCard>
-      <Link
-        to={APP_ROUTES.home}
-        className={cn(
-          'self-center',
-
-          'text-black',
-          'cursor-pointer',
-        )}
-      >
-        <span className={cn('sr-only')}>Go to Audiophile homepage</span>
-        <Logo
-          aria-hidden={true}
-          focusable={false}
-        />
-      </Link>
-      <FormCard.Header>
-        <FormCard.Title>Sign up</FormCard.Title>
-        <FormCard.Description>
-          Enter your details to create your account.
-        </FormCard.Description>
-      </FormCard.Header>
-      <FormCard.Body>
-        <RegisterForm />
-      </FormCard.Body>
-      <FormCard.Footer>
-        <p
+    <>
+      <SEO
+        metadata={{
+          title: 'Sign Up | Audiophile',
+          description:
+            'Create your Audiophile account to view orders, manage your profile, and start shopping.',
+        }}
+      />
+      <FormCard>
+        <Link
+          to={APP_ROUTES.home}
           className={cn(
-            'text-xs',
+            'self-center',
 
-            'text-center',
-            'font-medium',
+            'text-black',
+            'cursor-pointer',
           )}
         >
-          Already have an account?{' '}
-          <Button
-            variant='link'
-            asChild
+          <span className={cn('sr-only')}>Go to Audiophile homepage</span>
+          <Logo
+            aria-hidden={true}
+            focusable={false}
+          />
+        </Link>
+        <FormCard.Header>
+          <FormCard.Title>Sign up</FormCard.Title>
+          <FormCard.Description>
+            Enter your details to create your account.
+          </FormCard.Description>
+        </FormCard.Header>
+        <FormCard.Body>
+          <RegisterForm />
+        </FormCard.Body>
+        <FormCard.Footer>
+          <p
+            className={cn(
+              'text-xs',
+
+              'text-center',
+              'font-medium',
+            )}
           >
-            <Link to={APP_ROUTES.login}>Sign in</Link>
-          </Button>
-        </p>
-      </FormCard.Footer>
-    </FormCard>
+            Already have an account?{' '}
+            <Button
+              variant='link'
+              asChild
+            >
+              <Link to={APP_ROUTES.login}>Sign in</Link>
+            </Button>
+          </p>
+        </FormCard.Footer>
+      </FormCard>
+    </>
   );
 };
 

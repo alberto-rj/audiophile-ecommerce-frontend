@@ -8,6 +8,8 @@ import {
   ErrorMessage,
   ProductList,
   ProductListSkeleton,
+  SEO,
+  StatusVisuallyHidden,
 } from '@/components/widgets';
 import { cn } from '@/libs/cn';
 
@@ -24,11 +26,8 @@ const CategoryPage = () => {
 
   if (isLoading) {
     return (
-      <div
-        role='status'
-        aria-live='polite'
-        aria-label='Loading products...'
-      >
+      <>
+        <StatusVisuallyHidden>Loading products...</StatusVisuallyHidden>
         <HeaderSkeleton />
         <div>
           <div className={cn('wrapper', 'flow', 'flow-spacing')}>
@@ -36,7 +35,7 @@ const CategoryPage = () => {
             <ProductListSkeleton />
           </div>
         </div>
-      </div>
+      </>
     );
   }
 
@@ -44,15 +43,9 @@ const CategoryPage = () => {
     return (
       <ErrorMessage>
         <ErrorMessage.Description>
-          We could not load products for "{slug}". Please try again.
+          We couldn't load products for this category. Please try again.
         </ErrorMessage.Description>
-
-        <ErrorMessage.Retry
-          onClick={refetch}
-          aria-label='Try again loading products'
-        >
-          Try again
-        </ErrorMessage.Retry>
+        <ErrorMessage.Retry onClick={refetch}>Try again</ErrorMessage.Retry>
       </ErrorMessage>
     );
   }
@@ -61,6 +54,12 @@ const CategoryPage = () => {
 
   return (
     <>
+      <SEO
+        metadata={{
+          title: `Shop ${category.name} | Audiophile`,
+          description: `Explore premium ${category.name} at Audiophile. Find high-quality audio equipment designed for immersive sound experiences.`,
+        }}
+      />
       <Header title={category.name} />
       <div>
         <div className={cn('wrapper', 'flow', 'flow-spacing')}>

@@ -1,4 +1,4 @@
-import { FormCard, GoBack } from '@/components/widgets';
+import { FormCard, GoBack, SEO } from '@/components/widgets';
 import { cn } from '@/libs/cn';
 import { useSecondaryPage } from '@/hooks';
 
@@ -9,6 +9,13 @@ const ProfilePage = () => {
 
   return (
     <>
+      <SEO
+        metadata={{
+          title: 'My Profile | Audiophile',
+          description:
+            'Manage your Audiophile account. Update personal information and keep your profile details up to date.',
+        }}
+      />
       <GoBack>
         <GoBack.Control />
       </GoBack>
