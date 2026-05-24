@@ -9,7 +9,7 @@ interface ProductListProps {
 
 export function ProductList({ products }: ProductListProps) {
   return products.length === 0 ? (
-    <p>We have no products yet.</p>
+    <p className={cn('text-center')}>We have no products yet.</p>
   ) : (
     <ul
       role='list'
