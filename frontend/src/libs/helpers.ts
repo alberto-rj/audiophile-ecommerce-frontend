@@ -23,7 +23,7 @@ export function getNameInitials(name: string) {
     .trim()
     .split(/\s+/)
     .map((word) => word[0]?.toUpperCase())
-    .slice(0, 2)
+    .filter((_, i, arr) => i === 0 || i === arr.length - 1)
     .join('');
 }
 
