@@ -73,7 +73,7 @@ const CartModalError = () => {
         <h2>Cart</h2>
       </Modal.Title>
       <Modal.Description className={cn('text-center', 'my-8')}>
-        Failed to load cart. Please try again.
+        We couldn't load your cart. Please try again.
       </Modal.Description>
     </BaseCartModal>
   );
@@ -123,7 +123,7 @@ const SingleCartItem = ({
       } catch {
         toast.error({
           title: 'Quantity update failed',
-          description: `We couldn't update the quantity for ${name}. Please try again.`,
+          description: `We couldn't update ${name} quantity. Please try again.`,
         });
       }
     },
@@ -132,6 +132,9 @@ const SingleCartItem = ({
 
   return (
     <>
+      <StatusVisuallyHidden>
+        {isUpdatingItemQuantity ? `Updating quantity for ${name}...` : ''}
+      </StatusVisuallyHidden>
       <div className={cn('flex', 'justify-start', 'items-center', 'gap-4')}>
         <ResponsiveImage
           image={image}
@@ -229,13 +232,13 @@ const CartModalFilled = ({ cart }: CartModalFilledProps) => {
     try {
       await clearCart().unwrap();
       toast.success({
-        title: 'Success!',
-        description: 'Cart cleared successfully.',
+        title: 'Cart cleared',
+        description: 'All items have been removed from your cart.',
       });
     } catch {
       toast.error({
-        title: 'Something went wrong',
-        description: 'Failed to clear cart.',
+        title: 'Clear cart failed',
+        description: "We couldn't clear your cart. Please try again.",
       });
     }
   };
@@ -253,7 +256,7 @@ const CartModalFilled = ({ cart }: CartModalFilledProps) => {
           <h2>Cart</h2>
         </Modal.Title>
         <Modal.Description className={cn('text-center', 'my-8')}>
-          Your cart is empty.
+          Your cart is empty. Add items to get started.
         </Modal.Description>
       </BaseCartModal>
     );
@@ -261,15 +264,15 @@ const CartModalFilled = ({ cart }: CartModalFilledProps) => {
 
   return (
     <BaseCartModal itemsCount={itemsCount}>
+      <StatusVisuallyHidden>
+        {isClearingCart ? 'Clearing your cart...' : ''}
+      </StatusVisuallyHidden>
       <div className={cn('flex', 'justify-between', 'items-center', 'gap-8')}>
         <Modal.Title
           className={cn('max-inline-50', 'truncate', 'h6')}
           asChild
         >
-          <h2>
-            <span className={cn('sr-only')}>Cart</span>
-            <span aria-hidden={true}>Cart ({itemsCount})</span>
-          </h2>
+          <h2>Cart ({itemsCount})</h2>
         </Modal.Title>
 
         <Modal.Description className={cn('sr-only')}>
@@ -283,7 +286,7 @@ const CartModalFilled = ({ cart }: CartModalFilledProps) => {
           disabled={isClearingCart}
         >
           <span className={cn('sr-only')}>Remove all cart items</span>
-          {isClearingCart ? <>Removing...</> : <>Remove all</>}
+          {isClearingCart ? <>Clearing cart...</> : <>Remove all</>}
         </Button>
       </div>
       <CartItemList items={items} />
