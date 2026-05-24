@@ -12,13 +12,17 @@ const meta = {
   component: Navbar,
   parameters: {
     layout: 'fullscreen',
-    msw: {
-      handlers: [makeGetCartHandler({ limit: 0 })],
-    },
   },
   decorators: (Story, ctx) => {
     return (
-      <div className={cn('inline-screen', 'min-block-screen', 'bg-black')}>
+      <div
+        className={cn(
+          'inline-screen',
+          'min-block-screen',
+
+          'bg-black',
+        )}
+      >
         <Story {...ctx} />
       </div>
     );
@@ -33,6 +37,11 @@ export const Default: Story = {};
 
 export const WithLoggedUser: Story = {
   decorators: [WithCredentialsDecorator],
+  parameters: {
+    msw: {
+      handlers: [makeGetCartHandler({ limit: 0 })],
+    },
+  },
 };
 
 export const WithFilledCart: Story = {
