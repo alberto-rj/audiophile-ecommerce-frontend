@@ -9,7 +9,7 @@ interface CategoryListProps {
 
 export const CategoryList = ({ items }: CategoryListProps) => {
   return items.length === 0 ? (
-    <p>We have no categories yet.</p>
+    <p className={cn('text-center')}>We have no categories yet.</p>
   ) : (
     <ul
       role='list'
