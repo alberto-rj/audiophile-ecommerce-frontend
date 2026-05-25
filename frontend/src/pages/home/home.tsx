@@ -1,6 +1,6 @@
 import {
   BestGear,
-  CategoriesQuery,
+  CategoriesListing,
   FeatureProducts,
   Hero,
   SEO,
@@ -26,7 +26,7 @@ function Home() {
       <Hero product={heroNewProduct} />
       <div>
         <div className={cn('wrapper', 'flow', 'flow-spacing')}>
-          <CategoriesQuery />
+          <CategoriesListing />
           <FeatureProducts
             highLightedContent={featureHighLightedContent}
             portraitContent={featurePortraitContent}

@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useGetCategoryProductsQuery } from '@/app/services/categories-api';
 import {
   BestGear,
-  CategoriesQuery,
+  CategoriesListing,
   CategoryListSkeleton,
   ErrorMessage,
   ProductList,
@@ -63,7 +63,7 @@ const CategoryPage = () => {
       <Header title={category.name} />
       <div>
         <div className={cn('wrapper', 'flow', 'flow-spacing')}>
-          <CategoriesQuery />
+          <CategoriesListing />
           <ProductList products={category.products!} />
           <BestGear />
         </div>
