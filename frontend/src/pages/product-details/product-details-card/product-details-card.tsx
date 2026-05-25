@@ -180,6 +180,8 @@ const ProductDetailsCard = ({
               className={cn('max-inline-30')}
             />
             <Button
+              data-testid='addItemToCart'
+              type='button'
               onClick={handleAddToCart}
               disabled={isLoading || undefined}
             >
