@@ -1,20 +1,28 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, userEvent, within } from 'storybook/test';
+import type { Canvas } from 'storybook/internal/types';
 
 import { APP_ROUTES } from '@/config/app-routes';
+import { expectErrorAlert } from '@/config/storybook';
 import { LayoutCenteredOnScreen } from '@/layouts';
 import type { LoginFormData } from '@/libs/schemas';
 import { makeLoginHandler } from '@/mocks/handlers';
 import { LoginPage } from '@/pages';
 
+async function fillSignUpForm(canvas: Canvas, data: LoginFormData) {
+  await userEvent.type(canvas.getByTestId('email'), data.email);
+  await userEvent.type(canvas.getByTestId('password'), data.password);
+}
+
+async function fillSignUpFormAndSubmit(canvas: Canvas, data: LoginFormData) {
+  await fillSignUpForm(canvas, data);
+
+  await userEvent.click(await canvas.findByTestId('signIn'));
+}
+
 const loginFormData: LoginFormData = {
   email: 'john@example.com',
   password: 'password123',
-};
-
-const wrongLoginFormData: LoginFormData = {
-  email: 'wrong@example.com',
-  password: 'wrong_password',
 };
 
 type StoryProps = React.ComponentProps<typeof LoginPage>;
@@ -46,11 +54,7 @@ export const FilledValid: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    await userEvent.type(canvas.getByTestId('email'), loginFormData.email);
-    await userEvent.type(
-      canvas.getByTestId('password'),
-      loginFormData.password,
-    );
+    await fillSignUpForm(canvas, loginFormData);
   },
 };
 
@@ -73,52 +77,9 @@ export const SigningIn: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    await userEvent.type(canvas.getByTestId('email'), loginFormData.email);
-    await userEvent.type(
-      canvas.getByTestId('password'),
-      loginFormData.password,
-    );
-
-    await userEvent.click(canvas.getByTestId('signIn'));
+    await fillSignUpFormAndSubmit(canvas, loginFormData);
 
     await expect(canvas.getByTestId('signIn')).toBeDisabled();
-  },
-};
-
-export const SignInSucceeds: Story = {
-  parameters: {
-    msw: {
-      handlers: [makeLoginHandler()],
-    },
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-
-    await userEvent.type(canvas.getByTestId('email'), loginFormData.email);
-    await userEvent.type(
-      canvas.getByTestId('password'),
-      loginFormData.password,
-    );
-
-    await userEvent.click(canvas.getByTestId('signIn'));
-  },
-};
-
-export const InvalidCredentials: Story = {
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-
-    await userEvent.type(canvas.getByTestId('email'), wrongLoginFormData.email);
-    await userEvent.type(
-      canvas.getByTestId('password'),
-      wrongLoginFormData.password,
-    );
-
-    await userEvent.click(canvas.getByTestId('signIn'));
-
-    const alert = await canvas.findByRole('status');
-
-    await expect(alert).toBeInTheDocument();
   },
 };
 
@@ -131,16 +92,34 @@ export const SignInFailed: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    await userEvent.type(canvas.getByTestId('email'), loginFormData.email);
-    await userEvent.type(
-      canvas.getByTestId('password'),
-      loginFormData.password,
-    );
+    await fillSignUpFormAndSubmit(canvas, loginFormData);
 
-    await userEvent.click(canvas.getByTestId('signIn'));
+    await expectErrorAlert(canvas);
+  },
+};
 
-    const alert = await canvas.findByRole('status');
+export const InvalidCredentials: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
 
-    await expect(alert).toBeInTheDocument();
+    await fillSignUpFormAndSubmit(canvas, {
+      email: 'wrong@example.com',
+      password: 'wrong_password',
+    });
+
+    await expectErrorAlert(canvas);
+  },
+};
+
+export const SignInSucceeds: Story = {
+  parameters: {
+    msw: {
+      handlers: [makeLoginHandler()],
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await fillSignUpFormAndSubmit(canvas, loginFormData);
   },
 };
