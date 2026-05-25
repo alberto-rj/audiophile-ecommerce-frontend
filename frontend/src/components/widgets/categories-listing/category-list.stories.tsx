@@ -7,7 +7,7 @@ import { CategoryList } from './category-list';
 type StoryProps = React.ComponentProps<typeof CategoryList>;
 
 const meta = {
-  title: 'widgets/CategoriesQuery/CategoryList',
+  title: 'widgets/CategoriesListing/CategoryList',
   component: CategoryList,
   parameters: {
     layout: 'centered',

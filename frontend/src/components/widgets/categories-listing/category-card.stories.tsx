@@ -8,7 +8,7 @@ import { CategoryCard } from './category-card';
 type StoryProps = React.ComponentProps<typeof CategoryCard>;
 
 const meta = {
-  title: 'widgets/CategoriesQuery/CategoryCard',
+  title: 'widgets/CategoriesListing/CategoryCard',
   component: CategoryCard,
   args: {
     category: categories.find((c) => c.id === 1),

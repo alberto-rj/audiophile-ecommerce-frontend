@@ -4,9 +4,9 @@ export { default as AuthCTA } from './auth-cta/auth-cta';
 
 export { default as BestGear } from './best-gear/best-gear';
 
-export { default as CategoriesQuery } from './categories-query/categories-query';
-export { CategoryList } from './categories-query/category-list';
-export { CategoryListSkeleton } from './categories-query/category-list-skeleton';
+export { default as CategoriesListing } from './categories-listing/categories-query';
+export { CategoryList } from './categories-listing/category-list';
+export { CategoryListSkeleton } from './categories-listing/category-list-skeleton';
 
 export { default as CartModal } from './cart-modal/cart-modal';
 export { default as CartModalTrigger } from './cart-modal/cart-modal-trigger';

@@ -55,4 +55,20 @@ const CategoriesQuery = () => {
   );
 };
 
-export default CategoriesQuery;
+const CategoriesListing = () => {
+  const headingId = useId();
+
+  return (
+    <section aria-labelledby={headingId}>
+      <h2
+        id={headingId}
+        className={cn('sr-only')}
+      >
+        Our categories
+      </h2>
+      <CategoriesQuery />
+    </section>
+  );
+};
+
+export default CategoriesListing;
