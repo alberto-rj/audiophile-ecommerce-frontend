@@ -1,10 +1,18 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { Canvas } from 'storybook/internal/types';
+import { expect, userEvent, within } from 'storybook/test';
 
+import { expectErrorAlert, WithCredentialsDecorator } from '@/config/storybook';
 import { cn } from '@/libs/cn';
-import type { Product } from '@/libs/types';
 import { products } from '@/libs/mocks';
+import type { Product } from '@/libs/types';
+import { makeAddCartItemHandler } from '@/mocks/handlers';
 
 import ProductDetailsCard from './product-details-card';
+
+async function clickToAddItemToCart(canvas: Canvas) {
+  await userEvent.click(await canvas.getByTestId('addItemToCart'));
+}
 
 type StoryProps = React.ComponentProps<typeof ProductDetailsCard> & {
   product: Product;
@@ -16,7 +24,9 @@ const meta = {
   parameters: {
     layout: 'fullscreen',
   },
-  args: {},
+  args: {
+    product: products.find((p) => p.isNew)!,
+  },
   render: (props) => {
     return (
       <div className={cn('region', 'wrapper')}>
@@ -30,14 +40,54 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
-  args: {
-    product: products.find((p) => p.isNew)!,
-  },
-};
-
 export const Old: Story = {
   args: {
     product: products.find((p) => !p.isNew)!,
+  },
+};
+
+export const AddItemToCartLoading: Story = {
+  decorators: [WithCredentialsDecorator],
+  parameters: {
+    msw: {
+      handlers: [makeAddCartItemHandler({ type: 'infinite' })],
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await clickToAddItemToCart(canvas);
+
+    await expect(await canvas.findByTestId('addItemToCart')).toBeDisabled();
+  },
+};
+
+export const AddItemToCartFailed: Story = {
+  decorators: [WithCredentialsDecorator],
+  parameters: {
+    msw: {
+      handlers: [makeAddCartItemHandler({ type: 'error' })],
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await clickToAddItemToCart(canvas);
+
+    await expectErrorAlert(canvas);
+  },
+};
+
+export const AddItemToCartSucceeds: Story = {
+  decorators: [WithCredentialsDecorator],
+  parameters: {
+    msw: {
+      handlers: [makeAddCartItemHandler()],
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await clickToAddItemToCart(canvas);
   },
 };
