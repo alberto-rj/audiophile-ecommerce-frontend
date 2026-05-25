@@ -54,9 +54,8 @@ export {
 } from './cart.handlers';
 
 export {
-  getCategoryProducts,
-  getCategories,
   makeGetCategoriesHandler,
+  makeGetCategoryBySlugHandler,
   makeGetCategoryProductsHandler,
 } from './category.handlers';
 
