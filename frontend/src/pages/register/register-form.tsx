@@ -111,7 +111,10 @@ export const RegisterForm = () => {
               {...register('email')}
             />
             {errors.email && (
-              <FormFieldAlert id='emailAlert'>
+              <FormFieldAlert
+                id='emailAlert'
+                data-testid='emailAlert'
+              >
                 {errors.email.message}
               </FormFieldAlert>
             )}
