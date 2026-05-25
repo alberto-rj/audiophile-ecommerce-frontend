@@ -66,7 +66,10 @@ export {
   makeGetOrderHandler,
 } from './order.handlers';
 
-export { getProductBySlug, getProducts } from './product.handlers';
+export {
+  makeGetProductsHandler,
+  makeGetProductBySlugHandler,
+} from './product.handlers';
 
 export { makeGetMeHandler, makeUpdateMeHandler } from './user.handlers';
 

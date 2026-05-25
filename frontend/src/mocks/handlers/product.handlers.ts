@@ -6,7 +6,8 @@ import type {
   ProductListResponse,
   ProductResponse,
 } from '@/libs/types';
-import { withDelay } from '../middlewares/with-delay';
+
+import { withDelay, withInfiniteDelay } from '../middlewares/with-delay';
 
 function sortProductsByNewFirst(products: Product[]) {
   return [...products].sort((a, b) => {
@@ -54,4 +55,91 @@ export const getProducts = http.get(
   }),
 );
 
-export const productHandlers = [getProducts, getProductBySlug];
+export function makeGetProductsHandler(
+  options: { type?: 'error' | 'infinite' | 'default'; limit?: number } = {},
+) {
+  const endpoint = '/api/products';
+
+  const { type = 'default', limit = products.length } = options;
+
+  if (type === 'infinite') {
+    return http.get(
+      endpoint,
+      withInfiniteDelay(async () => {
+        return HttpResponse.json(undefined);
+      }),
+    );
+  }
+
+  if (type === 'error') {
+    return http.get(
+      endpoint,
+      withDelay(async () => {
+        return HttpResponse.json(undefined, { status: 500 });
+      }),
+    );
+  }
+
+  return http.get(
+    endpoint,
+    withDelay(async () => {
+      const response: ProductListResponse = {
+        products: sortProductsByNewFirst(products.slice(0, limit)),
+      };
+
+      return HttpResponse.json(response);
+    }),
+  );
+}
+
+export function makeGetProductBySlugHandler(
+  options: { type?: 'error' | 'infinite' | 'default' } = {},
+) {
+  const endpoint = '/api/products/:slug';
+
+  const { type = 'default' } = options;
+
+  if (type === 'infinite') {
+    return http.get(
+      endpoint,
+      withInfiniteDelay(async () => {
+        return HttpResponse.json(undefined);
+      }),
+    );
+  }
+
+  if (type === 'error') {
+    return http.get(
+      endpoint,
+      withDelay(async () => {
+        return HttpResponse.json(undefined, { status: 500 });
+      }),
+    );
+  }
+
+  return http.get(
+    endpoint,
+    withDelay(async ({ params }) => {
+      const { slug } = params as { slug?: string };
+
+      const foundProduct = products.find(
+        (p) => p.slug.toLowerCase() === slug?.toLowerCase(),
+      );
+
+      if (!foundProduct) {
+        return new HttpResponse(undefined, { status: 404 });
+      }
+
+      const response: ProductResponse = {
+        product: foundProduct,
+      };
+
+      return HttpResponse.json(response);
+    }),
+  );
+}
+
+export const productHandlers = [
+  makeGetProductsHandler(),
+  makeGetProductBySlugHandler(),
+];
