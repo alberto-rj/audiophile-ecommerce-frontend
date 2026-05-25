@@ -1,12 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { APP_ROUTES } from '@/config/app-routes';
-import { API_ENDPOINTS } from '@/config/api-endpoints';
 import {
   makeGetCategoriesHandler,
   makeGetCategoryProductsHandler,
-  makeInfiniteHandler,
-  makeNotFoundHandler,
 } from '@/mocks/handlers';
 import { CategoryPage } from '@/pages';
 
@@ -26,25 +23,26 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const endpoint = `/api${API_ENDPOINTS.categories}/:slug/products`;
-
-export const FetchingProducts: Story = {
+export const LoadingProducts: Story = {
   parameters: {
     msw: {
-      handlers: [makeInfiniteHandler(endpoint)],
+      handlers: [makeGetCategoryProductsHandler({ type: 'infinite' })],
     },
   },
 };
 
-export const CategoryNotFound: Story = {
+export const FailedToLoadProducts: Story = {
   parameters: {
     msw: {
-      handlers: [makeNotFoundHandler(endpoint)],
+      handlers: [
+        makeGetCategoryProductsHandler({ type: 'error' }),
+        makeGetCategoriesHandler(),
+      ],
     },
   },
 };
 
-export const WithProducts: Story = {
+export const ProductsLoaded: Story = {
   parameters: {
     msw: {
       handlers: [makeGetCategoryProductsHandler(), makeGetCategoriesHandler()],
@@ -52,7 +50,7 @@ export const WithProducts: Story = {
   },
 };
 
-export const WithSingleProduct: Story = {
+export const SingleProductLoaded: Story = {
   parameters: {
     msw: {
       handlers: [
@@ -63,7 +61,7 @@ export const WithSingleProduct: Story = {
   },
 };
 
-export const WithNoProduct: Story = {
+export const NoProductLoaded: Story = {
   parameters: {
     msw: {
       handlers: [
