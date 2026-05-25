@@ -1,10 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, userEvent, within } from 'storybook/test';
+import type { Canvas } from 'storybook/internal/types';
 
 import { APP_ROUTES } from '@/config/app-routes';
+import { expectErrorAlert } from '@/config/storybook';
 import { LayoutCenteredOnScreen } from '@/layouts';
 import type { RegisterFormData } from '@/libs/schemas';
-import { user } from '@/libs/mocks';
 import { makeRegisterHandler } from '@/mocks/handlers';
 import { RegisterPage } from '@/pages';
 
@@ -14,6 +15,25 @@ const registerFormData: RegisterFormData = {
   password: 'securepass123',
   confirmPassword: 'securepass123',
 };
+
+async function fillRegisterForm(canvas: Canvas, data: RegisterFormData) {
+  await userEvent.type(canvas.getByTestId('name'), data.name);
+  await userEvent.type(canvas.getByTestId('email'), data.email);
+  await userEvent.type(canvas.getByTestId('password'), data.password);
+  await userEvent.type(
+    canvas.getByTestId('confirmPassword'),
+    data.confirmPassword,
+  );
+}
+
+async function fillRegisterFormAndSubmit(
+  canvas: Canvas,
+  data: RegisterFormData,
+) {
+  await fillRegisterForm(canvas, data);
+
+  await userEvent.click(canvas.getByTestId('signUp'));
+}
 
 type StoryProps = React.ComponentProps<typeof RegisterPage>;
 
@@ -95,69 +115,9 @@ export const SigningUp: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    await userEvent.type(canvas.getByTestId('name'), registerFormData.name);
-    await userEvent.type(canvas.getByTestId('email'), registerFormData.email);
-    await userEvent.type(
-      canvas.getByTestId('password'),
-      registerFormData.password,
-    );
-    await userEvent.type(
-      canvas.getByTestId('confirmPassword'),
-      registerFormData.confirmPassword,
-    );
-
-    await userEvent.click(canvas.getByTestId('signUp'));
+    await fillRegisterFormAndSubmit(canvas, registerFormData);
 
     await expect(canvas.getByTestId('signUp')).toBeDisabled();
-  },
-};
-
-export const SignUpSucceeds: Story = {
-  parameters: {
-    msw: {
-      handlers: [makeRegisterHandler()],
-    },
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-
-    await userEvent.type(canvas.getByTestId('name'), registerFormData.name);
-    await userEvent.type(canvas.getByTestId('email'), registerFormData.email);
-    await userEvent.type(
-      canvas.getByTestId('password'),
-      registerFormData.password,
-    );
-    await userEvent.type(
-      canvas.getByTestId('confirmPassword'),
-      registerFormData.confirmPassword,
-    );
-    await userEvent.click(canvas.getByTestId('signUp'));
-  },
-};
-
-export const EmailAlreadyInUse: Story = {
-  parameters: {
-    msw: {
-      handlers: [makeRegisterHandler()],
-    },
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-
-    await userEvent.type(canvas.getByTestId('name'), registerFormData.name);
-    await userEvent.type(canvas.getByTestId('email'), user.email);
-    await userEvent.type(
-      canvas.getByTestId('password'),
-      registerFormData.password,
-    );
-    await userEvent.type(
-      canvas.getByTestId('confirmPassword'),
-      registerFormData.confirmPassword,
-    );
-
-    await userEvent.click(canvas.getByTestId('signUp'));
-
-    await expect(await canvas.findByRole('alert')).toBeInTheDocument();
   },
 };
 
@@ -170,19 +130,41 @@ export const SignUpFailed: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    await userEvent.type(canvas.getByTestId('name'), registerFormData.name);
-    await userEvent.type(canvas.getByTestId('email'), registerFormData.email);
-    await userEvent.type(
-      canvas.getByTestId('password'),
-      registerFormData.password,
-    );
-    await userEvent.type(
-      canvas.getByTestId('confirmPassword'),
-      registerFormData.confirmPassword,
-    );
+    await fillRegisterFormAndSubmit(canvas, registerFormData);
 
     await userEvent.click(canvas.getByTestId('signUp'));
 
-    await expect(await canvas.findByRole('status')).toBeInTheDocument();
+    await expectErrorAlert(within(document.body));
+  },
+};
+
+export const EmailAlreadyInUse: Story = {
+  parameters: {
+    msw: {
+      handlers: [makeRegisterHandler()],
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await fillRegisterFormAndSubmit(canvas, registerFormData);
+
+    await expect(await canvas.findByTestId('emailAlert')).toBeInTheDocument();
+  },
+};
+
+export const SignUpSucceeds: Story = {
+  parameters: {
+    msw: {
+      handlers: [makeRegisterHandler()],
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await fillRegisterFormAndSubmit(canvas, {
+      ...registerFormData,
+      email: 'new_email@example.com',
+    });
   },
 };
