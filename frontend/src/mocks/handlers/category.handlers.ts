@@ -7,7 +7,7 @@ import type {
   Product,
 } from '@/libs/types';
 
-import { withDelay } from '../middlewares/with-delay';
+import { withDelay, withInfiniteDelay } from '../middlewares/with-delay';
 
 function sortProductsByNewFirst(products: Product[]) {
   return [...products].sort((a, b) => {
@@ -23,73 +23,36 @@ function sortProductsByNewFirst(products: Product[]) {
   });
 }
 
-export const getCategoryProducts = http.get(
-  '/api/categories/:slug/products',
-  withDelay(async ({ params }) => {
-    const { slug } = params as { slug?: string };
-
-    const foundCategory = categories.find(
-      (category) => category.slug.toLowerCase() === slug?.toLowerCase(),
-    );
-
-    if (!foundCategory) {
-      return new HttpResponse(undefined, { status: 404 });
-    }
-
-    const filteredProducts = sortProductsByNewFirst(
-      products.filter((p) => p.category.toLowerCase() === slug?.toLowerCase()),
-    );
-
-    const categoryResponse: CategoryResponse = {
-      category: {
-        ...foundCategory,
-        products: filteredProducts,
-      },
-    };
-
-    return HttpResponse.json(categoryResponse);
-  }),
-);
-
-export const getCategoryBySlug = http.get(
-  '/api/categories/:slug',
-  withDelay(async ({ params }) => {
-    const { slug } = params as { slug?: string };
-
-    const foundCategory = categories.find(
-      (category) => category.slug.toLowerCase() === slug?.toLowerCase(),
-    );
-
-    if (!foundCategory) {
-      return new HttpResponse(undefined, { status: 404 });
-    }
-
-    const categoryResponse: CategoryResponse = {
-      category: foundCategory,
-    };
-
-    return HttpResponse.json(categoryResponse);
-  }),
-);
-
-export const getCategories = http.get(
-  '/api/categories',
-  withDelay(async () => {
-    const categoryListResponse: CategoryListResponse = {
-      categories: categories,
-    };
-
-    return HttpResponse.json(categoryListResponse);
-  }),
-);
-
 export const makeGetCategoriesHandler = (
-  options: { limit?: number } = { limit: undefined },
+  options: {
+    type?: 'error' | 'infinite' | 'default';
+    limit?: number;
+  } = {},
 ) => {
-  const { limit = categories.length } = options;
+  const endpoint = '/api/categories';
+
+  const { type = 'default', limit = categories.length } = options;
+
+  if (type === 'infinite') {
+    return http.get(
+      endpoint,
+      withInfiniteDelay(async () => {
+        return HttpResponse.json(undefined);
+      }),
+    );
+  }
+
+  if (type === 'error') {
+    return http.get(
+      endpoint,
+      withDelay(async () => {
+        return HttpResponse.json(undefined, { status: 500 });
+      }),
+    );
+  }
 
   return http.get(
-    '/api/categories',
+    endpoint,
     withDelay(async () => {
       const filteredCategories = categories.slice(0, limit);
 
@@ -102,13 +65,85 @@ export const makeGetCategoriesHandler = (
   );
 };
 
-export const makeGetCategoryProductsHandler = (
-  options: { limit?: number } = { limit: undefined },
+export const makeGetCategoryBySlugHandler = (
+  options: {
+    type?: 'error' | 'infinite' | 'default';
+  } = {},
 ) => {
-  const { limit = categories.length } = options;
+  const endpoint = '/api/categories/:slug';
+
+  const { type = 'default' } = options;
+
+  if (type === 'infinite') {
+    return http.get(
+      endpoint,
+      withInfiniteDelay(async () => {
+        return HttpResponse.json(undefined);
+      }),
+    );
+  }
+
+  if (type === 'error') {
+    return http.get(
+      endpoint,
+      withDelay(async () => {
+        return HttpResponse.json(undefined, { status: 500 });
+      }),
+    );
+  }
 
   return http.get(
-    '/api/categories/:slug/products',
+    endpoint,
+    withDelay(async ({ params }) => {
+      const { slug } = params as { slug?: string };
+
+      const foundCategory = categories.find(
+        (category) => category.slug.toLowerCase() === slug?.toLowerCase(),
+      );
+
+      if (!foundCategory) {
+        return new HttpResponse(undefined, { status: 404 });
+      }
+
+      const categoryResponse: CategoryResponse = {
+        category: foundCategory,
+      };
+
+      return HttpResponse.json(categoryResponse);
+    }),
+  );
+};
+
+export const makeGetCategoryProductsHandler = (
+  options: {
+    type?: 'error' | 'infinite' | 'default';
+    limit?: number;
+  } = {},
+) => {
+  const endpoint = '/api/categories/:slug/products';
+
+  const { type = 'default', limit = categories.length } = options;
+
+  if (type === 'infinite') {
+    return http.get(
+      endpoint,
+      withInfiniteDelay(async () => {
+        return HttpResponse.json(undefined);
+      }),
+    );
+  }
+
+  if (type === 'error') {
+    return http.get(
+      endpoint,
+      withDelay(async () => {
+        return HttpResponse.json(undefined, { status: 500 });
+      }),
+    );
+  }
+
+  return http.get(
+    endpoint,
     withDelay(async ({ params }) => {
       const { slug } = params as { slug?: string };
 
@@ -139,7 +174,7 @@ export const makeGetCategoryProductsHandler = (
 };
 
 export const categoryHandlers = [
-  getCategories,
-  getCategoryBySlug,
-  getCategoryProducts,
+  makeGetCategoriesHandler(),
+  makeGetCategoryBySlugHandler(),
+  makeGetCategoryProductsHandler(),
 ];
