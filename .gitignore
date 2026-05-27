@@ -23,7 +23,39 @@ dist-ssr
 *.sln
 *.sw?
 
-*storybook.log
+*storybook.log# Node
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build output
+build
+dist
+coverage
+
+# Drizzle
+src/drizzle/migrations
+
+# OS / Editor
+log
+.DS_STORE
+.vscode
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Docker
+secrets/
+docker-compose*.yml
+!docker-compose.example.yml
+
+# Logs
+logs
+*.log
 storybook-static
 
 .env
